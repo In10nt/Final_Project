@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: virtual-tryon-db
+    environment:
+      POSTGRES_DB: virtual_tryon
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./DATABASE_SCHEMA.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - virtual-tryon-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: virtual-tryon-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - virtual-tryon-network
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: virtual-tryon-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/virtual_tryon
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      JWT_SECRET: mySecretKey123456789012345678901234567890
+      JWT_EXPIRATION: 86400000
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: us-east-1
+      S3_BUCKET_NAME: virtual-tryon-media
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - virtual-tryon-network
+
+  # AI Services
+  ai-services:
+    build:
+      context: ./ai_services
+      dockerfile: Dockerfile
+    container_name: virtual-tryon-ai
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/virtual_tryon
+      REDIS_URL: redis://redis:6379
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      S3_BUCKET_NAME: virtual-tryon-media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - virtual-tryon-network
+
+  # Admin Dashboard
+  admin-dashboard:
+    build:
+      context: ./admin_dashboard
+      dockerfile: Dockerfile
+    container_name: virtual-tryon-admin
+    environment:
+      REACT_APP_API_URL: http://localhost:8080
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - virtual-tryon-network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: virtual-tryon-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - backend
+      - ai-services
+      - admin-dashboard
+    networks:
+      - virtual-tryon-network
+
+volumes:
+  postgres_data:
+
+networks:
+  virtual-tryon-network:
+    driver: bridge
