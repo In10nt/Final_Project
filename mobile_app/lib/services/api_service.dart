@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://api.virtualtryon.com';
+  static const String baseUrl = 'http://localhost:8080';
   late Dio _dio;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 

@@ -17,9 +17,6 @@ class AuthProvider with ChangeNotifier {
   Map<String, dynamic>? get user => _user;
 
   Future<void> checkAuthStatus() async {
-    _isLoading = true;
-    notifyListeners();
-
     try {
       final token = await _apiService.getToken();
       if (token != null) {
@@ -30,9 +27,6 @@ class AuthProvider with ChangeNotifier {
       _isAuthenticated = false;
       await _apiService.clearToken();
     }
-
-    _isLoading = false;
-    notifyListeners();
   }
 
   Future<bool> login(String email, String password) async {

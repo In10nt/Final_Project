@@ -213,6 +213,71 @@ app.post('/api/products', authenticateToken, (req, res) => {
   res.status(201).json(newProduct);
 });
 
+// Body profile data storage
+let bodyProfiles = [];
+
+// Body profile endpoints
+app.get('/api/body-profiles/me', authenticateToken, (req, res) => {
+  const profile = bodyProfiles.find(p => p.userId === req.user.userId);
+  if (!profile) {
+    return res.status(404).json({ error: 'Body profile not found' });
+  }
+  res.json(profile);
+});
+
+app.put('/api/body-profiles/me', authenticateToken, (req, res) => {
+  const existingProfileIndex = bodyProfiles.findIndex(p => p.userId === req.user.userId);
+  
+  const profileData = {
+    id: existingProfileIndex >= 0 ? bodyProfiles[existingProfileIndex].id : uuidv4(),
+    userId: req.user.userId,
+    tenantId: req.user.tenantId,
+    height: req.body.height,
+    weight: req.body.weight,
+    chest: req.body.chest,
+    waist: req.body.waist,
+    hip: req.body.hip,
+    bodyShape: req.body.bodyShape,
+    skinTone: req.body.skinTone,
+    updatedAt: new Date().toISOString()
+  };
+
+  if (existingProfileIndex >= 0) {
+    bodyProfiles[existingProfileIndex] = profileData;
+  } else {
+    profileData.createdAt = new Date().toISOString();
+    bodyProfiles.push(profileData);
+  }
+
+  res.json(profileData);
+});
+
+app.post('/api/body-profiles/me', authenticateToken, (req, res) => {
+  // Check if profile already exists
+  const existingProfile = bodyProfiles.find(p => p.userId === req.user.userId);
+  if (existingProfile) {
+    return res.status(409).json({ error: 'Body profile already exists. Use PUT to update.' });
+  }
+
+  const profileData = {
+    id: uuidv4(),
+    userId: req.user.userId,
+    tenantId: req.user.tenantId,
+    height: req.body.height,
+    weight: req.body.weight,
+    chest: req.body.chest,
+    waist: req.body.waist,
+    hip: req.body.hip,
+    bodyShape: req.body.bodyShape,
+    skinTone: req.body.skinTone,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  bodyProfiles.push(profileData);
+  res.status(201).json(profileData);
+});
+
 // Analytics endpoints
 app.get('/api/analytics/dashboard', authenticateToken, (req, res) => {
   if (req.user.userType !== 'admin') {

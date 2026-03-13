@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class BodyProfileScreen extends StatefulWidget {
   const BodyProfileScreen({Key? key}) : super(key: key);
@@ -31,6 +32,18 @@ class _BodyProfileScreenState extends State<BodyProfileScreen> {
     'medium',
     'dark'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExistingProfile();
+  }
+
+  void _loadExistingProfile() async {
+    // For now, just show that we're loading profile
+    print('Loading existing profile...');
+    // TODO: Implement profile loading when provider is fixed
+  }
 
   @override
   void dispose() {
@@ -257,25 +270,80 @@ class _BodyProfileScreenState extends State<BodyProfileScreen> {
     );
   }
 
-  void _takePicture() {
-    // TODO: Implement camera functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Camera functionality will be implemented'),
-      ),
-    );
-  }
-
-  void _saveProfile() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Save profile data
+  void _takePicture() async {
+    if (kIsWeb) {
+      // For web, show file picker instead of camera
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Profile saved successfully!'),
-          backgroundColor: Colors.green,
+          content: Text('On web: Use file picker to upload photo'),
+          backgroundColor: Colors.blue,
         ),
       );
-      Navigator.of(context).pop();
+      // TODO: Implement file picker for web
+    } else {
+      // For mobile, use camera
+      try {
+        // TODO: Implement camera functionality for mobile
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Camera functionality will be implemented for mobile'),
+          ),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Camera error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  void _saveProfile() async {
+    if (_formKey.currentState!.validate()) {
+      // Create profile data
+      final profileData = {
+        'height': double.tryParse(_heightController.text) ?? 0.0,
+        'weight': double.tryParse(_weightController.text) ?? 0.0,
+        'chest': double.tryParse(_chestController.text) ?? 0.0,
+        'waist': double.tryParse(_waistController.text) ?? 0.0,
+        'hip': double.tryParse(_hipController.text) ?? 0.0,
+        'bodyShape': _selectedBodyShape,
+        'skinTone': _selectedSkinTone,
+      };
+
+      try {
+        // Show loading
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Saving profile...'),
+            backgroundColor: Colors.blue,
+          ),
+        );
+
+        // Simulate saving to backend
+        await Future.delayed(const Duration(seconds: 1));
+        
+        // TODO: Implement actual API call when provider is fixed
+        print('Profile data: $profileData');
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Profile saved successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        
+        Navigator.of(context).pop();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving profile: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 }

@@ -18,18 +18,19 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuthAndNavigate() async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    
-    await authProvider.checkAuthStatus();
-    
-    // Wait for splash screen animation
-    await Future.delayed(const Duration(seconds: 2));
+    // Wait for splash screen animation first
+    await Future.delayed(const Duration(seconds: 1));
     
     if (mounted) {
-      if (authProvider.isAuthenticated) {
-        context.go('/home');
-      } else {
-        context.go('/login');
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await authProvider.checkAuthStatus();
+      
+      if (mounted) {
+        if (authProvider.isAuthenticated) {
+          context.go('/home');
+        } else {
+          context.go('/login');
+        }
       }
     }
   }
