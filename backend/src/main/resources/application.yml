@@ -44,8 +44,8 @@ server:
 
 app:
   jwt:
-    secret: mySecretKey123456789012345678901234567890
-    expiration: 86400000 # 24 hours
+    secret: ${JWT_SECRET:mySecretKey123456789012345678901234567890}
+    expiration: ${JWT_EXPIRATION:86400000} # 24 hours
 
 aws:
   access-key-id: ${AWS_ACCESS_KEY_ID:}
