@@ -1,0 +1,9 @@
+[33m0df4046[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Removed OpenAI API key and secured configuration
+[33m26b8d2d[m Removed API key from application.yml
+[33m7e1cf3f[m commit 5 - customer side implementations
+[33m37e4642[m[33m ([m[1;31morigin/master[m[33m)[m commit 4 -my sql connection(Connect database to the back end)
+[33m776ad67[m commit 3 - remove unwanted files and documents and create structure as front end and the back end
+[33m02960cb[m commit 2 - manage customer virtual phone
+[33m6b5404f[m[33m ([m[1;33mtag: [m[1;33mv1.0.0[m[33m)[m 🚀 feat: Complete Virtual Try-On SaaS Platform - All Services Operational
+[33m6844f27[m commit 1 - create docker environment and struture implementation with api services and ai services create
+[33mb363f56[m Initial commit - first structure implementation
