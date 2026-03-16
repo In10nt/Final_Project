@@ -46,6 +46,9 @@ public class Product {
     
     private String material;
     
+    @Column(name = "image_url", columnDefinition = "TEXT")
+    private String imageUrl;
+    
     @Column(name = "care_instructions")
     private String careInstructions;
     
@@ -103,6 +106,9 @@ public class Product {
 
     public String getMaterial() { return material; }
     public void setMaterial(String material) { this.material = material; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public String getCareInstructions() { return careInstructions; }
     public void setCareInstructions(String careInstructions) { this.careInstructions = careInstructions; }

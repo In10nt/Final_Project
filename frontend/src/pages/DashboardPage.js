@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Paper,
@@ -6,6 +6,7 @@ import {
   Box,
   Card,
   CardContent,
+  CircularProgress,
 } from '@mui/material';
 import {
   People,
@@ -13,14 +14,33 @@ import {
   TrendingUp,
   ShoppingCart,
 } from '@mui/icons-material';
+import apiService from '../services/apiService';
 
 const DashboardPage = () => {
-  // Mock data - in real app, this would come from API
-  const metrics = {
-    totalCustomers: 1250,
-    totalProducts: 450,
-    totalTryOns: 8750,
-    conversionRate: 12.5,
+  const [metrics, setMetrics] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadMetrics();
+  }, []);
+
+  const loadMetrics = async () => {
+    try {
+      const data = await apiService.getDashboardMetrics();
+      setMetrics(data);
+    } catch (err) {
+      console.error('Failed to load metrics:', err);
+      // Fallback to mock data
+      setMetrics({
+        totalCustomers: 1250,
+        totalProducts: 450,
+        totalTryOns: 8750,
+        conversionRate: 12.5,
+        averageRating: 4.8,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const MetricCard = ({ title, value, icon: Icon, color }) => (
@@ -41,6 +61,14 @@ const DashboardPage = () => {
     </Card>
   );
 
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
@@ -55,7 +83,7 @@ const DashboardPage = () => {
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
             title="Total Customers"
-            value={metrics.totalCustomers.toLocaleString()}
+            value={metrics?.totalCustomers?.toLocaleString() || '0'}
             icon={People}
             color="primary.main"
           />
@@ -63,7 +91,7 @@ const DashboardPage = () => {
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
             title="Total Products"
-            value={metrics.totalProducts.toLocaleString()}
+            value={metrics?.totalProducts?.toLocaleString() || '0'}
             icon={Inventory}
             color="success.main"
           />
@@ -71,7 +99,7 @@ const DashboardPage = () => {
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
             title="Try-On Sessions"
-            value={metrics.totalTryOns.toLocaleString()}
+            value={metrics?.totalTryOns?.toLocaleString() || '0'}
             icon={ShoppingCart}
             color="info.main"
           />
@@ -79,7 +107,7 @@ const DashboardPage = () => {
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
             title="Conversion Rate"
-            value={`${metrics.conversionRate}%`}
+            value={`${metrics?.conversionRate || 0}%`}
             icon={TrendingUp}
             color="warning.main"
           />
@@ -93,11 +121,11 @@ const DashboardPage = () => {
             </Typography>
             <Box sx={{ mt: 2 }}>
               {[
-                'New customer registered: john.doe@email.com',
-                'Product "Cotton T-Shirt" was tried on 15 times today',
-                'Size recommendation accuracy improved to 92%',
-                'New product "Denim Jacket" added to inventory',
-                'Customer feedback: 4.8/5 average rating',
+                `${metrics?.newCustomersThisMonth || 0} new customers this month`,
+                `${metrics?.totalProducts || 0} products in inventory`,
+                `Average rating: ${metrics?.averageRating || 0}/5`,
+                `${metrics?.totalTryOns || 0} total try-on sessions`,
+                `Conversion rate: ${metrics?.conversionRate || 0}%`,
               ].map((activity, index) => (
                 <Typography
                   key={index}

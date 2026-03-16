@@ -22,6 +22,7 @@ public class ProductRequest {
     private String sku;
     private String color;
     private String material;
+    private String imageUrl;
     private String careInstructions;
     private UUID categoryId;
 
@@ -52,6 +53,9 @@ public class ProductRequest {
 
     public String getMaterial() { return material; }
     public void setMaterial(String material) { this.material = material; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public String getCareInstructions() { return careInstructions; }
     public void setCareInstructions(String careInstructions) { this.careInstructions = careInstructions; }

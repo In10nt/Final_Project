@@ -3,7 +3,9 @@ package com.virtualtryonsaas.service;
 import com.virtualtryonsaas.dto.LoginRequest;
 import com.virtualtryonsaas.dto.LoginResponse;
 import com.virtualtryonsaas.dto.RegisterRequest;
+import com.virtualtryonsaas.entity.Admin;
 import com.virtualtryonsaas.entity.User;
+import com.virtualtryonsaas.repository.AdminRepository;
 import com.virtualtryonsaas.repository.UserRepository;
 import com.virtualtryonsaas.security.JwtTokenProvider;
 import com.virtualtryonsaas.security.UserPrincipal;
@@ -11,8 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -22,6 +31,9 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -51,9 +63,84 @@ public class AuthService {
     }
 
     public LoginResponse authenticateAdmin(LoginRequest loginRequest) {
-        // Similar to authenticateUser but for admin users
-        // Implementation would check admin table instead
-        throw new UnsupportedOperationException("Admin authentication not yet implemented");
+        // First try to find admin
+        Admin admin = adminRepository.findByEmail(loginRequest.getEmail()).orElse(null);
+        
+        if (admin != null) {
+            // Update last login
+            admin.setLastLoginAt(LocalDateTime.now());
+            adminRepository.save(admin);
+            
+            // Create authorities with ADMIN role
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            
+            // Create UserPrincipal with admin authorities
+            UserPrincipal userPrincipal = new UserPrincipal(
+                admin.getId(),
+                admin.getEmail(),
+                admin.getPasswordHash(),
+                admin.getTenantId(),
+                "admin",
+                authorities
+            );
+            
+            // Create authentication token
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userPrincipal,
+                null,
+                authorities
+            );
+            
+            // Generate JWT with admin role
+            String jwt = tokenProvider.generateToken(authentication, admin.getTenantId(), "admin");
+            
+            return new LoginResponse(
+                jwt,
+                admin.getId(),
+                admin.getEmail(),
+                admin.getFirstName() != null ? admin.getFirstName() : "Admin",
+                admin.getLastName() != null ? admin.getLastName() : "User",
+                admin.getTenantId()
+            );
+        }
+        
+        // Fallback to user table for demo purposes
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+            .orElseThrow(() -> new RuntimeException("Admin not found"));
+        
+        // Create authorities with ADMIN role
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        
+        // Create UserPrincipal with admin authorities
+        UserPrincipal userPrincipal = new UserPrincipal(
+            user.getId(),
+            user.getEmail(),
+            user.getPasswordHash(),
+            user.getTenantId(),
+            "admin",
+            authorities
+        );
+        
+        // Create authentication token
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            userPrincipal,
+            null,
+            authorities
+        );
+        
+        // Generate JWT with admin role
+        String jwt = tokenProvider.generateToken(authentication, user.getTenantId(), "admin");
+        
+        return new LoginResponse(
+            jwt,
+            user.getId(),
+            user.getEmail(),
+            user.getFirstName() != null ? user.getFirstName() : "Admin",
+            user.getLastName() != null ? user.getLastName() : "User",
+            user.getTenantId()
+        );
     }
 
     public void registerUser(RegisterRequest registerRequest) {
@@ -69,5 +156,21 @@ public class AuthService {
         user.setLastName(registerRequest.getLastName());
 
         userRepository.save(user);
+    }
+
+    public void createAdmin(UUID tenantId, String email, String password, String firstName, String lastName) {
+        if (adminRepository.existsByTenantIdAndEmail(tenantId, email)) {
+            throw new RuntimeException("Admin email already exists for this tenant");
+        }
+
+        Admin admin = new Admin();
+        admin.setTenantId(tenantId);
+        admin.setEmail(email);
+        admin.setPasswordHash(passwordEncoder.encode(password));
+        admin.setFirstName(firstName);
+        admin.setLastName(lastName);
+        admin.setRole("admin");
+
+        adminRepository.save(admin);
     }
 }

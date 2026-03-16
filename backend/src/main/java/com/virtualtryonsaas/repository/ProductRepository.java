@@ -23,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     boolean existsByBarcodeAndTenantId(String barcode, UUID tenantId);
     
     boolean existsBySkuAndTenantId(String sku, UUID tenantId);
+    
+    long countByTenantId(UUID tenantId);
 }
