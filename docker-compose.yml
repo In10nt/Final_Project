@@ -1,17 +1,47 @@
+version: '3.8'
+
 services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:15
-    container_name: virtual-tryon-db
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: virtual-tryon-mysql
     environment:
-      POSTGRES_DB: virtual_tryon
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: virtual_tryon
+      MYSQL_USER: tryon_user
+      MYSQL_PASSWORD: tryon_password
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
       - ./DATABASE_SCHEMA.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - virtual-tryon-network
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: virtual-tryon-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/virtual_tryon?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - virtual-tryon-network
 
@@ -24,59 +54,12 @@ services:
     networks:
       - virtual-tryon-network
 
-  # Spring Boot Backend
-  backend:
+  # React Frontend
+  frontend:
     build:
-      context: ./backend
+      context: ./frontend
       dockerfile: Dockerfile
-    container_name: virtual-tryon-backend
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/virtual_tryon
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      JWT_SECRET: mySecretKey123456789012345678901234567890
-      JWT_EXPIRATION: 86400000
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: us-east-1
-      S3_BUCKET_NAME: virtual-tryon-media
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - virtual-tryon-network
-
-  # AI Services
-  ai-services:
-    build:
-      context: ./ai_services
-      dockerfile: Dockerfile
-    container_name: virtual-tryon-ai
-    environment:
-      DATABASE_URL: postgresql://postgres:password@postgres:5432/virtual_tryon
-      REDIS_URL: redis://redis:6379
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      S3_BUCKET_NAME: virtual-tryon-media
-    ports:
-      - "8000:8000"
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - virtual-tryon-network
-
-  # Admin Dashboard
-  admin-dashboard:
-    build:
-      context: ./admin_dashboard
-      dockerfile: Dockerfile
-    container_name: virtual-tryon-admin
+    container_name: virtual-tryon-frontend
     environment:
       REACT_APP_API_URL: http://localhost:8080
     ports:
@@ -86,25 +69,8 @@ services:
     networks:
       - virtual-tryon-network
 
-  # Nginx Reverse Proxy
-  nginx:
-    image: nginx:alpine
-    container_name: virtual-tryon-nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/ssl:/etc/nginx/ssl
-    depends_on:
-      - backend
-      - ai-services
-      - admin-dashboard
-    networks:
-      - virtual-tryon-network
-
 volumes:
-  postgres_data:
+  mysql_data:
 
 networks:
   virtual-tryon-network:

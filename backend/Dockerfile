@@ -19,4 +19,4 @@ RUN mvn clean package -DskipTests
 
 # Run application
 EXPOSE 8080
-CMD ["java", "-jar", "target/virtual-tryon-platform-1.0.0.jar"]
+CMD ["java", "-Dspring.profiles.active=docker", "-jar", "target/virtual-tryon-platform-1.0.0.jar"]
