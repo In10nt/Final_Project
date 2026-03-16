@@ -15,7 +15,6 @@ public class ProductDto {
     private String sku;
     private String color;
     private String material;
-    private String imageUrl;
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -53,9 +52,6 @@ public class ProductDto {
 
     public String getMaterial() { return material; }
     public void setMaterial(String material) { this.material = material; }
-
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

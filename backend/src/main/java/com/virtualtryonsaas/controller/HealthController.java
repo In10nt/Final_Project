@@ -9,27 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/actuator")
 public class HealthController {
 
-    @GetMapping("/")
-    public ResponseEntity<Map<String, String>> root() {
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "UP");
-        response.put("service", "Virtual Try-On Backend");
-        response.put("version", "1.0.0");
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/actuator/health")
+    @GetMapping("/health")
     public ResponseEntity<Map<String, String>> health() {
         Map<String, String> status = new HashMap<>();
         status.put("status", "UP");
         status.put("service", "virtual-tryon-backend");
         return ResponseEntity.ok(status);
-    }
-
-    @GetMapping("/favicon.ico")
-    public ResponseEntity<Void> favicon() {
-        return ResponseEntity.noContent().build();
     }
 }

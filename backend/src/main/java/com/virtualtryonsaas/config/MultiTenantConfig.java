@@ -19,7 +19,7 @@ public class MultiTenantConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tenantInterceptor())
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/auth/**", "/api/health");
+                .excludePathPatterns("/api/auth/login", "/api/auth/register", "/api/health");
     }
 
     @Bean
