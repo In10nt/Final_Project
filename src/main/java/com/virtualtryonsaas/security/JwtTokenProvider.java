@@ -49,26 +49,6 @@ public class JwtTokenProvider {
         return UUID.fromString(claims.getSubject());
     }
 
-    public UUID getTenantIdFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-
-        return UUID.fromString(claims.get("tenantId", String.class));
-    }
-
-    public String getUserTypeFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-
-        return claims.get("userType", String.class);
-    }
-
     public String getTenantId(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(getSigningKey())
