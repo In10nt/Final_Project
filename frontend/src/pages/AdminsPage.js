@@ -5,7 +5,7 @@ import {
   DialogActions, TextField, CircularProgress, Alert, Chip, MenuItem
 } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, AdminPanelSettings } from '@mui/icons-material';
-import apiService from '../services/apiService';
+import { getAdmins, createAdmin, updateAdmin, deleteAdmin } from '../services/apiService';
 
 const AdminsPage = () => {
   const [admins, setAdmins] = useState([]);
@@ -28,8 +28,8 @@ const AdminsPage = () => {
   const fetchAdmins = async () => {
     try {
       setLoading(true);
-      const response = await apiService.api.get('/api/admins?page=0&size=100');
-      setAdmins(response.data.content || []);
+      const response = await getAdmins();
+      setAdmins(response.content || []);
       setError(null);
     } catch (err) {
       setError('Failed to load admins: ' + err.message);
@@ -77,13 +77,13 @@ const AdminsPage = () => {
         if (!submitData.passwordHash) {
           delete submitData.passwordHash;
         }
-        await apiService.api.put(`/api/admins/${editingAdmin.id}`, submitData);
+        await updateAdmin(editingAdmin.id, submitData);
       } else {
         if (!submitData.passwordHash) {
           setError('Password is required for new admin');
           return;
         }
-        await apiService.api.post('/api/admins', submitData);
+        await createAdmin(submitData);
       }
       handleCloseDialog();
       fetchAdmins();
@@ -95,7 +95,7 @@ const AdminsPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this admin?')) {
       try {
-        await apiService.api.delete(`/api/admins/${id}`);
+        await deleteAdmin(id);
         fetchAdmins();
       } catch (err) {
         setError('Failed to delete admin: ' + err.message);

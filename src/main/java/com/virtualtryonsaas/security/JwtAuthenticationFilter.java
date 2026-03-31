@@ -48,10 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UUID userId = tokenProvider.getUserIdFromToken(jwt);
                     System.out.println("UserId extracted: " + userId);
                     
-                    UUID tenantId = tokenProvider.getTenantIdFromToken(jwt);
+                    String tenantIdStr = tokenProvider.getTenantId(jwt);
+                    UUID tenantId = UUID.fromString(tenantIdStr);
                     System.out.println("TenantId extracted: " + tenantId);
                     
-                    String userType = tokenProvider.getUserTypeFromToken(jwt);
+                    String userType = tokenProvider.getUserType(jwt);
                     System.out.println("UserType extracted: " + userType);
 
                     // Set tenant context

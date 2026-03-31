@@ -12,7 +12,7 @@ const api = axios.create({
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admin_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,7 +28,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('admin_token');
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -48,70 +48,70 @@ export const customerLogin = async (email, password) => {
 
 // Dashboard APIs
 export const getDashboardStats = async () => {
-  const response = await api.get('/admin/dashboard/stats');
+  const response = await api.get('/analytics/dashboard');
   return response.data;
 };
 
 // Product APIs
 export const getProducts = async () => {
-  const response = await api.get('/admin/products');
+  const response = await api.get('/products');
   return response.data;
 };
 
 export const createProduct = async (productData) => {
-  const response = await api.post('/admin/products', productData);
+  const response = await api.post('/products', productData);
   return response.data;
 };
 
 export const updateProduct = async (id, productData) => {
-  const response = await api.put(`/admin/products/${id}`, productData);
+  const response = await api.put(`/products/${id}`, productData);
   return response.data;
 };
 
 export const deleteProduct = async (id) => {
-  const response = await api.delete(`/admin/products/${id}`);
+  const response = await api.delete(`/products/${id}`);
   return response.data;
 };
 
 // Customer APIs
 export const getCustomers = async () => {
-  const response = await api.get('/admin/customers');
+  const response = await api.get('/customers');
   return response.data;
 };
 
 export const getCustomer = async (id) => {
-  const response = await api.get(`/admin/customers/${id}`);
+  const response = await api.get(`/customers/${id}`);
   return response.data;
 };
 
 export const updateCustomer = async (id, customerData) => {
-  const response = await api.put(`/admin/customers/${id}`, customerData);
+  const response = await api.put(`/customers/${id}`, customerData);
   return response.data;
 };
 
 export const deleteCustomer = async (id) => {
-  const response = await api.delete(`/admin/customers/${id}`);
+  const response = await api.delete(`/customers/${id}`);
   return response.data;
 };
 
 // Admin APIs
 export const getAdmins = async () => {
-  const response = await api.get('/admin/admins');
+  const response = await api.get('/admins');
   return response.data;
 };
 
 export const createAdmin = async (adminData) => {
-  const response = await api.post('/admin/admins', adminData);
+  const response = await api.post('/admins', adminData);
   return response.data;
 };
 
 export const updateAdmin = async (id, adminData) => {
-  const response = await api.put(`/admin/admins/${id}`, adminData);
+  const response = await api.put(`/admins/${id}`, adminData);
   return response.data;
 };
 
 export const deleteAdmin = async (id) => {
-  const response = await api.delete(`/admin/admins/${id}`);
+  const response = await api.delete(`/admins/${id}`);
   return response.data;
 };
 

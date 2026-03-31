@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -19,9 +19,35 @@ import {
   Security,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { productsAPI } from '../services/apiService';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [trendingProducts, setTrendingProducts] = useState([]);
+
+  useEffect(() => {
+    fetchTrendingProducts();
+  }, []);
+
+  const fetchTrendingProducts = async () => {
+    try {
+      const response = await productsAPI.getAllProducts();
+      let products = [];
+      
+      if (response.data) {
+        if (response.data.content && Array.isArray(response.data.content)) {
+          products = response.data.content;
+        } else if (Array.isArray(response.data)) {
+          products = response.data;
+        }
+      }
+      
+      // Take first 3 products for trending section
+      setTrendingProducts(products.slice(0, 3));
+    } catch (error) {
+      console.error('Failed to load trending products:', error);
+    }
+  };
 
   const features = [
     {
@@ -38,30 +64,6 @@ const HomePage = () => {
       icon: <Security sx={{ fontSize: 40 }} />,
       title: 'Perfect Fit Guarantee',
       description: 'Our AI ensures 95% accuracy in size recommendations',
-    },
-  ];
-
-  const trendingProducts = [
-    {
-      id: 1,
-      name: 'Classic White Shirt',
-      price: '$49.99',
-      image: 'https://via.placeholder.com/300x400/ffffff/000000?text=White+Shirt',
-      rating: 4.8,
-    },
-    {
-      id: 2,
-      name: 'Blue Denim Jeans',
-      price: '$79.99',
-      image: 'https://via.placeholder.com/300x400/4169e1/ffffff?text=Blue+Jeans',
-      rating: 4.9,
-    },
-    {
-      id: 3,
-      name: 'Summer Dress',
-      price: '$89.99',
-      image: 'https://via.placeholder.com/300x400/ff69b4/ffffff?text=Summer+Dress',
-      rating: 4.7,
     },
   ];
 
@@ -173,12 +175,12 @@ const HomePage = () => {
                     transition: 'transform 0.2s',
                     '&:hover': { transform: 'translateY(-4px)' }
                   }}
-                  onClick={() => navigate(`/products/${product.id}`)}
+                  onClick={() => navigate(`/products`)}
                 >
                   <CardMedia
                     component="img"
                     height="300"
-                    image={product.image}
+                    image={product.imageUrl || `https://via.placeholder.com/300x400?text=${encodeURIComponent(product.name)}`}
                     alt={product.name}
                   />
                   <CardContent>
@@ -187,12 +189,12 @@ const HomePage = () => {
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Typography variant="h6" color="primary.main" fontWeight="bold">
-                        {product.price}
+                        ${product.price}
                       </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Star sx={{ color: 'gold', fontSize: 20, mr: 0.5 }} />
                         <Typography variant="body2">
-                          {product.rating}
+                          {product.rating || 4.5}
                         </Typography>
                       </Box>
                     </Box>

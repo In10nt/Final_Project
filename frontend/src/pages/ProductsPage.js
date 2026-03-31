@@ -5,7 +5,7 @@ import {
   DialogActions, TextField, CircularProgress, Alert
 } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import apiService from '../services/apiService';
+import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/apiService';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -39,7 +39,7 @@ const ProductsPage = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await apiService.getProducts(0, 100);
+      const response = await getProducts(0, 100);
       setProducts(response.content || []);
       setError(null);
     } catch (err) {
@@ -101,9 +101,9 @@ const ProductsPage = () => {
       console.log('Submitting product with token:', token.substring(0, 50) + '...');
 
       if (editingProduct) {
-        await apiService.updateProduct(editingProduct.id, formData);
+        await updateProduct(editingProduct.id, formData);
       } else {
-        await apiService.createProduct(formData);
+        await createProduct(formData);
       }
       handleCloseDialog();
       fetchProducts();
@@ -118,7 +118,7 @@ const ProductsPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await apiService.deleteProduct(id);
+        await deleteProduct(id);
         fetchProducts();
       } catch (err) {
         setError('Failed to delete product: ' + err.message);

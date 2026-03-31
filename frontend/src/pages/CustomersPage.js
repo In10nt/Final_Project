@@ -3,7 +3,7 @@ import {
   Box, Typography, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Paper, CircularProgress, Alert, Chip
 } from '@mui/material';
-import apiService from '../services/apiService';
+import { getCustomers } from '../services/apiService';
 
 const CustomersPage = () => {
   const [customers, setCustomers] = useState([]);
@@ -17,7 +17,7 @@ const CustomersPage = () => {
   const fetchCustomers = async () => {
     try {
       setLoading(true);
-      const response = await apiService.getCustomers(0, 100);
+      const response = await getCustomers(0, 100);
       setCustomers(response.content || []);
       setError(null);
     } catch (err) {

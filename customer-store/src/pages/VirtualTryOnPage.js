@@ -198,11 +198,21 @@ const VirtualTryOnPage = () => {
       console.log('Fetching products from admin panel...');
       const response = await productsAPI.getAllProducts();
       
-      if (response.data && Array.isArray(response.data)) {
-        console.log('Loaded products from admin:', response.data.length);
+      // Handle paginated response
+      let adminProducts = [];
+      if (response.data) {
+        if (response.data.content && Array.isArray(response.data.content)) {
+          adminProducts = response.data.content;
+        } else if (Array.isArray(response.data)) {
+          adminProducts = response.data;
+        }
+      }
+      
+      if (adminProducts.length > 0) {
+        console.log('Loaded products from admin:', adminProducts.length);
         
         // Transform admin products to customer format
-        const customerProducts = response.data.map(product => ({
+        const customerProducts = adminProducts.map(product => ({
           id: product.id,
           name: product.name,
           price: product.price,

@@ -20,7 +20,16 @@ public class ProductService {
 
     public Page<ProductDto> getAllProducts(Pageable pageable) {
         UUID tenantId = TenantContext.getCurrentTenant();
-        Page<Product> products = productRepository.findByTenantId(tenantId, pageable);
+        Page<Product> products;
+        
+        if (tenantId != null) {
+            // Admin access - filter by tenant
+            products = productRepository.findByTenantId(tenantId, pageable);
+        } else {
+            // Public/Customer access - show all products
+            products = productRepository.findAll(pageable);
+        }
+        
         return products.map(this::convertToDto);
     }
 

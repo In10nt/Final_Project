@@ -26,7 +26,7 @@ const DashboardPage = () => {
 
   const fetchMetrics = async () => {
     try {
-      const data = await apiService.getDashboardMetrics();
+      const data = await apiService.getDashboardStats();
       setMetrics(data);
     } catch (err) {
       console.error('Failed to load metrics:', err);

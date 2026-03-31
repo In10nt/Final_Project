@@ -37,29 +37,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    try {
-      const response = await adminLogin(email, password);
-      const { token, email: userEmail, firstName, lastName, userId, tenantId } = response;
-      
-      const userData = {
-        id: userId,
-        email: userEmail,
-        firstName,
-        lastName,
-        tenantId
-      };
-      
-      localStorage.setItem('admin_token', token);
-      setUser(userData);
-      setIsAuthenticated(true);
-      
-      return { success: true };
-    } catch (error) {
-      return { 
-        success: false, 
-        error: error.response?.data?.message || error.message || 'Login failed' 
-      };
-    }
+    const response = await adminLogin(email, password);
+    const { token, email: userEmail, firstName, lastName, userId, tenantId } = response;
+    
+    const userData = {
+      id: userId,
+      email: userEmail,
+      firstName,
+      lastName,
+      tenantId
+    };
+    
+    localStorage.setItem('admin_token', token);
+    setUser(userData);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
