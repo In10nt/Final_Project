@@ -26,35 +26,45 @@ public class CustomerAuthService {
     private JwtTokenProvider jwtTokenProvider;
 
     public LoginResponse register(CustomerRegisterRequest request) {
-        // Check if email already exists
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered");
+        try {
+            System.out.println("Registration attempt for email: " + request.getEmail());
+            
+            // Check if email already exists
+            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+                throw new RuntimeException("Email already registered");
+            }
+
+            // Create new customer user
+            User customer = new User();
+            customer.setEmail(request.getEmail());
+            customer.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+            customer.setFirstName(request.getFirstName());
+            customer.setLastName(request.getLastName());
+            customer.setPhone(request.getPhone());
+            customer.setUserType("CUSTOMER");
+            customer.setTenantId(UUID.randomUUID()); // Each customer gets their own tenant ID
+            customer.setStatus("ACTIVE");
+
+            System.out.println("Saving customer to database...");
+            customer = userRepository.save(customer);
+            System.out.println("Customer saved with ID: " + customer.getId());
+
+            // Generate JWT token
+            String token = jwtTokenProvider.generateToken(
+                customer.getId(),
+                customer.getTenantId(),
+                "CUSTOMER",
+                customer.getEmail()
+            );
+
+            // Create response
+            CustomerDto customerDto = convertToDto(customer);
+            return new LoginResponse(token, customerDto);
+        } catch (Exception e) {
+            System.err.println("Registration failed: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Registration failed: " + e.getMessage(), e);
         }
-
-        // Create new customer user
-        User customer = new User();
-        customer.setEmail(request.getEmail());
-        customer.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        customer.setFirstName(request.getFirstName());
-        customer.setLastName(request.getLastName());
-        customer.setPhone(request.getPhone());
-        customer.setUserType("CUSTOMER");
-        customer.setTenantId(UUID.randomUUID()); // Each customer gets their own tenant ID
-        customer.setStatus("ACTIVE");
-
-        customer = userRepository.save(customer);
-
-        // Generate JWT token
-        String token = jwtTokenProvider.generateToken(
-            customer.getId(),
-            customer.getTenantId(),
-            "CUSTOMER",
-            customer.getEmail()
-        );
-
-        // Create response
-        CustomerDto customerDto = convertToDto(customer);
-        return new LoginResponse(token, customerDto);
     }
 
     public LoginResponse login(CustomerLoginRequest request) {
