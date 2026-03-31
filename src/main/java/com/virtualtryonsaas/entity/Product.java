@@ -53,6 +53,12 @@ public class Product {
     @Column(name = "care_instructions")
     private String careInstructions;
     
+    @Column(name = "image_url")
+    private String imageUrl;
+    
+    @Column(name = "model3d_url")
+    private String model3dUrl;
+    
     private String status = "active";
     
     @CreatedDate
@@ -119,4 +125,10 @@ public class Product {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getModel3dUrl() { return model3dUrl; }
+    public void setModel3dUrl(String model3dUrl) { this.model3dUrl = model3dUrl; }
 }

@@ -23,6 +23,8 @@ public class ProductRequest {
     private String color;
     private String material;
     private String careInstructions;
+    private String imageUrl;
+    private String model3dUrl;
     private UUID categoryId;
 
     // Constructors
@@ -58,4 +60,10 @@ public class ProductRequest {
 
     public UUID getCategoryId() { return categoryId; }
     public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getModel3dUrl() { return model3dUrl; }
+    public void setModel3dUrl(String model3dUrl) { this.model3dUrl = model3dUrl; }
 }

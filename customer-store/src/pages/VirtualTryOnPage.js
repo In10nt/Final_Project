@@ -36,6 +36,7 @@ import {
   Refresh,
 } from '@mui/icons-material';
 import { bodyProfileAPI, virtualTryOnAPI, productsAPI } from '../services/apiService';
+import Model3DViewer from '../components/Model3DViewer';
 
 const VirtualTryOnPage = () => {
   const [bodyProfile, setBodyProfile] = useState(null);
@@ -62,6 +63,8 @@ const VirtualTryOnPage = () => {
   const [age, setAge] = useState(25);
   const [hairColor, setHairColor] = useState('brown');
   const [eyeColor, setEyeColor] = useState('brown');
+  const [selectedModelColor, setSelectedModelColor] = useState('White');
+  const modelViewerRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -223,7 +226,8 @@ const VirtualTryOnPage = () => {
           color: product.color || 'Default',
           material: product.material || 'Mixed',
           barcode: product.barcode,
-          sku: product.sku
+          sku: product.sku,
+          model3dUrl: product.model3dUrl // Add 3D model URL
         }));
         
         console.log('Transformed products:', customerProducts);
@@ -570,14 +574,24 @@ const VirtualTryOnPage = () => {
   };
 
   const handleVirtualTryOn = async (product) => {
+    setSelectedProduct(product);
+    setSelectedModelColor(product.color || 'White'); // Set initial color
+    setLoading(false);
+    setError(null);
+    
+    // If product has 3D model, just display it
+    if (product.model3dUrl) {
+      console.log('Displaying 3D model:', product.model3dUrl);
+      return;
+    }
+
+    // Otherwise, try the virtual try-on API
     if (!bodyProfile) {
       setError('Body profile not found. Please create your profile first.');
       return;
     }
 
-    setSelectedProduct(product);
     setLoading(true);
-    setError(null);
 
     try {
       const tryOnRequest = {
@@ -796,9 +810,85 @@ const VirtualTryOnPage = () => {
 
         {/* Center Panel - 3D Avatar */}
         <Grid item xs={12} md={4}>
-          <Card sx={{ height: 600 }}>
+          <Card sx={{ height: 680 }}>
             <CardContent sx={{ height: '100%', p: 0 }}>
-              {tryOnResult ? (
+              {selectedProduct && selectedProduct.model3dUrl ? (
+                <Box sx={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <Box sx={{ flex: 1, position: 'relative' }}>
+                    <Model3DViewer 
+                      ref={modelViewerRef}
+                      modelUrl={selectedProduct.model3dUrl} 
+                      width={400} 
+                      height={480}
+                      productColor={selectedModelColor}
+                      showColorPicker={false}
+                    />
+                  </Box>
+                  
+                  {/* Product Information Card with Color Picker */}
+                  <Box sx={{ p: 2, bgcolor: 'background.paper', borderTop: 1, borderColor: 'divider', minHeight: 200 }}>
+                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                      {selectedProduct?.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                      {selectedProduct?.brand} • {selectedProduct?.material}
+                    </Typography>
+                    
+                    {/* Color Palette */}
+                    <Box sx={{ my: 1.5 }}>
+                      <Typography variant="caption" fontWeight="bold" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
+                        Colors
+                      </Typography>
+                      <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
+                        {[
+                          { name: 'White', hex: '#FFFFFF' },
+                          { name: 'Black', hex: '#000000' },
+                          { name: 'Red', hex: '#DC143C' },
+                          { name: 'Blue', hex: '#4169E1' },
+                          { name: 'Navy', hex: '#000080' },
+                          { name: 'Green', hex: '#228B22' },
+                          { name: 'Yellow', hex: '#FFD700' },
+                          { name: 'Pink', hex: '#FF69B4' },
+                          { name: 'Purple', hex: '#9370DB' },
+                          { name: 'Orange', hex: '#FF8C00' },
+                          { name: 'Gray', hex: '#808080' },
+                          { name: 'Brown', hex: '#8B4513' },
+                        ].map((color) => (
+                          <Box
+                            key={color.name}
+                            title={color.name}
+                            onClick={() => {
+                              setSelectedModelColor(color.name);
+                              if (modelViewerRef.current && modelViewerRef.current.changeColor) {
+                                modelViewerRef.current.changeColor(color.hex);
+                              }
+                            }}
+                            sx={{
+                              width: 32,
+                              height: 32,
+                              bgcolor: color.hex,
+                              borderRadius: '50%',
+                              cursor: 'pointer',
+                              border: selectedModelColor === color.name ? '3px solid #1976d2' : '2px solid',
+                              borderColor: selectedModelColor === color.name ? '#1976d2' : (color.hex === '#FFFFFF' ? '#ddd' : color.hex),
+                              boxShadow: selectedModelColor === color.name ? '0 0 0 2px rgba(25, 118, 210, 0.2)' : '0 1px 3px rgba(0,0,0,0.2)',
+                              transition: 'all 0.2s',
+                              '&:hover': {
+                                transform: 'scale(1.2)',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                              },
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
+                    
+                    <Typography variant="h6" color="primary.main" sx={{ mt: 1 }}>
+                      ${selectedProduct?.price}
+                    </Typography>
+                  </Box>
+                </Box>
+              ) : tryOnResult ? (
                 <Box sx={{ position: 'relative', height: '100%' }}>
                   <img
                     src={tryOnResult.avatarWithClothingUrl}
@@ -858,20 +948,20 @@ const VirtualTryOnPage = () => {
                     <Box sx={{ textAlign: 'center' }}>
                       <CircularProgress size={60} sx={{ mb: 2 }} />
                       <Typography variant="h6">
-                        {selectedProduct ? 'Creating Virtual Try-On...' : 'Processing...'}
+                        {selectedProduct ? 'Loading 3D Model...' : 'Processing...'}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {selectedProduct ? 'AI is fitting the clothing on your avatar' : 'Please wait'}
+                        {selectedProduct ? 'Preparing 3D visualization' : 'Please wait'}
                       </Typography>
                     </Box>
                   ) : (
                     <Box sx={{ textAlign: 'center' }}>
                       <ThreeDRotation sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
                       <Typography variant="h6" color="text.secondary">
-                        Select a product to try on
+                        Select a product to view in 3D
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                        Create your body profile first, then click on any product
+                        Click on any product to see its 3D model
                       </Typography>
                     </Box>
                   )}

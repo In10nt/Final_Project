@@ -62,6 +62,8 @@ public class ProductService {
         product.setColor(request.getColor());
         product.setMaterial(request.getMaterial());
         product.setCategoryId(request.getCategoryId());
+        product.setImageUrl(request.getImageUrl());
+        product.setModel3dUrl(request.getModel3dUrl());
 
         Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
@@ -78,6 +80,8 @@ public class ProductService {
         product.setPrice(request.getPrice());
         product.setColor(request.getColor());
         product.setMaterial(request.getMaterial());
+        product.setImageUrl(request.getImageUrl());
+        product.setModel3dUrl(request.getModel3dUrl());
 
         Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
@@ -103,6 +107,8 @@ public class ProductService {
         dto.setColor(product.getColor());
         dto.setMaterial(product.getMaterial());
         dto.setStatus(product.getStatus());
+        dto.setImageUrl(product.getImageUrl());
+        dto.setModel3dUrl(product.getModel3dUrl());
         return dto;
     }
 }

@@ -16,6 +16,8 @@ public class ProductDto {
     private String color;
     private String material;
     private String status;
+    private String imageUrl;
+    private String model3dUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -61,4 +63,10 @@ public class ProductDto {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getModel3dUrl() { return model3dUrl; }
+    public void setModel3dUrl(String model3dUrl) { this.model3dUrl = model3dUrl; }
 }

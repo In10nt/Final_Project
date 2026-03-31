@@ -22,6 +22,8 @@ const ProductsPage = () => {
     barcode: '',
     color: '',
     material: '',
+    imageUrl: '',
+    model3dUrl: '',
     status: 'active'
   });
 
@@ -61,6 +63,8 @@ const ProductsPage = () => {
         barcode: product.barcode || '',
         color: product.color || '',
         material: product.material || '',
+        imageUrl: product.imageUrl || '',
+        model3dUrl: product.model3dUrl || '',
         status: product.status || 'active'
       });
     } else {
@@ -74,6 +78,8 @@ const ProductsPage = () => {
         barcode: '',
         color: '',
         material: '',
+        imageUrl: '',
+        model3dUrl: '',
         status: 'active'
       });
     }
@@ -220,6 +226,8 @@ const ProductsPage = () => {
           <TextField fullWidth margin="normal" label="Barcode" name="barcode" value={formData.barcode} onChange={handleInputChange} />
           <TextField fullWidth margin="normal" label="Color" name="color" value={formData.color} onChange={handleInputChange} />
           <TextField fullWidth margin="normal" label="Material" name="material" value={formData.material} onChange={handleInputChange} />
+          <TextField fullWidth margin="normal" label="Image URL" name="imageUrl" value={formData.imageUrl} onChange={handleInputChange} placeholder="e.g., /uploads/images/product.jpg" />
+          <TextField fullWidth margin="normal" label="3D Model URL" name="model3dUrl" value={formData.model3dUrl} onChange={handleInputChange} placeholder="e.g., /uploads/models/product.glb" helperText="Upload your .glb or .gltf file to src/main/resources/static/uploads/models/" />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
