@@ -23,6 +23,11 @@ public class BodyProfileService {
     public BodyProfileDto getUserBodyProfile(UUID userId) {
         UUID tenantId = TenantContext.getCurrentTenant();
         
+        // For customer profiles without authentication, use the userId as tenantId
+        if (tenantId == null) {
+            tenantId = userId;
+        }
+        
         try {
             BodyProfile profile = bodyProfileRepository.findByUserIdAndTenantId(userId, tenantId)
                 .orElse(null);
@@ -42,6 +47,11 @@ public class BodyProfileService {
 
     public BodyProfileDto createBodyProfile(BodyProfileDto profileDto) {
         UUID tenantId = TenantContext.getCurrentTenant();
+        
+        // For customer profiles without authentication, use the userId as tenantId
+        if (tenantId == null && profileDto.getUserId() != null) {
+            tenantId = profileDto.getUserId();
+        }
         
         // Check if profile already exists for this user
         BodyProfile existingProfile = bodyProfileRepository.findByUserIdAndTenantId(profileDto.getUserId(), tenantId)
@@ -82,6 +92,11 @@ public class BodyProfileService {
     public BodyProfileDto updateBodyProfile(UUID id, BodyProfileDto profileDto) {
         UUID tenantId = TenantContext.getCurrentTenant();
         
+        // For customer profiles without authentication, use the userId as tenantId
+        if (tenantId == null && profileDto.getUserId() != null) {
+            tenantId = profileDto.getUserId();
+        }
+        
         BodyProfile profile = bodyProfileRepository.findByIdAndTenantId(id, tenantId)
             .orElseThrow(() -> new RuntimeException("Body profile not found"));
         
@@ -108,6 +123,11 @@ public class BodyProfileService {
     public BodyProfileDto analyzePhotoAndCreateProfile(MultipartFile photo, UUID userId) {
         try {
             UUID tenantId = TenantContext.getCurrentTenant();
+            
+            // For customer profiles without authentication, use the userId as tenantId
+            if (tenantId == null) {
+                tenantId = userId;
+            }
             
             // Convert photo to base64
             byte[] photoBytes = photo.getBytes();
