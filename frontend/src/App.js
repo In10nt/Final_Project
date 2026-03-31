@@ -10,8 +10,10 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ProductsPage from './pages/ProductsPage';
 import CustomersPage from './pages/CustomersPage';
+import AdminsPage from './pages/AdminsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import SettingsPage from './pages/SettingsPage';
+import ForceLogoutPage from './pages/ForceLogoutPage';
 
 const theme = createTheme({
   palette: {
@@ -40,6 +42,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/logout" element={<ForceLogoutPage />} />
               <Route
                 path="/*"
                 element={
@@ -50,6 +53,7 @@ function App() {
                         <Route path="/dashboard" element={<DashboardPage />} />
                         <Route path="/products" element={<ProductsPage />} />
                         <Route path="/customers" element={<CustomersPage />} />
+                        <Route path="/admins" element={<AdminsPage />} />
                         <Route path="/analytics" element={<AnalyticsPage />} />
                         <Route path="/settings" element={<SettingsPage />} />
                       </Routes>

@@ -22,6 +22,9 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private com.virtualtryonsaas.repository.AdminRepository adminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -51,9 +54,57 @@ public class AuthService {
     }
 
     public LoginResponse authenticateAdmin(LoginRequest loginRequest) {
-        // Similar to authenticateUser but for admin users
-        // Implementation would check admin table instead
-        throw new UnsupportedOperationException("Admin authentication not yet implemented");
+        System.out.println("=== ADMIN LOGIN ATTEMPT ===");
+        System.out.println("Email: " + loginRequest.getEmail());
+        System.out.println("Password received: " + loginRequest.getPassword());
+        
+        // Find admin by email
+        com.virtualtryonsaas.entity.Admin admin = adminRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> {
+                    System.out.println("❌ Admin not found with email: " + loginRequest.getEmail());
+                    return new RuntimeException("Admin not found with email: " + loginRequest.getEmail());
+                });
+        
+        System.out.println("✅ Admin found: " + admin.getEmail());
+        System.out.println("Password hash from DB: " + admin.getPasswordHash());
+        System.out.println("Password hash length: " + admin.getPasswordHash().length());
+        
+        // Verify password
+        boolean matches = passwordEncoder.matches(loginRequest.getPassword(), admin.getPasswordHash());
+        System.out.println("Password matches: " + matches);
+        
+        if (!matches) {
+            System.out.println("❌ Invalid password");
+            throw new RuntimeException("Invalid password");
+        }
+        
+        System.out.println("✅ Password verified");
+        
+        // Create authentication token
+        UserPrincipal userPrincipal = UserPrincipal.create(
+            admin.getId(), 
+            admin.getEmail(), 
+            admin.getPasswordHash(), 
+            admin.getTenantId(), 
+            "admin"
+        );
+        
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            userPrincipal, 
+            null, 
+            userPrincipal.getAuthorities()
+        );
+        
+        String jwt = tokenProvider.generateToken(authentication, admin.getTenantId(), "admin");
+
+        return new LoginResponse(
+            jwt,
+            admin.getId(),
+            admin.getEmail(),
+            admin.getFirstName(),
+            admin.getLastName(),
+            admin.getTenantId()
+        );
     }
 
     public void registerUser(RegisterRequest registerRequest) {

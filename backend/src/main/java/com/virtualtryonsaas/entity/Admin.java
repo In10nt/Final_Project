@@ -17,9 +17,10 @@ public class Admin {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
     
-    @Column(name = "tenant_id", nullable = false)
+    @Column(name = "tenant_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID tenantId;
     
     @Column(nullable = false)

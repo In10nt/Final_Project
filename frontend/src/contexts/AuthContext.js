@@ -25,9 +25,8 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('admin_token');
       if (token) {
         apiService.setAuthToken(token);
-        // Verify token with backend
-        const userData = await apiService.getCurrentUser();
-        setUser(userData);
+        // Token exists, set as authenticated
+        // User data will be loaded after successful API calls
         setIsAuthenticated(true);
       }
     } catch (error) {
@@ -42,7 +41,15 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await apiService.adminLogin(email, password);
-      const { token, user: userData } = response;
+      const { token, email: userEmail, firstName, lastName, userId, tenantId } = response;
+      
+      const userData = {
+        id: userId,
+        email: userEmail,
+        firstName,
+        lastName,
+        tenantId
+      };
       
       localStorage.setItem('admin_token', token);
       apiService.setAuthToken(token);
@@ -53,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Login failed' 
+        error: error.response?.data?.message || error.message || 'Login failed' 
       };
     }
   };

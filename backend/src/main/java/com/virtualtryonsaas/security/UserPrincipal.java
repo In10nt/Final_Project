@@ -1,8 +1,10 @@
 package com.virtualtryonsaas.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -26,7 +28,13 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(UUID id, String email, String password, UUID tenantId, String userType) {
-        return new UserPrincipal(id, email, password, tenantId, userType, Collections.emptyList());
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        if ("admin".equals(userType)) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        return new UserPrincipal(id, email, password, tenantId, userType, authorities);
     }
 
     public UUID getId() {
