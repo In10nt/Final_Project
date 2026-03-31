@@ -1,5 +1,6 @@
 package com.virtualtryonsaas.entity;
 
+import com.virtualtryonsaas.config.UUIDStringConverter;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,13 +19,16 @@ import java.util.UUID;
 public class Product {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Convert(converter = UUIDStringConverter.class)
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
     
-    @Column(name = "tenant_id", nullable = false)
+    @Convert(converter = UUIDStringConverter.class)
+    @Column(name = "tenant_id", nullable = false, columnDefinition = "CHAR(36)")
     private UUID tenantId;
     
-    @Column(name = "category_id")
+    @Convert(converter = UUIDStringConverter.class)
+    @Column(name = "category_id", columnDefinition = "CHAR(36)")
     private UUID categoryId;
     
     @Column(nullable = false)

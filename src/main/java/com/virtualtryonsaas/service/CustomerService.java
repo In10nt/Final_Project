@@ -18,8 +18,9 @@ public class CustomerService {
     private UserRepository userRepository;
 
     public Page<CustomerDto> getAllCustomers(Pageable pageable) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        Page<User> users = userRepository.findByTenantId(tenantId, pageable);
+        // Show ALL customers to admin, not filtered by tenant
+        // Customers are end-users who shop from all stores
+        Page<User> users = userRepository.findAll(pageable);
         return users.map(this::convertToDto);
     }
 

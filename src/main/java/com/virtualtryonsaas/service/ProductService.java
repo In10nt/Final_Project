@@ -51,6 +51,7 @@ public class ProductService {
         UUID tenantId = TenantContext.getCurrentTenant();
         
         Product product = new Product();
+        product.setId(UUID.randomUUID()); // Manually generate UUID
         product.setTenantId(tenantId);
         product.setName(request.getName());
         product.setDescription(request.getDescription());
