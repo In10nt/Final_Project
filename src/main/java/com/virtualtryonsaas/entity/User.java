@@ -44,6 +44,9 @@ public class User {
     
     private String status = "active";
     
+    @Column(name = "user_type")
+    private String userType = "CUSTOMER"; // CUSTOMER or ADMIN
+    
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -91,6 +94,9 @@ public class User {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getUserType() { return userType; }
+    public void setUserType(String userType) { this.userType = userType; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

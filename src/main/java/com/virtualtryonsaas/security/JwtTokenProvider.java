@@ -39,6 +39,21 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // Overloaded method for customer registration/login without Authentication object
+    public String generateToken(UUID userId, UUID tenantId, String userType, String email) {
+        Date expiryDate = new Date(System.currentTimeMillis() + jwtExpirationInMs);
+
+        return Jwts.builder()
+                .setSubject(userId.toString())
+                .claim("tenantId", tenantId.toString())
+                .claim("userType", userType)
+                .claim("email", email)
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(getSigningKey())
+                .compact();
+    }
+
     public UUID getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(getSigningKey())

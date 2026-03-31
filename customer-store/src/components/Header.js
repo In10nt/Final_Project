@@ -18,9 +18,12 @@ import {
   Person,
   Favorite,
   Menu as MenuIcon,
+  Logout,
+  Login,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -65,6 +68,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Header = () => {
   const navigate = useNavigate();
+  const { customer, isAuthenticated, logout } = useCustomerAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const [cartItems] = useState(0); // This would come from cart context
 
@@ -74,6 +78,12 @@ const Header = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleMenuClose();
+    navigate('/');
   };
 
   return (
@@ -129,7 +139,13 @@ const Header = () => {
         </Box>
 
         {/* Right side icons */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {isAuthenticated && customer && (
+            <Typography variant="body2" sx={{ mr: 1, display: { xs: 'none', sm: 'block' } }}>
+              Hi, {customer.firstName}
+            </Typography>
+          )}
+          
           <IconButton color="inherit">
             <Favorite />
           </IconButton>
@@ -140,20 +156,38 @@ const Header = () => {
             </Badge>
           </IconButton>
 
-          <IconButton color="inherit" onClick={handleMenuOpen}>
-            <Person />
-          </IconButton>
+          {isAuthenticated ? (
+            <>
+              <IconButton color="inherit" onClick={handleMenuOpen}>
+                <Person />
+              </IconButton>
 
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Wishlist</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-          </Menu>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={() => { handleMenuClose(); navigate('/virtual-tryon'); }}>
+                  My Profile
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Wishlist</MenuItem>
+                <MenuItem onClick={handleLogout}>
+                  <Logout fontSize="small" sx={{ mr: 1 }} />
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <Button 
+              color="inherit" 
+              startIcon={<Login />}
+              onClick={() => navigate('/login')}
+              sx={{ ml: 1 }}
+            >
+              Login
+            </Button>
+          )}
 
           {/* Mobile menu */}
           <IconButton

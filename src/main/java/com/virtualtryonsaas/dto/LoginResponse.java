@@ -10,6 +10,7 @@ public class LoginResponse {
     private String firstName;
     private String lastName;
     private UUID tenantId;
+    private CustomerDto customer; // For customer login
 
     public LoginResponse(String token, UUID userId, String email, String firstName, String lastName, UUID tenantId) {
         this.token = token;
@@ -18,6 +19,16 @@ public class LoginResponse {
         this.firstName = firstName;
         this.lastName = lastName;
         this.tenantId = tenantId;
+    }
+
+    // Constructor for customer login
+    public LoginResponse(String token, CustomerDto customer) {
+        this.token = token;
+        this.customer = customer;
+        this.userId = customer.getId();
+        this.email = customer.getEmail();
+        this.firstName = customer.getFirstName();
+        this.lastName = customer.getLastName();
     }
 
     // Getters and Setters
@@ -41,4 +52,7 @@ public class LoginResponse {
 
     public UUID getTenantId() { return tenantId; }
     public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
+
+    public CustomerDto getCustomer() { return customer; }
+    public void setCustomer(CustomerDto customer) { this.customer = customer; }
 }

@@ -56,6 +56,7 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/**", "/auth/**").permitAll()
+                .requestMatchers("/api/customers/register", "/api/customers/login").permitAll()
                 .requestMatchers("/api/products/**").permitAll()
                 .requestMatchers("/api/customers/**").permitAll()
                 .requestMatchers("/api/virtual-tryon/**").permitAll()
