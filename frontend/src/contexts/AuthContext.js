@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { apiService } from '../services/apiService';
+import { adminLogin } from '../services/apiService';
 
 const AuthContext = createContext();
 
@@ -24,9 +24,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('admin_token');
       if (token) {
-        apiService.setAuthToken(token);
         // Token exists, set as authenticated
-        // User data will be loaded after successful API calls
         setIsAuthenticated(true);
       }
     } catch (error) {
@@ -40,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await apiService.adminLogin(email, password);
+      const response = await adminLogin(email, password);
       const { token, email: userEmail, firstName, lastName, userId, tenantId } = response;
       
       const userData = {
@@ -52,7 +50,6 @@ export const AuthProvider = ({ children }) => {
       };
       
       localStorage.setItem('admin_token', token);
-      apiService.setAuthToken(token);
       setUser(userData);
       setIsAuthenticated(true);
       
@@ -67,7 +64,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('admin_token');
-    apiService.setAuthToken(null);
     setUser(null);
     setIsAuthenticated(false);
   };
