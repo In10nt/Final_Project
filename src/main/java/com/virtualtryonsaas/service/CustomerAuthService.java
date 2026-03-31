@@ -36,6 +36,7 @@ public class CustomerAuthService {
 
             // Create new customer user
             User customer = new User();
+            customer.setId(UUID.randomUUID()); // Manually generate UUID
             customer.setEmail(request.getEmail());
             customer.setPasswordHash(passwordEncoder.encode(request.getPassword()));
             customer.setFirstName(request.getFirstName());
