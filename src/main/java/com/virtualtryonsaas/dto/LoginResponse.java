@@ -10,6 +10,7 @@ public class LoginResponse {
     private String firstName;
     private String lastName;
     private CustomerDto customer; // For customer login
+    private BodyProfileDto bodyProfile; // Customer's body profile
 
     public LoginResponse(String token, UUID userId, String email, String firstName, String lastName) {
         this.token = token;
@@ -50,4 +51,7 @@ public class LoginResponse {
 
     public CustomerDto getCustomer() { return customer; }
     public void setCustomer(CustomerDto customer) { this.customer = customer; }
+
+    public BodyProfileDto getBodyProfile() { return bodyProfile; }
+    public void setBodyProfile(BodyProfileDto bodyProfile) { this.bodyProfile = bodyProfile; }
 }

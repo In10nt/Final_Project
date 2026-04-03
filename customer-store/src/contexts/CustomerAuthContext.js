@@ -13,20 +13,26 @@ export const useCustomerAuth = () => {
 
 export const CustomerAuthProvider = ({ children }) => {
   const [customer, setCustomer] = useState(null);
+  const [bodyProfile, setBodyProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check if customer is already logged in
     const token = localStorage.getItem('customer_token');
     const savedCustomer = localStorage.getItem('customer_data');
+    const savedBodyProfile = localStorage.getItem('customer_body_profile');
     
     if (token && savedCustomer) {
       try {
         setCustomer(JSON.parse(savedCustomer));
+        if (savedBodyProfile) {
+          setBodyProfile(JSON.parse(savedBodyProfile));
+        }
       } catch (error) {
         console.error('Failed to parse customer data:', error);
         localStorage.removeItem('customer_token');
         localStorage.removeItem('customer_data');
+        localStorage.removeItem('customer_body_profile');
       }
     }
     setLoading(false);
@@ -42,11 +48,16 @@ export const CustomerAuthProvider = ({ children }) => {
         phone
       });
       
-      const { token, customer: customerData } = response.data;
+      const { token, customer: customerData, bodyProfile: bodyProfileData } = response.data;
       
       localStorage.setItem('customer_token', token);
       localStorage.setItem('customer_data', JSON.stringify(customerData));
       setCustomer(customerData);
+      
+      if (bodyProfileData) {
+        localStorage.setItem('customer_body_profile', JSON.stringify(bodyProfileData));
+        setBodyProfile(bodyProfileData);
+      }
       
       return { success: true };
     } catch (error) {
@@ -62,11 +73,16 @@ export const CustomerAuthProvider = ({ children }) => {
         password
       });
       
-      const { token, customer: customerData } = response.data;
+      const { token, customer: customerData, bodyProfile: bodyProfileData } = response.data;
       
       localStorage.setItem('customer_token', token);
       localStorage.setItem('customer_data', JSON.stringify(customerData));
       setCustomer(customerData);
+      
+      if (bodyProfileData) {
+        localStorage.setItem('customer_body_profile', JSON.stringify(bodyProfileData));
+        setBodyProfile(bodyProfileData);
+      }
       
       return { success: true };
     } catch (error) {
@@ -78,12 +94,14 @@ export const CustomerAuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('customer_token');
     localStorage.removeItem('customer_data');
-    localStorage.removeItem('bodyProfile');
+    localStorage.removeItem('customer_body_profile');
     setCustomer(null);
+    setBodyProfile(null);
   };
 
   const value = {
     customer,
+    bodyProfile,
     loading,
     register,
     login,

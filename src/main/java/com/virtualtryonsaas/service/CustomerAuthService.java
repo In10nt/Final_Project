@@ -4,6 +4,7 @@ import com.virtualtryonsaas.dto.CustomerDto;
 import com.virtualtryonsaas.dto.CustomerLoginRequest;
 import com.virtualtryonsaas.dto.CustomerRegisterRequest;
 import com.virtualtryonsaas.dto.LoginResponse;
+import com.virtualtryonsaas.dto.BodyProfileDto;
 import com.virtualtryonsaas.entity.User;
 import com.virtualtryonsaas.repository.UserRepository;
 import com.virtualtryonsaas.security.JwtTokenProvider;
@@ -24,6 +25,9 @@ public class CustomerAuthService {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private BodyProfileService bodyProfileService;
 
     public LoginResponse register(CustomerRegisterRequest request) {
         try {
@@ -58,7 +62,18 @@ public class CustomerAuthService {
 
             // Create response
             CustomerDto customerDto = convertToDto(customer);
-            return new LoginResponse(token, customerDto);
+            LoginResponse response = new LoginResponse(token, customerDto);
+            
+            // Try to load body profile if exists
+            try {
+                BodyProfileDto bodyProfile = bodyProfileService.getUserBodyProfile(customer.getId());
+                response.setBodyProfile(bodyProfile);
+            } catch (Exception e) {
+                // Body profile doesn't exist yet, that's okay
+                System.out.println("No body profile found for new customer");
+            }
+            
+            return response;
         } catch (Exception e) {
             System.err.println("Registration failed: " + e.getMessage());
             e.printStackTrace();
@@ -90,7 +105,18 @@ public class CustomerAuthService {
 
         // Create response
         CustomerDto customerDto = convertToDto(customer);
-        return new LoginResponse(token, customerDto);
+        LoginResponse response = new LoginResponse(token, customerDto);
+        
+        // Try to load body profile if exists
+        try {
+            BodyProfileDto bodyProfile = bodyProfileService.getUserBodyProfile(customer.getId());
+            response.setBodyProfile(bodyProfile);
+        } catch (Exception e) {
+            // Body profile doesn't exist yet, that's okay
+            System.out.println("No body profile found for customer: " + customer.getId());
+        }
+        
+        return response;
     }
 
     private CustomerDto convertToDto(User user) {
