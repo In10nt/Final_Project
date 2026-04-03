@@ -19,9 +19,6 @@ public class TryOnSession {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
     
-    @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
-    
     @Column(name = "product_id", nullable = false)
     private UUID productId;
     
@@ -62,9 +59,6 @@ public class TryOnSession {
 
     public UUID getUserId() { return userId; }
     public void setUserId(UUID userId) { this.userId = userId; }
-
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public UUID getProductId() { return productId; }
     public void setProductId(UUID productId) { this.productId = productId; }

@@ -13,15 +13,9 @@ import java.util.UUID;
 @Repository
 public interface TryOnSessionRepository extends JpaRepository<TryOnSession, UUID> {
     
-    Optional<TryOnSession> findByIdAndTenantId(UUID id, UUID tenantId);
+    List<TryOnSession> findByUserIdOrderByCreatedAtDesc(UUID userId);
     
-    Page<TryOnSession> findByTenantId(UUID tenantId, Pageable pageable);
+    Page<TryOnSession> findByUserId(UUID userId, Pageable pageable);
     
-    List<TryOnSession> findByUserIdAndTenantIdOrderByCreatedAtDesc(UUID userId, UUID tenantId);
-    
-    Page<TryOnSession> findByUserIdAndTenantId(UUID userId, UUID tenantId, Pageable pageable);
-    
-    long countByTenantId(UUID tenantId);
-    
-    long countByUserIdAndTenantId(UUID userId, UUID tenantId);
+    long countByUserId(UUID userId);
 }

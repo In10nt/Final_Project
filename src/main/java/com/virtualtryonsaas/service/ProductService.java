@@ -4,7 +4,6 @@ import com.virtualtryonsaas.dto.ProductDto;
 import com.virtualtryonsaas.dto.ProductRequest;
 import com.virtualtryonsaas.entity.Product;
 import com.virtualtryonsaas.repository.ProductRepository;
-import com.virtualtryonsaas.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,40 +18,25 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Page<ProductDto> getAllProducts(Pageable pageable) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        Page<Product> products;
-        
-        if (tenantId != null) {
-            // Admin access - filter by tenant
-            products = productRepository.findByTenantId(tenantId, pageable);
-        } else {
-            // Public/Customer access - show all products
-            products = productRepository.findAll(pageable);
-        }
-        
+        Page<Product> products = productRepository.findAll(pageable);
         return products.map(this::convertToDto);
     }
 
     public ProductDto getProductById(UUID id) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        Product product = productRepository.findByIdAndTenantId(id, tenantId)
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         return convertToDto(product);
     }
 
     public ProductDto getProductByBarcode(String barcode) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        Product product = productRepository.findByBarcodeAndTenantId(barcode, tenantId)
+        Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         return convertToDto(product);
     }
 
     public ProductDto createProduct(ProductRequest request) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        
         Product product = new Product();
-        product.setId(UUID.randomUUID()); // Manually generate UUID
-        product.setTenantId(tenantId);
+        product.setId(UUID.randomUUID());
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setBrand(request.getBrand());
@@ -70,8 +54,7 @@ public class ProductService {
     }
 
     public ProductDto updateProduct(UUID id, ProductRequest request) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        Product product = productRepository.findByIdAndTenantId(id, tenantId)
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         product.setName(request.getName());
@@ -88,8 +71,7 @@ public class ProductService {
     }
 
     public void deleteProduct(UUID id) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        Product product = productRepository.findByIdAndTenantId(id, tenantId)
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         productRepository.delete(product);
     }

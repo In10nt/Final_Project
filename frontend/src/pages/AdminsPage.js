@@ -151,8 +151,8 @@ const AdminsPage = () => {
                   <TableCell>{admin.email}</TableCell>
                   <TableCell>
                     <Chip 
-                      label={admin.role.toUpperCase()} 
-                      color={getRoleColor(admin.role)}
+                      label={(admin.role || 'admin').toUpperCase()} 
+                      color={getRoleColor(admin.role || 'admin')}
                       size="small"
                     />
                   </TableCell>

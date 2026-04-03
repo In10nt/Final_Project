@@ -22,8 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        return UserPrincipal.create(user.getId(), user.getEmail(), user.getPasswordHash(), 
-                                  user.getTenantId(), "customer");
+        return UserPrincipal.create(user.getId(), user.getEmail(), user.getPasswordHash(), "customer");
     }
 
     @Transactional
@@ -31,7 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findById(java.util.UUID.fromString(id))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
-        return UserPrincipal.create(user.getId(), user.getEmail(), user.getPasswordHash(), 
-                                  user.getTenantId(), "customer");
+        return UserPrincipal.create(user.getId(), user.getEmail(), user.getPasswordHash(), "customer");
     }
 }

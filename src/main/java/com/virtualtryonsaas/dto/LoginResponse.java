@@ -9,16 +9,14 @@ public class LoginResponse {
     private String email;
     private String firstName;
     private String lastName;
-    private UUID tenantId;
     private CustomerDto customer; // For customer login
 
-    public LoginResponse(String token, UUID userId, String email, String firstName, String lastName, UUID tenantId) {
+    public LoginResponse(String token, UUID userId, String email, String firstName, String lastName) {
         this.token = token;
         this.userId = userId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.tenantId = tenantId;
     }
 
     // Constructor for customer login
@@ -49,9 +47,6 @@ public class LoginResponse {
 
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public CustomerDto getCustomer() { return customer; }
     public void setCustomer(CustomerDto customer) { this.customer = customer; }

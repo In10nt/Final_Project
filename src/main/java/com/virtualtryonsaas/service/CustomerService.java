@@ -3,7 +3,6 @@ package com.virtualtryonsaas.service;
 import com.virtualtryonsaas.dto.CustomerDto;
 import com.virtualtryonsaas.entity.User;
 import com.virtualtryonsaas.repository.UserRepository;
-import com.virtualtryonsaas.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

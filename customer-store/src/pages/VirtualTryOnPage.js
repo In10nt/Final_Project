@@ -37,8 +37,10 @@ import {
 } from '@mui/icons-material';
 import { bodyProfileAPI, virtualTryOnAPI, productsAPI } from '../services/apiService';
 import Model3DViewer from '../components/Model3DViewer';
+import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 
 const VirtualTryOnPage = () => {
+  const { customer } = useCustomerAuth();
   const [bodyProfile, setBodyProfile] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [tryOnResult, setTryOnResult] = useState(null);
@@ -68,8 +70,8 @@ const VirtualTryOnPage = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  // Mock user ID - in production, this would come from authentication
-  const userId = '550e8400-e29b-41d4-a716-446655440001';
+  // Get user ID from authenticated customer
+  const userId = customer?.id || '3a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d'; // Fallback to Sarah's ID for demo
 
   useEffect(() => {
     // Load user's body profile if exists

@@ -41,15 +41,14 @@ public class AuthService {
         );
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        String jwt = tokenProvider.generateToken(authentication, userPrincipal.getTenantId(), "customer");
+        String jwt = tokenProvider.generateToken(authentication, "customer");
 
         return new LoginResponse(
             jwt,
             userPrincipal.getId(),
             userPrincipal.getEmail(),
             "", // firstName - to be implemented
-            "", // lastName - to be implemented
-            userPrincipal.getTenantId()
+            "" // lastName - to be implemented
         );
     }
 
@@ -85,7 +84,6 @@ public class AuthService {
             admin.getId(), 
             admin.getEmail(), 
             admin.getPasswordHash(), 
-            admin.getTenantId(), 
             "admin"
         );
         
@@ -95,25 +93,23 @@ public class AuthService {
             userPrincipal.getAuthorities()
         );
         
-        String jwt = tokenProvider.generateToken(authentication, admin.getTenantId(), "admin");
+        String jwt = tokenProvider.generateToken(authentication, "admin");
 
         return new LoginResponse(
             jwt,
             admin.getId(),
             admin.getEmail(),
             admin.getFirstName(),
-            admin.getLastName(),
-            admin.getTenantId()
+            admin.getLastName()
         );
     }
 
     public void registerUser(RegisterRequest registerRequest) {
-        if (userRepository.existsByTenantIdAndEmail(registerRequest.getTenantId(), registerRequest.getEmail())) {
-            throw new RuntimeException("Email already exists for this tenant");
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            throw new RuntimeException("Email already exists");
         }
 
         User user = new User();
-        user.setTenantId(registerRequest.getTenantId());
         user.setEmail(registerRequest.getEmail());
         user.setPasswordHash(passwordEncoder.encode(registerRequest.getPassword()));
         user.setFirstName(registerRequest.getFirstName());

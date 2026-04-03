@@ -36,14 +36,13 @@ public class CustomerAuthService {
 
             // Create new customer user
             User customer = new User();
-            customer.setId(UUID.randomUUID()); // Manually generate UUID
+            customer.setId(UUID.randomUUID());
             customer.setEmail(request.getEmail());
             customer.setPasswordHash(passwordEncoder.encode(request.getPassword()));
             customer.setFirstName(request.getFirstName());
             customer.setLastName(request.getLastName());
             customer.setPhone(request.getPhone());
             customer.setUserType("CUSTOMER");
-            customer.setTenantId(UUID.randomUUID()); // Each customer gets their own tenant ID
             customer.setStatus("ACTIVE");
 
             System.out.println("Saving customer to database...");
@@ -53,7 +52,6 @@ public class CustomerAuthService {
             // Generate JWT token
             String token = jwtTokenProvider.generateToken(
                 customer.getId(),
-                customer.getTenantId(),
                 "CUSTOMER",
                 customer.getEmail()
             );
@@ -86,7 +84,6 @@ public class CustomerAuthService {
         // Generate JWT token
         String token = jwtTokenProvider.generateToken(
             customer.getId(),
-            customer.getTenantId(),
             "CUSTOMER",
             customer.getEmail()
         );

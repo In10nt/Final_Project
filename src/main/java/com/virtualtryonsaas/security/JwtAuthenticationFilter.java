@@ -1,6 +1,5 @@
 package com.virtualtryonsaas.security;
 
-import com.virtualtryonsaas.tenant.TenantContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,18 +47,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UUID userId = tokenProvider.getUserIdFromToken(jwt);
                     System.out.println("UserId extracted: " + userId);
                     
-                    String tenantIdStr = tokenProvider.getTenantId(jwt);
-                    UUID tenantId = UUID.fromString(tenantIdStr);
-                    System.out.println("TenantId extracted: " + tenantId);
-                    
                     String userType = tokenProvider.getUserType(jwt);
                     System.out.println("UserType extracted: " + userType);
 
-                    // Set tenant context
-                    TenantContext.setCurrentTenant(tenantId);
-                    System.out.println("Tenant context set");
-
-                    UserPrincipal userPrincipal = UserPrincipal.create(userId, "", "", tenantId, userType);
+                    UserPrincipal userPrincipal = UserPrincipal.create(userId, "", "", userType);
                     System.out.println("UserPrincipal created with authorities: " + userPrincipal.getAuthorities());
 
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -82,9 +73,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         System.out.println("=== JWT FILTER END ===");
         filterChain.doFilter(request, response);
-        
-        // Clear tenant context after request
-        TenantContext.clear();
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

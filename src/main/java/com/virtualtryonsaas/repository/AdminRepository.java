@@ -12,13 +12,7 @@ import java.util.UUID;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, UUID> {
     
-    Optional<Admin> findByTenantIdAndEmail(UUID tenantId, String email);
-    
-    boolean existsByTenantIdAndEmail(UUID tenantId, String email);
-    
     Optional<Admin> findByEmail(String email);
     
-    Page<Admin> findByTenantId(UUID tenantId, Pageable pageable);
-    
-    long countByTenantId(UUID tenantId);
+    boolean existsByEmail(String email);
 }

@@ -89,4 +89,38 @@ public class FileUploadController {
                     .body(Map.of("error", "Failed to upload file: " + e.getMessage()));
         }
     }
+
+    @GetMapping("/models/list")
+    public ResponseEntity<?> listAvailableModels() {
+        try {
+            Path modelsPath = Paths.get(UPLOAD_DIR + "models");
+            
+            if (!Files.exists(modelsPath)) {
+                return ResponseEntity.ok(Map.of("models", new String[0]));
+            }
+            
+            java.util.List<Map<String, String>> models = new java.util.ArrayList<>();
+            
+            Files.list(modelsPath)
+                .filter(path -> {
+                    String filename = path.getFileName().toString().toLowerCase();
+                    return filename.endsWith(".obj") || filename.endsWith(".glb") || filename.endsWith(".gltf");
+                })
+                .forEach(path -> {
+                    String filename = path.getFileName().toString();
+                    String url = "/uploads/models/" + filename;
+                    Map<String, String> model = new HashMap<>();
+                    model.put("filename", filename);
+                    model.put("url", url);
+                    model.put("name", filename.substring(0, filename.lastIndexOf(".")));
+                    models.add(model);
+                });
+            
+            return ResponseEntity.ok(Map.of("models", models));
+            
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", "Failed to list models: " + e.getMessage()));
+        }
+    }
 }

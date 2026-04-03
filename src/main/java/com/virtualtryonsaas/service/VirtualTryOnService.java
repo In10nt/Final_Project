@@ -10,7 +10,6 @@ import com.virtualtryonsaas.repository.BodyProfileRepository;
 import com.virtualtryonsaas.repository.ProductRepository;
 import com.virtualtryonsaas.repository.TryOnSessionRepository;
 import com.virtualtryonsaas.repository.UserRepository;
-import com.virtualtryonsaas.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +35,11 @@ public class VirtualTryOnService {
 
     public VirtualTryOnResponse performVirtualTryOn(VirtualTryOnRequest request) {
         try {
-            UUID tenantId = TenantContext.getCurrentTenant();
-            
-            // Get user by ID (simplified for demo)
+            // Get user by ID
             User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
             
-            BodyProfile bodyProfile = bodyProfileRepository.findByUserIdAndTenantId(request.getUserId(), tenantId)
+            BodyProfile bodyProfile = bodyProfileRepository.findByUserId(request.getUserId())
                 .orElse(null);
             
             if (bodyProfile == null) {
@@ -50,13 +47,12 @@ public class VirtualTryOnService {
             }
             
             // Get product
-            Product product = productRepository.findByIdAndTenantId(request.getProductId(), tenantId)
+            Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
             
             // Create try-on session
             TryOnSession session = new TryOnSession();
             session.setUserId(request.getUserId());
-            session.setTenantId(tenantId);
             session.setProductId(request.getProductId());
             session.setVariantId(request.getVariantId());
             
@@ -80,9 +76,7 @@ public class VirtualTryOnService {
     }
 
     public VirtualTryOnResponse getSessionResult(UUID sessionId) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        
-        TryOnSession session = tryOnSessionRepository.findByIdAndTenantId(sessionId, tenantId)
+        TryOnSession session = tryOnSessionRepository.findById(sessionId)
             .orElseThrow(() -> new RuntimeException("Session not found"));
         
         VirtualTryOnResponse response = new VirtualTryOnResponse();

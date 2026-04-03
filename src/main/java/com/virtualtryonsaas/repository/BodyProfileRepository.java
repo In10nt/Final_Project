@@ -12,13 +12,7 @@ import java.util.UUID;
 @Repository
 public interface BodyProfileRepository extends JpaRepository<BodyProfile, UUID> {
     
-    Optional<BodyProfile> findByUserIdAndTenantId(UUID userId, UUID tenantId);
+    Optional<BodyProfile> findByUserId(UUID userId);
     
-    Optional<BodyProfile> findByIdAndTenantId(UUID id, UUID tenantId);
-    
-    Page<BodyProfile> findByTenantId(UUID tenantId, Pageable pageable);
-    
-    boolean existsByUserIdAndTenantId(UUID userId, UUID tenantId);
-    
-    long countByTenantId(UUID tenantId);
+    boolean existsByUserId(UUID userId);
 }

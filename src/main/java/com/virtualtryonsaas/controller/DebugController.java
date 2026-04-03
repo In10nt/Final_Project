@@ -29,8 +29,6 @@ public class DebugController {
             response.put("id", u.getId());
             response.put("id_string", u.getId().toString());
             response.put("email", u.getEmail());
-            response.put("tenantId", u.getTenantId());
-            response.put("tenantId_string", u.getTenantId().toString());
             response.put("firstName", u.getFirstName());
             response.put("lastName", u.getLastName());
         } else {

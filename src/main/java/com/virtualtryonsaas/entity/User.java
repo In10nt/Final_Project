@@ -12,8 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"tenant_id", "email"}),
-    @UniqueConstraint(columnNames = {"email"}) // Global email uniqueness for customers
+    @UniqueConstraint(columnNames = {"email"})
 })
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -22,10 +21,6 @@ public class User {
     @Convert(converter = UUIDStringConverter.class)
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-    
-    @Convert(converter = UUIDStringConverter.class)
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "CHAR(36)")
-    private UUID tenantId;
     
     @Column(nullable = false)
     private String email;
@@ -62,8 +57,7 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(UUID tenantId, String email, String passwordHash) {
-        this.tenantId = tenantId;
+    public User(String email, String passwordHash) {
         this.email = email;
         this.passwordHash = passwordHash;
     }
@@ -71,9 +65,6 @@ public class User {
     // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
-
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }

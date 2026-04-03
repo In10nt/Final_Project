@@ -3,7 +3,6 @@ package com.virtualtryonsaas.service;
 import com.virtualtryonsaas.dto.BodyProfileDto;
 import com.virtualtryonsaas.entity.BodyProfile;
 import com.virtualtryonsaas.repository.BodyProfileRepository;
-import com.virtualtryonsaas.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,15 +20,8 @@ public class BodyProfileService {
     private AIService aiService;
 
     public BodyProfileDto getUserBodyProfile(UUID userId) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        
-        // For customer profiles without authentication, use the userId as tenantId
-        if (tenantId == null) {
-            tenantId = userId;
-        }
-        
         try {
-            BodyProfile profile = bodyProfileRepository.findByUserIdAndTenantId(userId, tenantId)
+            BodyProfile profile = bodyProfileRepository.findByUserId(userId)
                 .orElse(null);
             
             if (profile == null) {
@@ -46,15 +38,8 @@ public class BodyProfileService {
     }
 
     public BodyProfileDto createBodyProfile(BodyProfileDto profileDto) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        
-        // For customer profiles without authentication, use the userId as tenantId
-        if (tenantId == null && profileDto.getUserId() != null) {
-            tenantId = profileDto.getUserId();
-        }
-        
         // Check if profile already exists for this user
-        BodyProfile existingProfile = bodyProfileRepository.findByUserIdAndTenantId(profileDto.getUserId(), tenantId)
+        BodyProfile existingProfile = bodyProfileRepository.findByUserId(profileDto.getUserId())
             .orElse(null);
         
         BodyProfile profile;
@@ -65,7 +50,6 @@ public class BodyProfileService {
             // Create new profile
             profile = new BodyProfile();
             profile.setUserId(profileDto.getUserId());
-            profile.setTenantId(tenantId);
         }
         
         // Set all fields
@@ -90,14 +74,7 @@ public class BodyProfileService {
     }
 
     public BodyProfileDto updateBodyProfile(UUID id, BodyProfileDto profileDto) {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        
-        // For customer profiles without authentication, use the userId as tenantId
-        if (tenantId == null && profileDto.getUserId() != null) {
-            tenantId = profileDto.getUserId();
-        }
-        
-        BodyProfile profile = bodyProfileRepository.findByIdAndTenantId(id, tenantId)
+        BodyProfile profile = bodyProfileRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Body profile not found"));
         
         profile.setHeightCm(profileDto.getHeightCm());
@@ -122,13 +99,6 @@ public class BodyProfileService {
 
     public BodyProfileDto analyzePhotoAndCreateProfile(MultipartFile photo, UUID userId) {
         try {
-            UUID tenantId = TenantContext.getCurrentTenant();
-            
-            // For customer profiles without authentication, use the userId as tenantId
-            if (tenantId == null) {
-                tenantId = userId;
-            }
-            
             // Convert photo to base64
             byte[] photoBytes = photo.getBytes();
             String base64Photo = Base64.getEncoder().encodeToString(photoBytes);
@@ -139,7 +109,6 @@ public class BodyProfileService {
             // Parse measurements (simplified - in production would use proper JSON parsing)
             BodyProfile profile = new BodyProfile();
             profile.setUserId(userId);
-            profile.setTenantId(tenantId);
             
             // Mock measurements extraction (in production, parse from AI response)
             profile.setHeightCm(165);

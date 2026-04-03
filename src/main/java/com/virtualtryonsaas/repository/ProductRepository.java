@@ -12,17 +12,11 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
     
-    Page<Product> findByTenantId(UUID tenantId, Pageable pageable);
+    Optional<Product> findByBarcode(String barcode);
     
-    Optional<Product> findByIdAndTenantId(UUID id, UUID tenantId);
+    Optional<Product> findBySku(String sku);
     
-    Optional<Product> findByBarcodeAndTenantId(String barcode, UUID tenantId);
+    boolean existsByBarcode(String barcode);
     
-    Optional<Product> findBySkuAndTenantId(String sku, UUID tenantId);
-    
-    boolean existsByBarcodeAndTenantId(String barcode, UUID tenantId);
-    
-    boolean existsBySkuAndTenantId(String sku, UUID tenantId);
-    
-    long countByTenantId(UUID tenantId);
+    boolean existsBySku(String sku);
 }

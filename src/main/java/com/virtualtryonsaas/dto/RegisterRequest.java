@@ -7,9 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class RegisterRequest {
-    @NotNull(message = "Tenant ID is required")
-    private UUID tenantId;
-
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     private String email;
@@ -24,8 +21,6 @@ public class RegisterRequest {
     public RegisterRequest() {}
 
     // Getters and Setters
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }

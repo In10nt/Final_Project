@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tenant_admins", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"tenant_id", "email"})
+@Table(name = "admins", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"email"})
 })
 @EntityListeners(AuditingEntityListener.class)
 public class Admin {
@@ -19,9 +19,6 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-    
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "CHAR(36)")
-    private UUID tenantId;
     
     @Column(nullable = false)
     private String email;
@@ -50,8 +47,7 @@ public class Admin {
     // Constructors
     public Admin() {}
 
-    public Admin(UUID tenantId, String email, String passwordHash) {
-        this.tenantId = tenantId;
+    public Admin(String email, String passwordHash) {
         this.email = email;
         this.passwordHash = passwordHash;
     }
@@ -59,9 +55,6 @@ public class Admin {
     // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
-
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }

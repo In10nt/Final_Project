@@ -20,9 +20,6 @@ public class BodyProfile {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
     
-    @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
-    
     @Column(name = "height_cm")
     private Integer heightCm;
     
@@ -91,9 +88,6 @@ public class BodyProfile {
 
     public UUID getUserId() { return userId; }
     public void setUserId(UUID userId) { this.userId = userId; }
-
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public Integer getHeightCm() { return heightCm; }
     public void setHeightCm(Integer heightCm) { this.heightCm = heightCm; }

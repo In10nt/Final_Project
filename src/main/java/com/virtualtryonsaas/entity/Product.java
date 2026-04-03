@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "products", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"tenant_id", "barcode"}),
-    @UniqueConstraint(columnNames = {"tenant_id", "sku"})
+    @UniqueConstraint(columnNames = {"barcode"}),
+    @UniqueConstraint(columnNames = {"sku"})
 })
 @EntityListeners(AuditingEntityListener.class)
 public class Product {
@@ -22,10 +22,6 @@ public class Product {
     @Convert(converter = UUIDStringConverter.class)
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-    
-    @Convert(converter = UUIDStringConverter.class)
-    @Column(name = "tenant_id", nullable = false, columnDefinition = "CHAR(36)")
-    private UUID tenantId;
     
     @Convert(converter = UUIDStringConverter.class)
     @Column(name = "category_id", columnDefinition = "CHAR(36)")
@@ -68,11 +64,11 @@ public class Product {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    
     // Constructors
     public Product() {}
 
-    public Product(UUID tenantId, String name, String barcode) {
-        this.tenantId = tenantId;
+    public Product(String name, String barcode) {
         this.name = name;
         this.barcode = barcode;
     }
@@ -80,9 +76,6 @@ public class Product {
     // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
-
-    public UUID getTenantId() { return tenantId; }
-    public void setTenantId(UUID tenantId) { this.tenantId = tenantId; }
 
     public UUID getCategoryId() { return categoryId; }
     public void setCategoryId(UUID categoryId) { this.categoryId = categoryId; }

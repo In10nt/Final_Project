@@ -3,11 +3,8 @@ package com.virtualtryonsaas.service;
 import com.virtualtryonsaas.dto.DashboardMetricsDto;
 import com.virtualtryonsaas.repository.ProductRepository;
 import com.virtualtryonsaas.repository.UserRepository;
-import com.virtualtryonsaas.tenant.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class AnalyticsService {
@@ -19,10 +16,8 @@ public class AnalyticsService {
     private ProductRepository productRepository;
 
     public DashboardMetricsDto getDashboardMetrics() {
-        UUID tenantId = TenantContext.getCurrentTenant();
-        
-        long totalCustomers = userRepository.countByTenantId(tenantId);
-        long totalProducts = productRepository.countByTenantId(tenantId);
+        long totalCustomers = userRepository.count();
+        long totalProducts = productRepository.count();
         
         DashboardMetricsDto metrics = new DashboardMetricsDto();
         metrics.setTotalCustomers(totalCustomers);

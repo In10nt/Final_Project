@@ -24,13 +24,12 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generateToken(Authentication authentication, UUID tenantId, String userType) {
+    public String generateToken(Authentication authentication, String userType) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Date expiryDate = new Date(System.currentTimeMillis() + jwtExpirationInMs);
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getId().toString())
-                .claim("tenantId", tenantId.toString())
                 .claim("userType", userType) // "customer" or "admin"
                 .claim("email", userPrincipal.getEmail())
                 .setIssuedAt(new Date())
@@ -40,12 +39,11 @@ public class JwtTokenProvider {
     }
 
     // Overloaded method for customer registration/login without Authentication object
-    public String generateToken(UUID userId, UUID tenantId, String userType, String email) {
+    public String generateToken(UUID userId, String userType, String email) {
         Date expiryDate = new Date(System.currentTimeMillis() + jwtExpirationInMs);
 
         return Jwts.builder()
                 .setSubject(userId.toString())
-                .claim("tenantId", tenantId.toString())
                 .claim("userType", userType)
                 .claim("email", email)
                 .setIssuedAt(new Date())
@@ -62,16 +60,6 @@ public class JwtTokenProvider {
                 .getPayload();
 
         return UUID.fromString(claims.getSubject());
-    }
-
-    public String getTenantId(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-
-        return claims.get("tenantId", String.class);
     }
 
     public String getUserType(String token) {
