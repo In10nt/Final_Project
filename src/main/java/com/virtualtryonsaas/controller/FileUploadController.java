@@ -1,5 +1,9 @@
 package com.virtualtryonsaas.controller;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -101,19 +105,26 @@ public class FileUploadController {
             
             java.util.List<Map<String, String>> models = new java.util.ArrayList<>();
             
-            Files.list(modelsPath)
+            Files.walk(modelsPath)
+                .filter(Files::isRegularFile)
                 .filter(path -> {
                     String filename = path.getFileName().toString().toLowerCase();
-                    return filename.endsWith(".obj") || filename.endsWith(".glb") || filename.endsWith(".gltf");
+                    return filename.endsWith(".obj") || filename.endsWith(".glb") || 
+                           filename.endsWith(".gltf") || filename.endsWith(".fbx");
                 })
                 .forEach(path -> {
-                    String filename = path.getFileName().toString();
-                    String url = "/uploads/models/" + filename;
-                    Map<String, String> model = new HashMap<>();
-                    model.put("filename", filename);
-                    model.put("url", url);
-                    model.put("name", filename.substring(0, filename.lastIndexOf(".")));
-                    models.add(model);
+                    try {
+                        String relativePath = modelsPath.relativize(path).toString().replace("\\", "/");
+                        String url = "/uploads/models/" + relativePath;
+                        String filename = path.getFileName().toString();
+                        Map<String, String> model = new HashMap<>();
+                        model.put("filename", filename);
+                        model.put("url", url);
+                        model.put("name", filename.substring(0, filename.lastIndexOf(".")));
+                        models.add(model);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
             
             return ResponseEntity.ok(Map.of("models", models));
@@ -121,6 +132,58 @@ public class FileUploadController {
         } catch (IOException e) {
             return ResponseEntity.internalServerError()
                     .body(Map.of("error", "Failed to list models: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/serve-model")
+    public ResponseEntity<Resource> serveModel(@RequestParam("path") String modelPath) {
+        try {
+            System.out.println("Serving model: " + modelPath);
+            
+            // Clean the path - remove leading /uploads/ if present
+            String cleanPath = modelPath.startsWith("/uploads/") 
+                ? modelPath.substring(9) 
+                : modelPath;
+            
+            System.out.println("Clean path: " + cleanPath);
+            
+            Resource resource = new ClassPathResource("static/uploads/" + cleanPath);
+            
+            System.out.println("Resource exists: " + resource.exists());
+            System.out.println("Resource readable: " + resource.isReadable());
+            
+            if (!resource.exists() || !resource.isReadable()) {
+                System.out.println("Resource not found or not readable");
+                return ResponseEntity.notFound().build();
+            }
+
+            // Determine content type
+            String contentType = "application/octet-stream";
+            String filename = resource.getFilename();
+            if (filename != null) {
+                if (filename.endsWith(".obj")) {
+                    contentType = "model/obj";
+                } else if (filename.endsWith(".fbx")) {
+                    contentType = "application/octet-stream";
+                } else if (filename.endsWith(".gltf")) {
+                    contentType = "model/gltf+json";
+                } else if (filename.endsWith(".glb")) {
+                    contentType = "model/gltf-binary";
+                }
+            }
+
+            System.out.println("Serving file: " + filename + " with content type: " + contentType);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+                    .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                    .body(resource);
+
+        } catch (Exception e) {
+            System.out.println("Error serving model: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

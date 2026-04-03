@@ -117,6 +117,18 @@ const Header = () => {
           >
             Virtual Try-On
           </Button>
+          {isAuthenticated && (
+            <Button 
+              color="inherit" 
+              onClick={() => navigate('/avatar/customize')}
+              sx={{ 
+                bgcolor: 'rgba(255,255,255,0.1)', 
+                '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' } 
+              }}
+            >
+              My Avatar
+            </Button>
+          )}
           <Button color="inherit">
             Categories
           </Button>
@@ -167,6 +179,9 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
+                <MenuItem onClick={() => { handleMenuClose(); navigate('/avatar/customize'); }}>
+                  Customize Avatar
+                </MenuItem>
                 <MenuItem onClick={() => { handleMenuClose(); navigate('/virtual-tryon'); }}>
                   My Profile
                 </MenuItem>

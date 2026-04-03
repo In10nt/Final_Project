@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
@@ -113,8 +114,7 @@ const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, product
     controls.target.set(0, 0, 0); // Rotate around center of model
     controlsRef.current = controls;
 
-    // Load 3D model
-    const loader = new OBJLoader();
+    // Load 3D model - detect file type and use appropriate loader
     let fullModelUrl;
     if (modelUrl.startsWith('http')) {
       fullModelUrl = modelUrl;
@@ -125,63 +125,98 @@ const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, product
       fullModelUrl = `http://localhost:8082/${modelUrl}`;
     }
 
-    loader.load(
-      fullModelUrl,
-      (object) => {
-        // Center and scale the model
-        const box = new THREE.Box3().setFromObject(object);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.5 / maxDim;
-        object.scale.multiplyScalar(scale);
-        
-        // Fix orientation - rotate model to stand upright
+    // Detect file extension
+    const fileExtension = modelUrl.toLowerCase().split('.').pop();
+    const isFBX = fileExtension === 'fbx';
+    const isOBJ = fileExtension === 'obj';
+    
+    console.log('Loading 3D model:', { modelUrl, fullModelUrl, fileExtension, isFBX, isOBJ });
+
+    // Function to process loaded model
+    const processLoadedModel = (object) => {
+      // Center and scale the model
+      const box = new THREE.Box3().setFromObject(object);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 2.5 / maxDim;
+      object.scale.multiplyScalar(scale);
+      
+      // Fix orientation for OBJ files - rotate model to stand upright
+      if (isOBJ) {
         object.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X-axis to stand up
         object.rotation.y = 0;
         object.rotation.z = 0;
-        
-        // Recalculate bounding box after rotation
-        object.updateMatrixWorld(true);
-        const rotatedBox = new THREE.Box3().setFromObject(object);
-        const rotatedCenter = rotatedBox.getCenter(new THREE.Vector3());
-        
-        // Center the model at origin (0, 0, 0)
-        object.position.set(
-          -rotatedCenter.x,
-          -rotatedCenter.y,
-          -rotatedCenter.z
-        );
-        
-        // Apply enhanced material with better appearance
-        object.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0xdddddd,
-              roughness: 0.5,
-              metalness: 0.1,
-              flatShading: false,
-            });
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-
-        scene.add(object);
-        modelRef.current = object;
-        setLoading(false);
-      },
-      (xhr) => {
-        const percentComplete = (xhr.loaded / xhr.total * 100);
-        console.log(percentComplete.toFixed(2) + '% loaded');
-      },
-      (error) => {
-        console.error('Error loading 3D model:', error);
-        setError('Failed to load 3D model');
-        setLoading(false);
       }
-    );
+      // FBX files from Unreal are usually already correctly oriented
+      
+      // Recalculate bounding box after rotation
+      object.updateMatrixWorld(true);
+      const rotatedBox = new THREE.Box3().setFromObject(object);
+      const rotatedCenter = rotatedBox.getCenter(new THREE.Vector3());
+      
+      // Center the model at origin (0, 0, 0)
+      object.position.set(
+        -rotatedCenter.x,
+        -rotatedCenter.y,
+        -rotatedCenter.z
+      );
+      
+      // Apply enhanced material with better appearance
+      object.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.material = new THREE.MeshStandardMaterial({
+            color: 0xdddddd,
+            roughness: 0.5,
+            metalness: 0.1,
+            flatShading: false,
+          });
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      scene.add(object);
+      modelRef.current = object;
+      setLoading(false);
+    };
+
+    // Load based on file type
+    if (isFBX) {
+      const fbxLoader = new FBXLoader();
+      fbxLoader.load(
+        fullModelUrl,
+        processLoadedModel,
+        (xhr) => {
+          const percentComplete = (xhr.loaded / xhr.total * 100);
+          console.log(percentComplete.toFixed(2) + '% loaded');
+        },
+        (error) => {
+          console.error('Error loading FBX model:', error);
+          setError('Failed to load FBX model');
+          setLoading(false);
+        }
+      );
+    } else if (isOBJ) {
+      const objLoader = new OBJLoader();
+      objLoader.load(
+        fullModelUrl,
+        processLoadedModel,
+        (xhr) => {
+          const percentComplete = (xhr.loaded / xhr.total * 100);
+          console.log(percentComplete.toFixed(2) + '% loaded');
+        },
+        (error) => {
+          console.error('Error loading OBJ model:', error);
+          setError('Failed to load OBJ model');
+          setLoading(false);
+        }
+      );
+    } else {
+      setError('Unsupported 3D model format. Please use OBJ or FBX files.');
+      setLoading(false);
+    }
 
     // Animation loop
     let animationId;

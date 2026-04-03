@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import VirtualTryOnPage from './pages/VirtualTryOnPage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import AvatarCustomizationPage from './pages/AvatarCustomizationPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import CustomerLoginPage from './pages/CustomerLoginPage';
@@ -73,6 +74,11 @@ function App() {
                   } />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
+                  <Route path="/avatar/customize" element={
+                    <ProtectedRoute>
+                      <AvatarCustomizationPage />
+                    </ProtectedRoute>
+                  } />
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />
                 </Routes>
