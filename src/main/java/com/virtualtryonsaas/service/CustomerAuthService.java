@@ -48,6 +48,8 @@ public class CustomerAuthService {
             customer.setPhone(request.getPhone());
             customer.setUserType("CUSTOMER");
             customer.setStatus("ACTIVE");
+            customer.setCreatedAt(java.time.LocalDateTime.now());
+            customer.setUpdatedAt(java.time.LocalDateTime.now());
 
             System.out.println("Saving customer to database...");
             customer = userRepository.save(customer);

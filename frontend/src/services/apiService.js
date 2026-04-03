@@ -48,7 +48,17 @@ export const customerLogin = async (email, password) => {
 
 // Dashboard APIs
 export const getDashboardStats = async () => {
+  console.log('getDashboardStats called');
+  console.log('API_BASE_URL:', API_BASE_URL);
+  const token = localStorage.getItem('admin_token');
+  console.log('Token in getDashboardStats:', token ? 'exists' : 'missing');
   const response = await api.get('/analytics/dashboard');
+  console.log('Dashboard response:', response.data);
+  return response.data;
+};
+
+export const getRecentActivities = async () => {
+  const response = await api.get('/analytics/recent-activities');
   return response.data;
 };
 

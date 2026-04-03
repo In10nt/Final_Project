@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**", "/auth/**").permitAll()
                 .requestMatchers("/api/admin-reset/**").permitAll()
                 .requestMatchers("/api/database-fix/**").permitAll()
+                .requestMatchers("/api/analytics/**").permitAll()
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers("/api/customers/register", "/api/customers/login").permitAll()
                 .requestMatchers("/api/products/**").permitAll()

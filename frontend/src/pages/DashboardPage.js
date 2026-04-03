@@ -7,7 +7,7 @@ import {
   People, Inventory, TrendingUp, ShoppingCart, Star, TrendingDown,
   Analytics, Settings
 } from '@mui/icons-material';
-import apiService from '../services/apiService';
+import { getDashboardStats, getRecentActivities } from '../services/apiService';
 
 const DashboardPage = () => {
   const [metrics, setMetrics] = useState({
@@ -18,18 +18,27 @@ const DashboardPage = () => {
     averageRating: 0,
     newCustomersThisMonth: 0
   });
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchMetrics();
+    fetchActivities();
   }, []);
 
   const fetchMetrics = async () => {
     try {
-      const data = await apiService.getDashboardStats();
+      console.log('Fetching dashboard metrics...');
+      const token = localStorage.getItem('admin_token');
+      console.log('Token exists:', !!token);
+      
+      const data = await getDashboardStats();
+      console.log('Dashboard data received:', data);
       setMetrics(data);
     } catch (err) {
       console.error('Failed to load metrics:', err);
+      console.error('Error details:', err.response?.data);
+      console.error('Error status:', err.response?.status);
       // Set default values if API fails
       setMetrics({
         totalCustomers: 0,
@@ -41,6 +50,16 @@ const DashboardPage = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchActivities = async () => {
+    try {
+      const data = await getRecentActivities();
+      setActivities(data);
+    } catch (err) {
+      console.error('Failed to load activities:', err);
+      setActivities([]);
     }
   };
 
@@ -210,33 +229,33 @@ const DashboardPage = () => {
               Recent Activity
             </Typography>
             <Box sx={{ mt: 2 }}>
-              {[
-                { text: 'New customer registered', time: '2 minutes ago', color: 'success.main' },
-                { text: 'Product "Cotton T-Shirt" tried on 15 times', time: '15 minutes ago', color: 'info.main' },
-                { text: 'Size recommendation accuracy improved to 92%', time: '1 hour ago', color: 'warning.main' },
-                { text: 'New product "Denim Jacket" added', time: '2 hours ago', color: 'primary.main' },
-                { text: 'Customer feedback: 4.8/5 average rating', time: '3 hours ago', color: 'success.main' },
-              ].map((activity, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    py: 1.5,
-                    px: 2,
-                    mb: 1,
-                    borderLeft: 3,
-                    borderColor: activity.color,
-                    bgcolor: 'grey.50',
-                    borderRadius: 1,
-                  }}
-                >
-                  <Typography variant="body2" fontWeight={500}>
-                    {activity.text}
-                  </Typography>
-                  <Typography variant="caption" color="textSecondary">
-                    {activity.time}
-                  </Typography>
-                </Box>
-              ))}
+              {activities.length > 0 ? (
+                activities.map((activity, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      py: 1.5,
+                      px: 2,
+                      mb: 1,
+                      borderLeft: 3,
+                      borderColor: activity.color,
+                      bgcolor: 'grey.50',
+                      borderRadius: 1,
+                    }}
+                  >
+                    <Typography variant="body2" fontWeight={500}>
+                      {activity.text}
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary">
+                      {activity.time}
+                    </Typography>
+                  </Box>
+                ))
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  No recent activities
+                </Typography>
+              )}
             </Box>
           </Paper>
         </Grid>
