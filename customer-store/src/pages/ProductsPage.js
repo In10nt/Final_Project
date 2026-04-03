@@ -75,14 +75,22 @@ const ProductsPage = () => {
                   Category: {product.category}
                 </Typography>
               </CardContent>
-              <CardActions>
+              <CardActions sx={{ gap: 1, p: 2 }}>
                 <Button 
-                  size="large" 
+                  size="medium" 
+                  fullWidth 
+                  variant="outlined" 
+                  onClick={() => navigate(`/products/${product.id}`)}
+                >
+                  View Details
+                </Button>
+                <Button 
+                  size="medium" 
                   fullWidth 
                   variant="contained" 
                   onClick={() => handleTryOn(product.id)}
                 >
-                  Try On Virtually
+                  Try On
                 </Button>
               </CardActions>
             </Card>

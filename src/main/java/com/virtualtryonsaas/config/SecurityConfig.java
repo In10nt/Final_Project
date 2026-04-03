@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/customers/**").permitAll()
                 .requestMatchers("/api/virtual-tryon/**").permitAll()
                 .requestMatchers("/api/body-profile/**").permitAll()
+                .requestMatchers("/api/size-recommendation/**").permitAll()
                 .requestMatchers("/api/upload/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
