@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/body-profile/**").permitAll()
                 .requestMatchers("/api/size-recommendation/**").permitAll()
                 .requestMatchers("/api/avatar/**").permitAll()
+                .requestMatchers("/api/models/**").permitAll()
                 .requestMatchers("/api/upload/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers("/api/upload/serve-model/**").permitAll()

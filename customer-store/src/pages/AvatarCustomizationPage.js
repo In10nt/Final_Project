@@ -11,6 +11,7 @@ import axios from 'axios';
 const AvatarCustomizationPage = () => {
   const { customer, bodyProfile } = useCustomerAuth();
   const navigate = useNavigate();
+  const modelViewerRef = React.useRef();
   
   const [customization, setCustomization] = useState({
     skinTone: 'medium',
@@ -25,6 +26,8 @@ const AvatarCustomizationPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
+  const [previewMode, setPreviewMode] = useState(false);
+  const [aiDescription, setAiDescription] = useState('');
 
   const skinTones = [
     { value: 'light', label: 'Light', color: '#FFE0BD' },
@@ -63,8 +66,95 @@ const AvatarCustomizationPage = () => {
     { value: 'gray', label: 'Gray', color: '#708090' }
   ];
 
+  // Apply customization to the 3D model in real-time
+  const applyCustomizationToModel = (field, value) => {
+    if (modelViewerRef.current && avatarUrl) {
+      // Get the color based on the field
+      let colorToApply = null;
+      
+      if (field === 'skinTone') {
+        const tone = skinTones.find(t => t.value === value);
+        colorToApply = tone?.color;
+        if (colorToApply) {
+          modelViewerRef.current.changeColor(colorToApply);
+        }
+      } else if (field === 'hairColor') {
+        const hair = hairColors.find(h => h.value === value);
+        colorToApply = hair?.color;
+        if (colorToApply && modelViewerRef.current.changeHairColor) {
+          modelViewerRef.current.changeHairColor(colorToApply);
+        }
+      } else if (field === 'eyeColor') {
+        // Eye color would need specific mesh targeting
+        const eye = eyeColors.find(e => e.value === value);
+        colorToApply = eye?.color;
+      } else if (field === 'hairStyle') {
+        // Hair style change - reload with new hair model
+        handlePreview();
+      }
+    }
+  };
+
   const handleChange = (field, value) => {
     setCustomization(prev => ({ ...prev, [field]: value }));
+    
+    // Apply changes to model in real-time if in preview mode
+    if (previewMode && avatarUrl) {
+      applyCustomizationToModel(field, value);
+    }
+  };
+
+  const handlePreview = async () => {
+    if (!customer || !bodyProfile) {
+      setError('Please create your body profile first');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setSuccess(false);
+    
+    try {
+      const response = await axios.post('http://localhost:8082/api/avatar/generate', {
+        userId: customer.id,
+        ...customization
+      });
+      
+      console.log('Avatar generated:', response.data);
+      setAvatarUrl(response.data.avatarModelUrl);
+      setPreviewMode(true);
+      
+      // Set AI description if available
+      if (response.data.avatarConfiguration) {
+        try {
+          const config = JSON.parse(response.data.avatarConfiguration);
+          if (config.aiRecommendations && config.aiRecommendations.description) {
+            setAiDescription(config.aiRecommendations.description);
+          }
+        } catch (e) {
+          console.log('Could not parse avatar configuration');
+        }
+      }
+      
+      // Apply initial customization after model loads
+      setTimeout(() => {
+        const skinTone = skinTones.find(t => t.value === customization.skinTone);
+        if (skinTone && modelViewerRef.current) {
+          modelViewerRef.current.changeColor(skinTone.color);
+        }
+        
+        const hairColor = hairColors.find(h => h.value === customization.hairColor);
+        if (hairColor && modelViewerRef.current && modelViewerRef.current.changeHairColor) {
+          modelViewerRef.current.changeHairColor(hairColor.color);
+        }
+      }, 2000);
+      
+    } catch (err) {
+      console.error('Avatar generation error:', err);
+      setError(err.response?.data?.message || 'Failed to generate avatar');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGenerate = async () => {
@@ -83,12 +173,11 @@ const AvatarCustomizationPage = () => {
         ...customization
       });
       
-      console.log('Avatar generated:', response.data);
-      setAvatarUrl(response.data.avatarModelUrl);
+      console.log('Avatar saved:', response.data);
       setSuccess(true);
     } catch (err) {
-      console.error('Avatar generation error:', err);
-      setError(err.response?.data?.message || 'Failed to generate avatar');
+      console.error('Avatar save error:', err);
+      setError(err.response?.data?.message || 'Failed to save avatar');
     } finally {
       setLoading(false);
     }
@@ -159,7 +248,9 @@ const AvatarCustomizationPage = () => {
               >
                 {avatarUrl ? (
                   <Model3DViewer 
+                    ref={modelViewerRef}
                     modelUrl={avatarUrl} 
+                    hairModelUrl="http://localhost:8082/api/models/hair"
                     width={400} 
                     height={500}
                     showColorPicker={false}
@@ -181,6 +272,19 @@ const AvatarCustomizationPage = () => {
                   </Box>
                 )}
               </Box>
+              
+              {previewMode && (
+                <Box sx={{ mt: 2 }}>
+                  <Alert severity="info">
+                    💡 Change options to see real-time updates on your avatar
+                  </Alert>
+                  {aiDescription && (
+                    <Alert severity="success" sx={{ mt: 1 }}>
+                      🤖 AI: {aiDescription}
+                    </Alert>
+                  )}
+                </Box>
+              )}
             </CardContent>
           </Card>
         </Grid>
@@ -194,6 +298,12 @@ const AvatarCustomizationPage = () => {
               <Alert severity="info" sx={{ mb: 2 }}>
                 Creating {bodyProfile.gender === 'FEMALE' ? 'Female' : 'Male'} Avatar based on your profile
               </Alert>
+              
+              {previewMode && (
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  ✨ Preview Mode Active - Changes apply instantly!
+                </Alert>
+              )}
               
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {/* Skin Tone */}
@@ -271,11 +381,18 @@ const AvatarCustomizationPage = () => {
                   variant="contained"
                   size="large"
                   fullWidth
-                  onClick={handleGenerate}
+                  onClick={previewMode ? handleGenerate : handlePreview}
                   disabled={loading}
+                  color={previewMode ? "success" : "primary"}
                 >
-                  {loading ? <CircularProgress size={24} /> : 'Generate Avatar'}
+                  {loading ? <CircularProgress size={24} /> : (previewMode ? 'Save Avatar' : 'Preview Avatar')}
                 </Button>
+                
+                {previewMode && (
+                  <Typography variant="caption" color="text.secondary" textAlign="center">
+                    Adjust the options above to customize your avatar in real-time
+                  </Typography>
+                )}
               </Box>
             </CardContent>
           </Card>

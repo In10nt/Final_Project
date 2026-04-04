@@ -21,19 +21,47 @@ public class AvatarGenerationService {
     @Autowired
     private BodyProfileRepository bodyProfileRepository;
 
+    @Autowired
+    private AIAvatarCustomizationService aiCustomizationService;
+
     public AvatarResponse generateAvatar(UUID userId, AvatarCustomizationRequest customization) {
+        System.out.println("=== Avatar Generation Started ===");
+        System.out.println("User ID: " + userId);
+        System.out.println("Customization: " + customization);
+        
         // Get body profile
         BodyProfile profile = bodyProfileRepository.findByUserId(userId)
             .orElseThrow(() -> new RuntimeException("Body profile not found. Please create your body profile first."));
 
+        System.out.println("Body Profile found: Gender=" + profile.getGender() + ", Height=" + profile.getHeightCm());
+
         // Calculate body proportions from measurements
         Map<String, Object> proportions = calculateBodyProportions(profile);
+        System.out.println("Body proportions calculated: " + proportions);
         
-        // Generate Ready Player Me avatar URL
+        // Use AI to generate intelligent customization recommendations
+        Map<String, Object> aiCustomization = aiCustomizationService.generateAvatarCustomization(
+            profile.getGender() != null ? profile.getGender().toString() : "neutral",
+            proportions,
+            customization.getSkinTone(),
+            customization.getHairStyle()
+        );
+        System.out.println("AI customization generated: " + aiCustomization);
+        
+        // Generate avatar URL
         String avatarUrl = generateReadyPlayerMeAvatar(profile, customization, proportions);
+        System.out.println("Avatar URL: " + avatarUrl);
         
-        // Generate avatar configuration
-        String avatarConfig = generateAvatarConfiguration(profile, customization, proportions);
+        // Get hair model URL based on style
+        String hairModelUrl = aiCustomizationService.getHairModelUrl(
+            customization.getHairStyle(),
+            profile.getGender() != null ? profile.getGender().toString() : "neutral"
+        );
+        System.out.println("Hair model URL: " + hairModelUrl);
+        
+        // Generate avatar configuration with AI recommendations
+        String avatarConfig = generateAvatarConfiguration(profile, customization, proportions, aiCustomization);
+        System.out.println("Avatar configuration: " + avatarConfig);
         
         // Update body profile with avatar info
         profile.setSkinTone(customization.getSkinTone());
@@ -42,19 +70,31 @@ public class AvatarGenerationService {
         profile.setBodyShape(customization.getBodyShape());
         profile.setAvatarModelUrl(avatarUrl);
         bodyProfileRepository.save(profile);
+        System.out.println("Body profile updated with avatar info");
         
-        return new AvatarResponse(
+        // Create response with AI customization data
+        AvatarResponse response = new AvatarResponse(
             avatarUrl,
             avatarUrl,
             proportions.toString(),
             avatarConfig
         );
+        
+        System.out.println("=== Avatar Generation Complete ===");
+        return response;
     }
 
     private String generateReadyPlayerMeAvatar(BodyProfile profile, AvatarCustomizationRequest customization, Map<String, Object> proportions) {
-        // For now, use an existing OBJ model as a placeholder
-        // TODO: Convert FBX mannequin to OBJ or GLB format
-        return "http://localhost:8082/uploads/models/suit.obj";
+        // Use the mannequin OBJ model - auto-rotation will fix orientation
+        // The Model3DViewer component now automatically detects and corrects orientation
+        String modelPath = "/uploads/models/ScaleReferenceDummy.obj";
+        
+        System.out.println("=== Avatar Model Selection ===");
+        System.out.println("Gender: " + profile.getGender());
+        System.out.println("Model Path: " + modelPath);
+        System.out.println("Body Proportions: " + proportions);
+        
+        return "http://localhost:8082" + modelPath;
     }
 
     private Map<String, Object> calculateBodyProportions(BodyProfile profile) {
@@ -118,7 +158,8 @@ public class AvatarGenerationService {
         }
     }
 
-    private String generateAvatarConfiguration(BodyProfile profile, AvatarCustomizationRequest customization, Map<String, Object> proportions) {
+    private String generateAvatarConfiguration(BodyProfile profile, AvatarCustomizationRequest customization, 
+                                              Map<String, Object> proportions, Map<String, Object> aiCustomization) {
         StringBuilder config = new StringBuilder();
         config.append("{");
         config.append("\"bodyProportions\": ").append(proportions.toString().replace("=", ":")).append(",");
@@ -126,7 +167,8 @@ public class AvatarGenerationService {
         config.append("\"hairColor\": \"").append(customization.getHairColor() != null ? customization.getHairColor() : "brown").append("\",");
         config.append("\"hairStyle\": \"").append(customization.getHairStyle() != null ? customization.getHairStyle() : "short").append("\",");
         config.append("\"eyeColor\": \"").append(customization.getEyeColor() != null ? customization.getEyeColor() : "brown").append("\",");
-        config.append("\"gender\": \"").append(profile.getGender() != null ? profile.getGender() : "neutral").append("\"");
+        config.append("\"gender\": \"").append(profile.getGender() != null ? profile.getGender() : "neutral").append("\",");
+        config.append("\"aiRecommendations\": ").append(aiCustomization.toString().replace("=", ":"));
         config.append("}");
         
         return config.toString();

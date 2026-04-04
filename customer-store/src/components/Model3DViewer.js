@@ -2,14 +2,17 @@ import React, { useEffect, useRef, forwardRef, useImperativeHandle } from 'react
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
 
-const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
+const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, width = 400, height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
   const mountRef = useRef(null);
   const modelRef = useRef(null);
+  const hairRef = useRef(null);
   const controlsRef = useRef(null);
+  const sceneRef = useRef(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [autoRotate, setAutoRotate] = React.useState(true);
@@ -129,38 +132,47 @@ const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, product
     const fileExtension = modelUrl.toLowerCase().split('.').pop();
     const isFBX = fileExtension === 'fbx';
     const isOBJ = fileExtension === 'obj';
+    const isGLB = fileExtension === 'glb' || fileExtension === 'gltf';
     
-    console.log('Loading 3D model:', { modelUrl, fullModelUrl, fileExtension, isFBX, isOBJ });
+    console.log('Loading 3D model:', { modelUrl, fullModelUrl, fileExtension, isFBX, isOBJ, isGLB });
 
     // Function to process loaded model
     const processLoadedModel = (object) => {
-      // Center and scale the model
+      // Get initial dimensions
       const box = new THREE.Box3().setFromObject(object);
-      const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
       
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 2.5 / maxDim;
-      object.scale.multiplyScalar(scale);
+      console.log('Model dimensions before rotation:', { x: size.x, y: size.y, z: size.z });
       
-      // Fix orientation for OBJ files - rotate model to stand upright
+      // For OBJ files, apply standard rotation to make mannequin stand upright
       if (isOBJ) {
-        object.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X-axis to stand up
+        console.log('Applying standard mannequin rotation');
+        // This specific rotation makes the mannequin stand up
+        object.rotation.x = -Math.PI / 2; // Rotate -90 degrees on X
         object.rotation.y = 0;
         object.rotation.z = 0;
       }
-      // FBX files from Unreal are usually already correctly oriented
+      
+      // Update matrix after rotation
+      object.updateMatrixWorld(true);
       
       // Recalculate bounding box after rotation
-      object.updateMatrixWorld(true);
       const rotatedBox = new THREE.Box3().setFromObject(object);
+      const rotatedSize = rotatedBox.getSize(new THREE.Vector3());
       const rotatedCenter = rotatedBox.getCenter(new THREE.Vector3());
       
-      // Center the model at origin (0, 0, 0)
+      console.log('Model dimensions after rotation:', { x: rotatedSize.x, y: rotatedSize.y, z: rotatedSize.z });
+      
+      // Scale to fit viewport - make it taller
+      const maxDim = Math.max(rotatedSize.x, rotatedSize.y, rotatedSize.z);
+      const scale = 2.5 / maxDim;
+      object.scale.multiplyScalar(scale);
+      
+      // Center the model at origin
       object.position.set(
-        -rotatedCenter.x,
-        -rotatedCenter.y,
-        -rotatedCenter.z
+        -rotatedCenter.x * scale,
+        -rotatedCenter.y * scale,
+        -rotatedCenter.z * scale
       );
       
       // Apply enhanced material with better appearance
@@ -179,11 +191,29 @@ const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, product
 
       scene.add(object);
       modelRef.current = object;
+      sceneRef.current = scene;
       setLoading(false);
     };
 
     // Load based on file type
-    if (isFBX) {
+    if (isGLB) {
+      const gltfLoader = new GLTFLoader();
+      gltfLoader.load(
+        fullModelUrl,
+        (gltf) => {
+          processLoadedModel(gltf.scene);
+        },
+        (xhr) => {
+          const percentComplete = (xhr.loaded / xhr.total * 100);
+          console.log(percentComplete.toFixed(2) + '% loaded');
+        },
+        (error) => {
+          console.error('Error loading GLB model:', error);
+          setError('Failed to load GLB model');
+          setLoading(false);
+        }
+      );
+    } else if (isFBX) {
       const fbxLoader = new FBXLoader();
       fbxLoader.load(
         fullModelUrl,
@@ -214,8 +244,81 @@ const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, product
         }
       );
     } else {
-      setError('Unsupported 3D model format. Please use OBJ or FBX files.');
+      setError('Unsupported 3D model format. Please use OBJ, FBX, GLB, or GLTF files.');
       setLoading(false);
+    }
+
+    // Load hair model if provided - wait for main model to load first
+    if (hairModelUrl) {
+      const hairExtension = hairModelUrl.toLowerCase().split('.').pop();
+      const hairFullUrl = hairModelUrl.startsWith('http') ? hairModelUrl : `http://localhost:8082${hairModelUrl}`;
+      
+      console.log('Loading hair model:', hairFullUrl);
+      
+      // Wait a bit for main model to load, then add hair
+      setTimeout(() => {
+        if (hairExtension === 'glb' || hairExtension === 'gltf' || hairExtension === 'hair') {
+          const gltfLoader = new GLTFLoader();
+          gltfLoader.load(
+            hairFullUrl,
+            (gltf) => {
+              const hairModel = gltf.scene;
+              
+              console.log('Hair model loaded successfully!');
+              console.log('Hair model structure:', hairModel);
+              
+              // Get hair dimensions
+              const hairBox = new THREE.Box3().setFromObject(hairModel);
+              const hairSize = hairBox.getSize(new THREE.Vector3());
+              console.log('Hair original size:', hairSize);
+              
+              // Scale hair to match mannequin head size (approximately 20cm)
+              const hairMaxDim = Math.max(hairSize.x, hairSize.y, hairSize.z);
+              const targetHairSize = 0.25; // 25cm for hair
+              const hairScale = targetHairSize / hairMaxDim;
+              hairModel.scale.set(hairScale, hairScale, hairScale);
+              
+              // Position hair on top of mannequin's head
+              // Mannequin is now rotated -90° on X axis
+              hairModel.position.set(0, 0, 1.0); // Z-axis is now "up"
+              
+              // Rotate hair to match mannequin orientation
+              hairModel.rotation.x = -Math.PI / 2; // Match mannequin rotation
+              hairModel.rotation.y = 0;
+              hairModel.rotation.z = 0;
+              
+              // Apply realistic hair material
+              hairModel.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
+                  if (!child.material) {
+                    child.material = new THREE.MeshStandardMaterial();
+                  }
+                  // Default brown hair color
+                  child.material.color.set(0x654321);
+                  child.material.roughness = 0.6;
+                  child.material.metalness = 0.0;
+                  child.material.side = THREE.DoubleSide; // Render both sides
+                  child.castShadow = true;
+                  child.receiveShadow = true;
+                }
+              });
+              
+              scene.add(hairModel);
+              hairRef.current = hairModel;
+              console.log('Hair model added to scene at position:', hairModel.position);
+              console.log('Hair model rotation:', hairModel.rotation);
+              console.log('Hair model scale:', hairModel.scale);
+            },
+            (progress) => {
+              const percent = (progress.loaded / progress.total * 100).toFixed(0);
+              console.log(`Hair loading: ${percent}%`);
+            },
+            (error) => {
+              console.error('Error loading hair model:', error);
+            }
+          );
+        }
+      }, 1500); // Wait 1.5 seconds for main model to load
     }
 
     // Animation loop
@@ -268,9 +371,23 @@ const Model3DViewer = forwardRef(({ modelUrl, width = 400, height = 600, product
     }
   };
 
-  // Expose changeColor method to parent via ref
+  // Change hair color separately
+  const changeHairColor = (colorHex) => {
+    if (hairRef.current) {
+      hairRef.current.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          if (child.material) {
+            child.material.color.set(colorHex);
+          }
+        }
+      });
+    }
+  };
+
+  // Expose methods to parent via ref
   useImperativeHandle(ref, () => ({
-    changeColor
+    changeColor,
+    changeHairColor
   }));
 
   // Handle color selection

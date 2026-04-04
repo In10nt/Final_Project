@@ -62,8 +62,17 @@ ai:
 
 open:
   api:
-    api-key: ${OPENAI_API_KEY}
+    api-key: ${OPENAI_API_KEY:}
     url: https://api.openai.com/v1
+
+# AI Avatar Customization (Optional - uses rule-based if not configured)
+openai:
+  api:
+    key: ${OPENAI_API_KEY:}
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:}
 
 logging:
   level:
