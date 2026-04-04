@@ -819,7 +819,8 @@ const VirtualTryOnPage = () => {
                   <Box sx={{ flex: 1, position: 'relative' }}>
                     <Model3DViewer 
                       ref={modelViewerRef}
-                      modelUrl={selectedProduct.model3dUrl} 
+                      modelUrl={bodyProfile?.avatarModelUrl || 'http://localhost:8082/uploads/models/ScaleReferenceDummy.obj'}
+                      clothingModelUrl={selectedProduct.model3dUrl}
                       width={400} 
                       height={480}
                       productColor={selectedModelColor}

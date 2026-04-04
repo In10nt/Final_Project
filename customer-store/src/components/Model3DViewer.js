@@ -7,10 +7,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
 
-const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, width = 400, height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
+const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = 400, height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
   const mountRef = useRef(null);
   const modelRef = useRef(null);
   const hairRef = useRef(null);
+  const clothingRef = useRef(null);
   const controlsRef = useRef(null);
   const sceneRef = useRef(null);
   const [loading, setLoading] = React.useState(true);
@@ -321,6 +322,90 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, width = 400, height 
       }, 1500); // Wait 1.5 seconds for main model to load
     }
 
+    // Load clothing model if provided - overlay on mannequin
+    if (clothingModelUrl) {
+      const clothingExtension = clothingModelUrl.toLowerCase().split('.').pop();
+      const clothingFullUrl = clothingModelUrl.startsWith('http') ? clothingModelUrl : `http://localhost:8082${clothingModelUrl}`;
+      
+      console.log('Loading clothing model:', clothingFullUrl);
+      
+      // Wait for mannequin to load, then add clothing
+      setTimeout(() => {
+        const loadClothingModel = (clothingExtension === 'glb' || clothingExtension === 'gltf') ? 
+          new GLTFLoader() : 
+          (clothingExtension === 'fbx' ? new FBXLoader() : new OBJLoader());
+        
+        const loadMethod = (clothingExtension === 'glb' || clothingExtension === 'gltf') ? 
+          'load' : 'load';
+        
+        loadClothingModel.load(
+          clothingFullUrl,
+          (loaded) => {
+            const clothingModel = (clothingExtension === 'glb' || clothingExtension === 'gltf') ? 
+              loaded.scene : loaded;
+            
+            console.log('Clothing model loaded successfully!');
+            
+            // Apply same rotation as mannequin
+            clothingModel.rotation.x = -Math.PI / 2;
+            clothingModel.rotation.y = 0;
+            clothingModel.rotation.z = 0;
+            
+            // Get clothing dimensions
+            clothingModel.updateMatrixWorld(true);
+            const clothingBox = new THREE.Box3().setFromObject(clothingModel);
+            const clothingSize = clothingBox.getSize(new THREE.Vector3());
+            const clothingCenter = clothingBox.getCenter(new THREE.Vector3());
+            
+            console.log('Clothing original size:', clothingSize);
+            
+            // Scale clothing to match mannequin size (slightly larger to fit over)
+            const clothingMaxDim = Math.max(clothingSize.x, clothingSize.y, clothingSize.z);
+            const targetClothingSize = 2.6; // Slightly larger than mannequin (2.5)
+            const clothingScale = targetClothingSize / clothingMaxDim;
+            clothingModel.scale.set(clothingScale, clothingScale, clothingScale);
+            
+            // Position clothing to align with mannequin
+            clothingModel.position.set(
+              -clothingCenter.x * clothingScale,
+              -clothingCenter.y * clothingScale,
+              -clothingCenter.z * clothingScale
+            );
+            
+            // Apply clothing material with product color
+            clothingModel.traverse((child) => {
+              if (child instanceof THREE.Mesh) {
+                if (!child.material) {
+                  child.material = new THREE.MeshStandardMaterial();
+                }
+                // Apply product color
+                child.material.color.set(productColor === 'White' ? 0xffffff : 0xcccccc);
+                child.material.roughness = 0.6;
+                child.material.metalness = 0.0;
+                child.material.side = THREE.DoubleSide;
+                child.castShadow = true;
+                child.receiveShadow = true;
+              }
+            });
+            
+            scene.add(clothingModel);
+            clothingRef.current = clothingModel;
+            console.log('Clothing model added to scene');
+            console.log('Clothing position:', clothingModel.position);
+            console.log('Clothing rotation:', clothingModel.rotation);
+            console.log('Clothing scale:', clothingModel.scale);
+          },
+          (progress) => {
+            const percent = (progress.loaded / progress.total * 100).toFixed(0);
+            console.log(`Clothing loading: ${percent}%`);
+          },
+          (error) => {
+            console.error('Error loading clothing model:', error);
+          }
+        );
+      }, 2000); // Wait 2 seconds for mannequin to load
+    }
+
     // Animation loop
     let animationId;
     const animate = () => {
@@ -358,11 +443,20 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, width = 400, height 
         }
       });
     };
-  }, [modelUrl, width, height]);
+  }, [modelUrl, hairModelUrl, clothingModelUrl, width, height, productColor]);
 
   // Change model color
   const changeColor = (colorHex) => {
-    if (modelRef.current) {
+    // Change clothing color if present
+    if (clothingRef.current) {
+      clothingRef.current.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.material.color.set(colorHex);
+        }
+      });
+    }
+    // Otherwise change mannequin color
+    else if (modelRef.current) {
       modelRef.current.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material.color.set(colorHex);

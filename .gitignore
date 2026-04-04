@@ -36,3 +36,22 @@ logs/
 *.swp
 *.swo
 *~
+
+# Large 3D model files (over 10MB)
+src/main/resources/static/uploads/models/ScaleReferenceDummy.obj
+src/main/resources/static/uploads/models/ScaleReferenceDummy_fixed.obj
+src/main/resources/static/uploads/models/HairPackPT1.glb
+src/main/resources/static/uploads/models/*.blend
+src/main/resources/static/uploads/models/*.blend1
+src/main/resources/static/uploads/models/suit collar.obj
+src/main/resources/static/uploads/models/suit collar.mtl
+src/main/resources/static/uploads/models/suit collar_fixed.obj
+
+# Allow smaller clothing models (under 10MB)
+!src/main/resources/static/uploads/models/shirt.obj
+!src/main/resources/static/uploads/models/shirt.mtl
+!src/main/resources/static/uploads/models/pant.obj
+!src/main/resources/static/uploads/models/pant.mtl
+!src/main/resources/static/uploads/models/suit.obj
+!src/main/resources/static/uploads/models/suit.mtl
+!src/main/resources/static/uploads/models/README.md
