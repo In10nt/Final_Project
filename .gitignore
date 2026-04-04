@@ -37,10 +37,10 @@ logs/
 *.swo
 *~
 
-# Large 3D model files (over 10MB)
-src/main/resources/static/uploads/models/ScaleReferenceDummy.obj
+# Large 3D model files (over 10MB) - now tracked with Git LFS
+# src/main/resources/static/uploads/models/ScaleReferenceDummy.obj
+# src/main/resources/static/uploads/models/HairPackPT1.glb
 src/main/resources/static/uploads/models/ScaleReferenceDummy_fixed.obj
-src/main/resources/static/uploads/models/HairPackPT1.glb
 src/main/resources/static/uploads/models/*.blend
 src/main/resources/static/uploads/models/*.blend1
 src/main/resources/static/uploads/models/suit collar.obj
