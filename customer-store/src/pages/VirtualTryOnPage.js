@@ -38,6 +38,7 @@ import {
 import { bodyProfileAPI, virtualTryOnAPI, productsAPI } from '../services/apiService';
 import Model3DViewer from '../components/Model3DViewer';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
+import AIRecommendations from '../components/AIRecommendations';
 
 const VirtualTryOnPage = () => {
   const { customer } = useCustomerAuth();
@@ -576,6 +577,10 @@ const VirtualTryOnPage = () => {
   };
 
   const handleVirtualTryOn = async (product) => {
+    console.log('=== VIRTUAL TRY-ON CLICKED ===');
+    console.log('Selected product:', product);
+    console.log('Product 3D model URL:', product.model3dUrl);
+    
     setSelectedProduct(product);
     setSelectedModelColor(product.color || 'White'); // Set initial color
     setLoading(false);
@@ -583,8 +588,10 @@ const VirtualTryOnPage = () => {
     
     // If product has 3D model, just display it
     if (product.model3dUrl) {
-      console.log('Displaying 3D model:', product.model3dUrl);
+      console.log('Product has 3D model, displaying:', product.model3dUrl);
       return;
+    } else {
+      console.log('Product does NOT have 3D model URL');
     }
 
     // Otherwise, try the virtual try-on API
@@ -692,7 +699,7 @@ const VirtualTryOnPage = () => {
 
       <Grid container spacing={4}>
         {/* Left Panel - Body Profile */}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Card sx={{ height: '100%' }}>
             <CardContent>
               <Typography variant="h5" gutterBottom>
@@ -811,7 +818,7 @@ const VirtualTryOnPage = () => {
         </Grid>
 
         {/* Center Panel - 3D Avatar */}
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={5}>
           <Card sx={{ height: 680 }}>
             <CardContent sx={{ height: '100%', p: 0 }}>
               {selectedProduct && selectedProduct.model3dUrl ? (
@@ -976,9 +983,20 @@ const VirtualTryOnPage = () => {
 
         {/* Right Panel - Products */}
         <Grid item xs={12} md={4}>
-          <Typography variant="h5" gutterBottom>
-            Available Products
-          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* AI Recommendations */}
+            {bodyProfile && selectedProduct && (
+              <AIRecommendations 
+                bodyProfile={bodyProfile} 
+                selectedProduct={selectedProduct} 
+              />
+            )}
+            
+            {/* Products List */}
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Available Products
+              </Typography>
           
           <Grid container spacing={2}>
             {(products || []).map((product) => (
@@ -1038,6 +1056,8 @@ const VirtualTryOnPage = () => {
               </Button>
             </Box>
           )}
+            </Box>
+          </Box>
         </Grid>
       </Grid>
 

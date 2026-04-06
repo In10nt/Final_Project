@@ -1,0 +1,5502 @@
+[
+  {
+    "measurements": {
+      "chest_cm": 114.4,
+      "waist_cm": 96.0,
+      "hip_cm": 114.9,
+      "height_cm": 179.1
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.5,
+      "waist_cm": 82.2,
+      "hip_cm": 103.8,
+      "height_cm": 171.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 76.2,
+      "waist_cm": 62.7,
+      "hip_cm": 86.6,
+      "height_cm": 157.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.0,
+      "waist_cm": 72.2,
+      "hip_cm": 93.7,
+      "height_cm": 168.0
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.4,
+      "waist_cm": 66.0,
+      "hip_cm": 94.6,
+      "height_cm": 162.9
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.3,
+      "waist_cm": 108.6,
+      "hip_cm": 117.7,
+      "height_cm": 178.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.2,
+      "waist_cm": 79.7,
+      "hip_cm": 108.0,
+      "height_cm": 161.4
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.0,
+      "waist_cm": 79.1,
+      "hip_cm": 104.6,
+      "height_cm": 172.1
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.1,
+      "waist_cm": 82.9,
+      "hip_cm": 114.4,
+      "height_cm": 178.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.8,
+      "waist_cm": 69.4,
+      "hip_cm": 93.7,
+      "height_cm": 168.0
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.8,
+      "waist_cm": 63.1,
+      "hip_cm": 91.1,
+      "height_cm": 166.0
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.8,
+      "waist_cm": 81.2,
+      "hip_cm": 101.9,
+      "height_cm": 168.9
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.9,
+      "waist_cm": 91.9,
+      "hip_cm": 105.7,
+      "height_cm": 180.7
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.4,
+      "waist_cm": 82.1,
+      "hip_cm": 102.0,
+      "height_cm": 178.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.1,
+      "waist_cm": 67.7,
+      "hip_cm": 93.9,
+      "height_cm": 165.1
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.2,
+      "waist_cm": 81.4,
+      "hip_cm": 95.4,
+      "height_cm": 181.9
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.3,
+      "waist_cm": 84.9,
+      "hip_cm": 98.6,
+      "height_cm": 175.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.5,
+      "waist_cm": 74.4,
+      "hip_cm": 104.3,
+      "height_cm": 178.8
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.8,
+      "waist_cm": 96.3,
+      "hip_cm": 120.9,
+      "height_cm": 171.3
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 84.4,
+      "waist_cm": 66.1,
+      "hip_cm": 91.5,
+      "height_cm": 173.2
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.9,
+      "waist_cm": 79.8,
+      "hip_cm": 100.2,
+      "height_cm": 177.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.0,
+      "waist_cm": 110.4,
+      "hip_cm": 116.5,
+      "height_cm": 183.2
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.5,
+      "waist_cm": 87.9,
+      "hip_cm": 101.0,
+      "height_cm": 174.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.7,
+      "waist_cm": 66.5,
+      "hip_cm": 89.7,
+      "height_cm": 167.9
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.3,
+      "waist_cm": 68.5,
+      "hip_cm": 97.0,
+      "height_cm": 177.1
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.0,
+      "waist_cm": 111.0,
+      "hip_cm": 116.9,
+      "height_cm": 181.2
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.6,
+      "waist_cm": 80.1,
+      "hip_cm": 101.8,
+      "height_cm": 166.7
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.0,
+      "waist_cm": 81.5,
+      "hip_cm": 114.3,
+      "height_cm": 180.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 118.7,
+      "waist_cm": 105.4,
+      "hip_cm": 111.6,
+      "height_cm": 191.9
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.7,
+      "waist_cm": 93.7,
+      "hip_cm": 121.5,
+      "height_cm": 165.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.0,
+      "waist_cm": 78.2,
+      "hip_cm": 100.3,
+      "height_cm": 172.4
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.9,
+      "waist_cm": 67.0,
+      "hip_cm": 92.0,
+      "height_cm": 161.6
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.3,
+      "waist_cm": 94.5,
+      "hip_cm": 117.9,
+      "height_cm": 167.9
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.8,
+      "waist_cm": 98.4,
+      "hip_cm": 110.0,
+      "height_cm": 177.8
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 82.4,
+      "waist_cm": 69.6,
+      "hip_cm": 89.0,
+      "height_cm": 164.2
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.2,
+      "waist_cm": 79.7,
+      "hip_cm": 105.0,
+      "height_cm": 167.3
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.6,
+      "waist_cm": 106.6,
+      "hip_cm": 116.1,
+      "height_cm": 180.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.9,
+      "waist_cm": 63.7,
+      "hip_cm": 84.7,
+      "height_cm": 153.5
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.6,
+      "waist_cm": 95.4,
+      "hip_cm": 106.9,
+      "height_cm": 180.3
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.2,
+      "waist_cm": 62.9,
+      "hip_cm": 83.0,
+      "height_cm": 167.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.4,
+      "waist_cm": 75.7,
+      "hip_cm": 94.0,
+      "height_cm": 175.1
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.1,
+      "waist_cm": 80.7,
+      "hip_cm": 109.2,
+      "height_cm": 165.2
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.0,
+      "waist_cm": 101.8,
+      "hip_cm": 116.6,
+      "height_cm": 172.7
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.1,
+      "waist_cm": 79.1,
+      "hip_cm": 106.5,
+      "height_cm": 164.3
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.0,
+      "waist_cm": 73.5,
+      "hip_cm": 98.1,
+      "height_cm": 163.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.5,
+      "waist_cm": 86.2,
+      "hip_cm": 108.4,
+      "height_cm": 178.9
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.8,
+      "waist_cm": 94.9,
+      "hip_cm": 117.0,
+      "height_cm": 167.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 120.7,
+      "waist_cm": 105.2,
+      "hip_cm": 117.4,
+      "height_cm": 181.4
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.3,
+      "waist_cm": 95.3,
+      "hip_cm": 119.0,
+      "height_cm": 172.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.1,
+      "waist_cm": 70.0,
+      "hip_cm": 87.6,
+      "height_cm": 168.1
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.5,
+      "waist_cm": 92.9,
+      "hip_cm": 124.0,
+      "height_cm": 178.2
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.8,
+      "waist_cm": 99.3,
+      "hip_cm": 113.5,
+      "height_cm": 185.2
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.7,
+      "waist_cm": 57.9,
+      "hip_cm": 85.3,
+      "height_cm": 153.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.0,
+      "waist_cm": 71.4,
+      "hip_cm": 98.9,
+      "height_cm": 167.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.8,
+      "waist_cm": 62.4,
+      "hip_cm": 91.6,
+      "height_cm": 164.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.3,
+      "waist_cm": 74.6,
+      "hip_cm": 86.9,
+      "height_cm": 164.2
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.1,
+      "waist_cm": 91.8,
+      "hip_cm": 114.4,
+      "height_cm": 183.1
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.2,
+      "waist_cm": 91.9,
+      "hip_cm": 108.1,
+      "height_cm": 177.1
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.5,
+      "waist_cm": 88.9,
+      "hip_cm": 113.8,
+      "height_cm": 174.1
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.8,
+      "waist_cm": 80.9,
+      "hip_cm": 106.4,
+      "height_cm": 171.4
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.0,
+      "waist_cm": 76.6,
+      "hip_cm": 95.4,
+      "height_cm": 170.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.6,
+      "waist_cm": 81.5,
+      "hip_cm": 94.8,
+      "height_cm": 180.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.6,
+      "waist_cm": 71.8,
+      "hip_cm": 102.6,
+      "height_cm": 174.2
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.9,
+      "waist_cm": 91.6,
+      "hip_cm": 103.2,
+      "height_cm": 175.7
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.3,
+      "waist_cm": 72.0,
+      "hip_cm": 100.3,
+      "height_cm": 167.4
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.1,
+      "waist_cm": 81.2,
+      "hip_cm": 99.2,
+      "height_cm": 176.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.5,
+      "waist_cm": 86.0,
+      "hip_cm": 111.6,
+      "height_cm": 168.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.6,
+      "waist_cm": 92.3,
+      "hip_cm": 112.1,
+      "height_cm": 185.5
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.3,
+      "waist_cm": 76.2,
+      "hip_cm": 98.8,
+      "height_cm": 173.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.1,
+      "waist_cm": 79.4,
+      "hip_cm": 99.0,
+      "height_cm": 166.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.8,
+      "waist_cm": 66.0,
+      "hip_cm": 91.0,
+      "height_cm": 167.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.7,
+      "waist_cm": 73.3,
+      "hip_cm": 98.4,
+      "height_cm": 169.9
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.1,
+      "waist_cm": 85.6,
+      "hip_cm": 92.9,
+      "height_cm": 179.4
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.8,
+      "waist_cm": 73.4,
+      "hip_cm": 87.0,
+      "height_cm": 172.0
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 121.3,
+      "waist_cm": 104.5,
+      "hip_cm": 116.7,
+      "height_cm": 180.1
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.7,
+      "waist_cm": 70.0,
+      "hip_cm": 97.0,
+      "height_cm": 171.8
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.3,
+      "waist_cm": 93.8,
+      "hip_cm": 118.9,
+      "height_cm": 176.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.6,
+      "waist_cm": 78.6,
+      "hip_cm": 104.5,
+      "height_cm": 168.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.1,
+      "waist_cm": 91.5,
+      "hip_cm": 119.1,
+      "height_cm": 168.4
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.9,
+      "waist_cm": 64.1,
+      "hip_cm": 85.1,
+      "height_cm": 158.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.8,
+      "waist_cm": 73.9,
+      "hip_cm": 93.9,
+      "height_cm": 164.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.0,
+      "waist_cm": 83.1,
+      "hip_cm": 100.8,
+      "height_cm": 169.3
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.2,
+      "waist_cm": 76.7,
+      "hip_cm": 91.2,
+      "height_cm": 168.2
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.7,
+      "waist_cm": 69.4,
+      "hip_cm": 93.2,
+      "height_cm": 158.7
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.9,
+      "waist_cm": 86.2,
+      "hip_cm": 98.9,
+      "height_cm": 164.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 123.5,
+      "waist_cm": 108.8,
+      "hip_cm": 116.6,
+      "height_cm": 181.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.1,
+      "waist_cm": 86.8,
+      "hip_cm": 113.7,
+      "height_cm": 168.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.3,
+      "waist_cm": 74.3,
+      "hip_cm": 102.9,
+      "height_cm": 164.0
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.5,
+      "waist_cm": 78.9,
+      "hip_cm": 112.8,
+      "height_cm": 176.7
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.6,
+      "waist_cm": 71.8,
+      "hip_cm": 98.2,
+      "height_cm": 171.3
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.4,
+      "waist_cm": 92.4,
+      "hip_cm": 100.9,
+      "height_cm": 185.7
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.4,
+      "waist_cm": 84.8,
+      "hip_cm": 95.5,
+      "height_cm": 169.5
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 116.5,
+      "waist_cm": 109.4,
+      "hip_cm": 118.3,
+      "height_cm": 193.8
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 121.6,
+      "waist_cm": 110.6,
+      "hip_cm": 117.7,
+      "height_cm": 190.6
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.5,
+      "waist_cm": 83.4,
+      "hip_cm": 100.6,
+      "height_cm": 176.5
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.9,
+      "waist_cm": 82.1,
+      "hip_cm": 107.1,
+      "height_cm": 168.7
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.1,
+      "waist_cm": 89.7,
+      "hip_cm": 114.6,
+      "height_cm": 175.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 82.2,
+      "waist_cm": 60.4,
+      "hip_cm": 88.2,
+      "height_cm": 167.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.2,
+      "waist_cm": 94.9,
+      "hip_cm": 112.2,
+      "height_cm": 186.9
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.9,
+      "waist_cm": 105.8,
+      "hip_cm": 122.8,
+      "height_cm": 188.8
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.9,
+      "waist_cm": 63.1,
+      "hip_cm": 84.0,
+      "height_cm": 156.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.4,
+      "waist_cm": 87.4,
+      "hip_cm": 94.6,
+      "height_cm": 173.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.2,
+      "waist_cm": 89.3,
+      "hip_cm": 101.9,
+      "height_cm": 180.9
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.4,
+      "waist_cm": 59.2,
+      "hip_cm": 87.7,
+      "height_cm": 164.9
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.8,
+      "waist_cm": 96.7,
+      "hip_cm": 115.9,
+      "height_cm": 166.8
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 118.0,
+      "waist_cm": 102.6,
+      "hip_cm": 113.9,
+      "height_cm": 179.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.6,
+      "waist_cm": 95.5,
+      "hip_cm": 126.1,
+      "height_cm": 172.4
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 121.7,
+      "waist_cm": 104.3,
+      "hip_cm": 111.9,
+      "height_cm": 179.1
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.3,
+      "waist_cm": 109.1,
+      "hip_cm": 120.4,
+      "height_cm": 179.5
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.9,
+      "waist_cm": 94.5,
+      "hip_cm": 106.8,
+      "height_cm": 179.6
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.2,
+      "waist_cm": 94.3,
+      "hip_cm": 111.3,
+      "height_cm": 180.5
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.9,
+      "waist_cm": 107.3,
+      "hip_cm": 111.8,
+      "height_cm": 176.1
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.0,
+      "waist_cm": 99.5,
+      "hip_cm": 108.1,
+      "height_cm": 178.3
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.9,
+      "waist_cm": 77.7,
+      "hip_cm": 106.4,
+      "height_cm": 169.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.3,
+      "waist_cm": 108.9,
+      "hip_cm": 118.3,
+      "height_cm": 182.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.9,
+      "waist_cm": 94.2,
+      "hip_cm": 112.0,
+      "height_cm": 183.8
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.0,
+      "waist_cm": 85.5,
+      "hip_cm": 108.4,
+      "height_cm": 179.2
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.6,
+      "waist_cm": 74.5,
+      "hip_cm": 99.1,
+      "height_cm": 168.7
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 84.9,
+      "waist_cm": 68.8,
+      "hip_cm": 93.9,
+      "height_cm": 160.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.3,
+      "waist_cm": 79.5,
+      "hip_cm": 103.2,
+      "height_cm": 169.6
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.8,
+      "waist_cm": 77.1,
+      "hip_cm": 99.2,
+      "height_cm": 176.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.1,
+      "waist_cm": 71.3,
+      "hip_cm": 88.0,
+      "height_cm": 172.1
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.0,
+      "waist_cm": 79.4,
+      "hip_cm": 105.9,
+      "height_cm": 177.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.9,
+      "waist_cm": 100.7,
+      "hip_cm": 112.7,
+      "height_cm": 178.3
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.4,
+      "waist_cm": 88.9,
+      "hip_cm": 105.4,
+      "height_cm": 182.6
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.1,
+      "waist_cm": 66.7,
+      "hip_cm": 96.5,
+      "height_cm": 167.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.3,
+      "waist_cm": 80.4,
+      "hip_cm": 107.9,
+      "height_cm": 168.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.6,
+      "waist_cm": 62.5,
+      "hip_cm": 93.6,
+      "height_cm": 158.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.3,
+      "waist_cm": 90.3,
+      "hip_cm": 114.8,
+      "height_cm": 170.6
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 98.9,
+      "waist_cm": 85.3,
+      "hip_cm": 101.0,
+      "height_cm": 180.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.8,
+      "waist_cm": 63.5,
+      "hip_cm": 89.1,
+      "height_cm": 161.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.9,
+      "waist_cm": 75.9,
+      "hip_cm": 89.7,
+      "height_cm": 169.9
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.1,
+      "waist_cm": 71.5,
+      "hip_cm": 94.8,
+      "height_cm": 158.6
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.1,
+      "waist_cm": 74.8,
+      "hip_cm": 95.4,
+      "height_cm": 167.1
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.6,
+      "waist_cm": 81.1,
+      "hip_cm": 95.8,
+      "height_cm": 178.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.4,
+      "waist_cm": 100.6,
+      "hip_cm": 120.5,
+      "height_cm": 174.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.6,
+      "waist_cm": 83.7,
+      "hip_cm": 108.7,
+      "height_cm": 183.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.2,
+      "waist_cm": 101.0,
+      "hip_cm": 116.7,
+      "height_cm": 193.7
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.7,
+      "waist_cm": 75.7,
+      "hip_cm": 101.1,
+      "height_cm": 173.9
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.7,
+      "waist_cm": 77.6,
+      "hip_cm": 104.6,
+      "height_cm": 171.6
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.3,
+      "waist_cm": 76.9,
+      "hip_cm": 106.2,
+      "height_cm": 167.6
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.7,
+      "waist_cm": 76.7,
+      "hip_cm": 100.2,
+      "height_cm": 167.6
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.3,
+      "waist_cm": 93.0,
+      "hip_cm": 122.7,
+      "height_cm": 175.9
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.0,
+      "waist_cm": 73.4,
+      "hip_cm": 97.0,
+      "height_cm": 171.5
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.3,
+      "waist_cm": 91.5,
+      "hip_cm": 117.6,
+      "height_cm": 181.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 98.9,
+      "waist_cm": 76.8,
+      "hip_cm": 102.8,
+      "height_cm": 167.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.9,
+      "waist_cm": 89.2,
+      "hip_cm": 118.1,
+      "height_cm": 177.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 77.1,
+      "waist_cm": 66.1,
+      "hip_cm": 89.0,
+      "height_cm": 165.7
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.7,
+      "waist_cm": 60.1,
+      "hip_cm": 86.6,
+      "height_cm": 157.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 116.2,
+      "waist_cm": 107.5,
+      "hip_cm": 120.3,
+      "height_cm": 188.6
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.8,
+      "waist_cm": 64.9,
+      "hip_cm": 91.7,
+      "height_cm": 161.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.3,
+      "waist_cm": 93.7,
+      "hip_cm": 117.9,
+      "height_cm": 174.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.0,
+      "waist_cm": 83.4,
+      "hip_cm": 104.2,
+      "height_cm": 168.4
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.6,
+      "waist_cm": 86.4,
+      "hip_cm": 110.4,
+      "height_cm": 168.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.9,
+      "waist_cm": 87.3,
+      "hip_cm": 107.9,
+      "height_cm": 173.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.9,
+      "waist_cm": 95.4,
+      "hip_cm": 107.2,
+      "height_cm": 185.5
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.7,
+      "waist_cm": 76.5,
+      "hip_cm": 96.8,
+      "height_cm": 165.7
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.0,
+      "waist_cm": 77.4,
+      "hip_cm": 90.1,
+      "height_cm": 171.0
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.2,
+      "waist_cm": 94.9,
+      "hip_cm": 111.4,
+      "height_cm": 179.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.1,
+      "waist_cm": 99.8,
+      "hip_cm": 107.5,
+      "height_cm": 188.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.1,
+      "waist_cm": 88.7,
+      "hip_cm": 115.4,
+      "height_cm": 170.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 76.7,
+      "waist_cm": 63.2,
+      "hip_cm": 89.0,
+      "height_cm": 158.3
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.0,
+      "waist_cm": 80.5,
+      "hip_cm": 110.1,
+      "height_cm": 167.9
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.6,
+      "waist_cm": 85.7,
+      "hip_cm": 98.6,
+      "height_cm": 178.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 110.7,
+      "waist_cm": 88.2,
+      "hip_cm": 105.9,
+      "height_cm": 181.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.9,
+      "waist_cm": 76.1,
+      "hip_cm": 93.9,
+      "height_cm": 176.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.2,
+      "waist_cm": 80.4,
+      "hip_cm": 101.1,
+      "height_cm": 168.0
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.8,
+      "waist_cm": 77.0,
+      "hip_cm": 95.0,
+      "height_cm": 167.5
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.2,
+      "waist_cm": 80.4,
+      "hip_cm": 103.0,
+      "height_cm": 169.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.4,
+      "waist_cm": 95.8,
+      "hip_cm": 114.6,
+      "height_cm": 175.9
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.0,
+      "waist_cm": 90.2,
+      "hip_cm": 123.0,
+      "height_cm": 182.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.1,
+      "waist_cm": 85.5,
+      "hip_cm": 96.5,
+      "height_cm": 177.3
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.7,
+      "waist_cm": 66.8,
+      "hip_cm": 85.4,
+      "height_cm": 156.5
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.7,
+      "waist_cm": 69.9,
+      "hip_cm": 95.1,
+      "height_cm": 163.2
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.2,
+      "waist_cm": 84.9,
+      "hip_cm": 113.2,
+      "height_cm": 173.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.1,
+      "waist_cm": 95.4,
+      "hip_cm": 120.1,
+      "height_cm": 171.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.8,
+      "waist_cm": 95.8,
+      "hip_cm": 121.9,
+      "height_cm": 163.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.0,
+      "waist_cm": 89.5,
+      "hip_cm": 114.1,
+      "height_cm": 169.1
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.0,
+      "waist_cm": 77.8,
+      "hip_cm": 105.2,
+      "height_cm": 169.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.1,
+      "waist_cm": 73.8,
+      "hip_cm": 102.7,
+      "height_cm": 173.0
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.7,
+      "waist_cm": 70.9,
+      "hip_cm": 96.6,
+      "height_cm": 171.9
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.6,
+      "waist_cm": 75.1,
+      "hip_cm": 107.9,
+      "height_cm": 163.1
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.9,
+      "waist_cm": 91.6,
+      "hip_cm": 119.8,
+      "height_cm": 168.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.6,
+      "waist_cm": 73.6,
+      "hip_cm": 90.9,
+      "height_cm": 168.4
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.7,
+      "waist_cm": 71.5,
+      "hip_cm": 96.5,
+      "height_cm": 165.8
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.0,
+      "waist_cm": 69.0,
+      "hip_cm": 91.2,
+      "height_cm": 168.2
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 110.3,
+      "waist_cm": 85.8,
+      "hip_cm": 110.5,
+      "height_cm": 177.7
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.9,
+      "waist_cm": 73.8,
+      "hip_cm": 96.2,
+      "height_cm": 166.5
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.0,
+      "waist_cm": 64.4,
+      "hip_cm": 86.0,
+      "height_cm": 162.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.0,
+      "waist_cm": 80.1,
+      "hip_cm": 102.5,
+      "height_cm": 170.7
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.2,
+      "waist_cm": 72.2,
+      "hip_cm": 98.9,
+      "height_cm": 167.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.8,
+      "waist_cm": 101.4,
+      "hip_cm": 111.6,
+      "height_cm": 189.9
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.4,
+      "waist_cm": 67.2,
+      "hip_cm": 89.3,
+      "height_cm": 157.8
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.1,
+      "waist_cm": 90.2,
+      "hip_cm": 104.6,
+      "height_cm": 180.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.2,
+      "waist_cm": 91.5,
+      "hip_cm": 107.9,
+      "height_cm": 178.1
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.8,
+      "waist_cm": 89.8,
+      "hip_cm": 104.5,
+      "height_cm": 171.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.6,
+      "waist_cm": 93.2,
+      "hip_cm": 104.9,
+      "height_cm": 180.8
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.1,
+      "waist_cm": 75.8,
+      "hip_cm": 93.3,
+      "height_cm": 169.2
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.2,
+      "waist_cm": 69.0,
+      "hip_cm": 93.4,
+      "height_cm": 165.7
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.8,
+      "waist_cm": 88.9,
+      "hip_cm": 108.5,
+      "height_cm": 174.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 116.1,
+      "waist_cm": 95.5,
+      "hip_cm": 120.9,
+      "height_cm": 169.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.4,
+      "waist_cm": 94.4,
+      "hip_cm": 127.3,
+      "height_cm": 180.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.2,
+      "waist_cm": 97.7,
+      "hip_cm": 110.5,
+      "height_cm": 188.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.6,
+      "waist_cm": 90.7,
+      "hip_cm": 107.6,
+      "height_cm": 176.7
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 84.2,
+      "waist_cm": 65.8,
+      "hip_cm": 91.7,
+      "height_cm": 168.7
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.9,
+      "waist_cm": 92.5,
+      "hip_cm": 121.3,
+      "height_cm": 170.2
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.2,
+      "waist_cm": 66.3,
+      "hip_cm": 97.0,
+      "height_cm": 157.1
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.8,
+      "waist_cm": 102.1,
+      "hip_cm": 109.1,
+      "height_cm": 183.4
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.2,
+      "waist_cm": 66.4,
+      "hip_cm": 94.8,
+      "height_cm": 171.6
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.9,
+      "waist_cm": 75.4,
+      "hip_cm": 91.6,
+      "height_cm": 165.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.7,
+      "waist_cm": 81.2,
+      "hip_cm": 108.5,
+      "height_cm": 170.0
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.2,
+      "waist_cm": 96.5,
+      "hip_cm": 107.5,
+      "height_cm": 184.2
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.5,
+      "waist_cm": 66.0,
+      "hip_cm": 94.0,
+      "height_cm": 161.5
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.7,
+      "waist_cm": 81.4,
+      "hip_cm": 106.8,
+      "height_cm": 171.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 110.2,
+      "waist_cm": 93.6,
+      "hip_cm": 118.7,
+      "height_cm": 166.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.3,
+      "waist_cm": 74.4,
+      "hip_cm": 93.0,
+      "height_cm": 168.9
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.4,
+      "waist_cm": 75.5,
+      "hip_cm": 93.2,
+      "height_cm": 169.9
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.2,
+      "waist_cm": 76.9,
+      "hip_cm": 99.8,
+      "height_cm": 170.8
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.6,
+      "waist_cm": 80.9,
+      "hip_cm": 101.7,
+      "height_cm": 172.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.8,
+      "waist_cm": 61.2,
+      "hip_cm": 90.3,
+      "height_cm": 161.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.7,
+      "waist_cm": 79.9,
+      "hip_cm": 97.9,
+      "height_cm": 170.8
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.0,
+      "waist_cm": 74.4,
+      "hip_cm": 96.0,
+      "height_cm": 174.1
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.3,
+      "waist_cm": 79.6,
+      "hip_cm": 99.2,
+      "height_cm": 171.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.0,
+      "waist_cm": 101.0,
+      "hip_cm": 118.4,
+      "height_cm": 187.9
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 84.9,
+      "waist_cm": 71.9,
+      "hip_cm": 88.8,
+      "height_cm": 172.0
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.1,
+      "waist_cm": 76.1,
+      "hip_cm": 100.9,
+      "height_cm": 161.5
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.5,
+      "waist_cm": 83.0,
+      "hip_cm": 108.9,
+      "height_cm": 163.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.7,
+      "waist_cm": 71.4,
+      "hip_cm": 93.6,
+      "height_cm": 173.2
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.8,
+      "waist_cm": 83.6,
+      "hip_cm": 102.9,
+      "height_cm": 176.3
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.3,
+      "waist_cm": 95.0,
+      "hip_cm": 109.2,
+      "height_cm": 189.9
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.4,
+      "waist_cm": 82.1,
+      "hip_cm": 93.6,
+      "height_cm": 172.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.7,
+      "waist_cm": 91.1,
+      "hip_cm": 103.1,
+      "height_cm": 175.3
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 120.2,
+      "waist_cm": 99.7,
+      "hip_cm": 114.7,
+      "height_cm": 190.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.7,
+      "waist_cm": 110.1,
+      "hip_cm": 119.2,
+      "height_cm": 187.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.3,
+      "waist_cm": 89.3,
+      "hip_cm": 110.1,
+      "height_cm": 170.1
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.7,
+      "waist_cm": 96.5,
+      "hip_cm": 122.8,
+      "height_cm": 175.8
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.7,
+      "waist_cm": 90.8,
+      "hip_cm": 105.1,
+      "height_cm": 184.5
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.2,
+      "waist_cm": 90.8,
+      "hip_cm": 107.8,
+      "height_cm": 178.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 120.3,
+      "waist_cm": 111.1,
+      "hip_cm": 118.2,
+      "height_cm": 181.7
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.5,
+      "waist_cm": 62.3,
+      "hip_cm": 88.5,
+      "height_cm": 170.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.7,
+      "waist_cm": 66.0,
+      "hip_cm": 92.8,
+      "height_cm": 157.1
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.6,
+      "waist_cm": 102.1,
+      "hip_cm": 112.8,
+      "height_cm": 183.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.0,
+      "waist_cm": 79.9,
+      "hip_cm": 100.7,
+      "height_cm": 177.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.6,
+      "waist_cm": 77.1,
+      "hip_cm": 100.6,
+      "height_cm": 165.0
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.5,
+      "waist_cm": 104.8,
+      "hip_cm": 116.0,
+      "height_cm": 178.4
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.0,
+      "waist_cm": 98.6,
+      "hip_cm": 121.2,
+      "height_cm": 181.9
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.2,
+      "waist_cm": 85.8,
+      "hip_cm": 109.3,
+      "height_cm": 174.5
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.6,
+      "waist_cm": 73.7,
+      "hip_cm": 102.6,
+      "height_cm": 168.8
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.1,
+      "waist_cm": 74.4,
+      "hip_cm": 106.1,
+      "height_cm": 167.9
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.5,
+      "waist_cm": 101.0,
+      "hip_cm": 113.3,
+      "height_cm": 181.5
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.1,
+      "waist_cm": 103.9,
+      "hip_cm": 109.9,
+      "height_cm": 175.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.6,
+      "waist_cm": 75.1,
+      "hip_cm": 91.1,
+      "height_cm": 173.0
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.6,
+      "waist_cm": 87.7,
+      "hip_cm": 111.5,
+      "height_cm": 174.1
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.7,
+      "waist_cm": 66.4,
+      "hip_cm": 93.8,
+      "height_cm": 165.7
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.9,
+      "waist_cm": 91.5,
+      "hip_cm": 118.6,
+      "height_cm": 163.8
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.7,
+      "waist_cm": 111.3,
+      "hip_cm": 120.8,
+      "height_cm": 182.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 82.2,
+      "waist_cm": 69.4,
+      "hip_cm": 91.2,
+      "height_cm": 171.6
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.3,
+      "waist_cm": 78.3,
+      "hip_cm": 92.6,
+      "height_cm": 169.7
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 123.9,
+      "waist_cm": 104.4,
+      "hip_cm": 118.2,
+      "height_cm": 181.6
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.8,
+      "waist_cm": 61.9,
+      "hip_cm": 88.8,
+      "height_cm": 155.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.6,
+      "waist_cm": 85.5,
+      "hip_cm": 114.7,
+      "height_cm": 173.1
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.5,
+      "waist_cm": 80.8,
+      "hip_cm": 104.2,
+      "height_cm": 171.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.6,
+      "waist_cm": 77.7,
+      "hip_cm": 96.9,
+      "height_cm": 178.0
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.7,
+      "waist_cm": 87.4,
+      "hip_cm": 112.3,
+      "height_cm": 169.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 75.3,
+      "waist_cm": 64.6,
+      "hip_cm": 88.6,
+      "height_cm": 153.3
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 76.5,
+      "waist_cm": 61.3,
+      "hip_cm": 84.8,
+      "height_cm": 165.8
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 75.6,
+      "waist_cm": 63.1,
+      "hip_cm": 86.7,
+      "height_cm": 163.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.6,
+      "waist_cm": 87.2,
+      "hip_cm": 116.1,
+      "height_cm": 170.3
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 124.0,
+      "waist_cm": 107.6,
+      "hip_cm": 113.5,
+      "height_cm": 194.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 116.4,
+      "waist_cm": 104.8,
+      "hip_cm": 113.9,
+      "height_cm": 184.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.8,
+      "waist_cm": 82.2,
+      "hip_cm": 107.9,
+      "height_cm": 168.3
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.9,
+      "waist_cm": 79.2,
+      "hip_cm": 102.0,
+      "height_cm": 170.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.5,
+      "waist_cm": 90.2,
+      "hip_cm": 101.5,
+      "height_cm": 178.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.7,
+      "waist_cm": 75.3,
+      "hip_cm": 93.4,
+      "height_cm": 171.3
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.0,
+      "waist_cm": 77.2,
+      "hip_cm": 95.0,
+      "height_cm": 167.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.3,
+      "waist_cm": 77.0,
+      "hip_cm": 97.8,
+      "height_cm": 169.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.2,
+      "waist_cm": 104.7,
+      "hip_cm": 119.3,
+      "height_cm": 179.2
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.2,
+      "waist_cm": 75.8,
+      "hip_cm": 92.6,
+      "height_cm": 170.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.9,
+      "waist_cm": 60.9,
+      "hip_cm": 85.1,
+      "height_cm": 162.6
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.8,
+      "waist_cm": 78.7,
+      "hip_cm": 92.2,
+      "height_cm": 165.7
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 118.3,
+      "waist_cm": 104.0,
+      "hip_cm": 114.1,
+      "height_cm": 187.2
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 77.7,
+      "waist_cm": 60.0,
+      "hip_cm": 85.8,
+      "height_cm": 164.8
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.2,
+      "waist_cm": 78.1,
+      "hip_cm": 101.2,
+      "height_cm": 159.9
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.5,
+      "waist_cm": 92.1,
+      "hip_cm": 102.0,
+      "height_cm": 179.7
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.9,
+      "waist_cm": 83.6,
+      "hip_cm": 103.9,
+      "height_cm": 173.3
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.7,
+      "waist_cm": 85.5,
+      "hip_cm": 103.6,
+      "height_cm": 170.1
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.7,
+      "waist_cm": 63.5,
+      "hip_cm": 88.3,
+      "height_cm": 162.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.8,
+      "waist_cm": 83.3,
+      "hip_cm": 110.0,
+      "height_cm": 172.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.5,
+      "waist_cm": 82.7,
+      "hip_cm": 107.8,
+      "height_cm": 168.5
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.3,
+      "waist_cm": 87.2,
+      "hip_cm": 102.5,
+      "height_cm": 169.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.1,
+      "waist_cm": 73.6,
+      "hip_cm": 97.5,
+      "height_cm": 171.1
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.4,
+      "waist_cm": 82.1,
+      "hip_cm": 107.0,
+      "height_cm": 172.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.4,
+      "waist_cm": 100.9,
+      "hip_cm": 120.0,
+      "height_cm": 175.4
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 77.9,
+      "waist_cm": 60.8,
+      "hip_cm": 88.7,
+      "height_cm": 164.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.4,
+      "waist_cm": 80.3,
+      "hip_cm": 101.6,
+      "height_cm": 180.5
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.6,
+      "waist_cm": 87.4,
+      "hip_cm": 111.1,
+      "height_cm": 175.6
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.3,
+      "waist_cm": 85.6,
+      "hip_cm": 108.4,
+      "height_cm": 162.1
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.1,
+      "waist_cm": 88.4,
+      "hip_cm": 108.5,
+      "height_cm": 173.1
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.4,
+      "waist_cm": 93.1,
+      "hip_cm": 114.6,
+      "height_cm": 173.3
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.1,
+      "waist_cm": 72.6,
+      "hip_cm": 102.6,
+      "height_cm": 170.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.4,
+      "waist_cm": 66.8,
+      "hip_cm": 89.2,
+      "height_cm": 161.0
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.7,
+      "waist_cm": 88.8,
+      "hip_cm": 110.1,
+      "height_cm": 183.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.9,
+      "waist_cm": 83.7,
+      "hip_cm": 96.3,
+      "height_cm": 177.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.2,
+      "waist_cm": 95.5,
+      "hip_cm": 109.5,
+      "height_cm": 187.5
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.0,
+      "waist_cm": 82.6,
+      "hip_cm": 99.4,
+      "height_cm": 180.4
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.5,
+      "waist_cm": 82.6,
+      "hip_cm": 103.4,
+      "height_cm": 166.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 121.3,
+      "waist_cm": 102.7,
+      "hip_cm": 119.7,
+      "height_cm": 184.5
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.0,
+      "waist_cm": 96.6,
+      "hip_cm": 102.5,
+      "height_cm": 186.2
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 120.6,
+      "waist_cm": 104.8,
+      "hip_cm": 111.6,
+      "height_cm": 194.8
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.7,
+      "waist_cm": 78.0,
+      "hip_cm": 89.0,
+      "height_cm": 170.6
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.2,
+      "waist_cm": 78.1,
+      "hip_cm": 93.0,
+      "height_cm": 174.5
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.9,
+      "waist_cm": 78.9,
+      "hip_cm": 110.5,
+      "height_cm": 165.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.3,
+      "waist_cm": 99.8,
+      "hip_cm": 107.3,
+      "height_cm": 191.1
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 84.6,
+      "waist_cm": 75.0,
+      "hip_cm": 91.4,
+      "height_cm": 166.2
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.4,
+      "waist_cm": 80.4,
+      "hip_cm": 97.6,
+      "height_cm": 175.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.5,
+      "waist_cm": 65.4,
+      "hip_cm": 92.0,
+      "height_cm": 166.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.7,
+      "waist_cm": 93.6,
+      "hip_cm": 108.9,
+      "height_cm": 179.0
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.5,
+      "waist_cm": 67.2,
+      "hip_cm": 93.8,
+      "height_cm": 160.1
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.5,
+      "waist_cm": 71.8,
+      "hip_cm": 95.4,
+      "height_cm": 168.9
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.1,
+      "waist_cm": 105.3,
+      "hip_cm": 121.0,
+      "height_cm": 185.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.7,
+      "waist_cm": 82.4,
+      "hip_cm": 105.7,
+      "height_cm": 172.1
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.5,
+      "waist_cm": 80.0,
+      "hip_cm": 91.4,
+      "height_cm": 167.6
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.9,
+      "waist_cm": 77.5,
+      "hip_cm": 100.5,
+      "height_cm": 179.3
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.2,
+      "waist_cm": 78.6,
+      "hip_cm": 101.1,
+      "height_cm": 176.4
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.0,
+      "waist_cm": 77.9,
+      "hip_cm": 102.6,
+      "height_cm": 167.1
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.1,
+      "waist_cm": 81.0,
+      "hip_cm": 104.5,
+      "height_cm": 162.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.4,
+      "waist_cm": 63.6,
+      "hip_cm": 91.0,
+      "height_cm": 166.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.6,
+      "waist_cm": 91.9,
+      "hip_cm": 121.8,
+      "height_cm": 175.9
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.7,
+      "waist_cm": 79.0,
+      "hip_cm": 100.4,
+      "height_cm": 175.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.0,
+      "waist_cm": 80.8,
+      "hip_cm": 104.3,
+      "height_cm": 172.1
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.2,
+      "waist_cm": 92.5,
+      "hip_cm": 123.3,
+      "height_cm": 172.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.4,
+      "waist_cm": 85.2,
+      "hip_cm": 100.9,
+      "height_cm": 174.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.4,
+      "waist_cm": 86.2,
+      "hip_cm": 106.7,
+      "height_cm": 189.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.7,
+      "waist_cm": 90.6,
+      "hip_cm": 120.8,
+      "height_cm": 175.9
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.8,
+      "waist_cm": 82.7,
+      "hip_cm": 102.2,
+      "height_cm": 177.4
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.9,
+      "waist_cm": 87.6,
+      "hip_cm": 106.4,
+      "height_cm": 170.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.7,
+      "waist_cm": 90.6,
+      "hip_cm": 112.3,
+      "height_cm": 167.6
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.9,
+      "waist_cm": 72.5,
+      "hip_cm": 94.5,
+      "height_cm": 160.5
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.8,
+      "waist_cm": 87.2,
+      "hip_cm": 100.9,
+      "height_cm": 182.6
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.6,
+      "waist_cm": 92.9,
+      "hip_cm": 125.4,
+      "height_cm": 171.5
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.7,
+      "waist_cm": 76.7,
+      "hip_cm": 102.2,
+      "height_cm": 166.7
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 122.5,
+      "waist_cm": 111.9,
+      "hip_cm": 114.9,
+      "height_cm": 178.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.3,
+      "waist_cm": 88.1,
+      "hip_cm": 107.0,
+      "height_cm": 184.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.4,
+      "waist_cm": 89.6,
+      "hip_cm": 105.1,
+      "height_cm": 181.1
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.5,
+      "waist_cm": 70.9,
+      "hip_cm": 95.2,
+      "height_cm": 173.4
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 120.4,
+      "waist_cm": 110.3,
+      "hip_cm": 115.9,
+      "height_cm": 187.1
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.2,
+      "waist_cm": 78.1,
+      "hip_cm": 103.0,
+      "height_cm": 166.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 86.9,
+      "waist_cm": 76.8,
+      "hip_cm": 100.3,
+      "height_cm": 175.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.2,
+      "waist_cm": 88.6,
+      "hip_cm": 107.0,
+      "height_cm": 176.3
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.0,
+      "waist_cm": 65.4,
+      "hip_cm": 88.1,
+      "height_cm": 169.8
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.8,
+      "waist_cm": 79.4,
+      "hip_cm": 108.5,
+      "height_cm": 164.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.7,
+      "waist_cm": 79.5,
+      "hip_cm": 101.1,
+      "height_cm": 171.4
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.1,
+      "waist_cm": 92.0,
+      "hip_cm": 105.4,
+      "height_cm": 180.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.4,
+      "waist_cm": 87.2,
+      "hip_cm": 116.3,
+      "height_cm": 177.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.9,
+      "waist_cm": 94.6,
+      "hip_cm": 122.8,
+      "height_cm": 177.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.9,
+      "waist_cm": 86.0,
+      "hip_cm": 96.6,
+      "height_cm": 177.4
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.3,
+      "waist_cm": 85.1,
+      "hip_cm": 107.3,
+      "height_cm": 167.7
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.7,
+      "waist_cm": 96.8,
+      "hip_cm": 107.1,
+      "height_cm": 180.1
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 118.5,
+      "waist_cm": 106.1,
+      "hip_cm": 117.6,
+      "height_cm": 188.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.5,
+      "waist_cm": 62.8,
+      "hip_cm": 88.8,
+      "height_cm": 158.3
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 76.5,
+      "waist_cm": 62.5,
+      "hip_cm": 90.4,
+      "height_cm": 155.5
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.3,
+      "waist_cm": 84.8,
+      "hip_cm": 99.7,
+      "height_cm": 179.0
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.1,
+      "waist_cm": 79.0,
+      "hip_cm": 105.6,
+      "height_cm": 167.7
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.5,
+      "waist_cm": 85.0,
+      "hip_cm": 114.3,
+      "height_cm": 166.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.6,
+      "waist_cm": 68.8,
+      "hip_cm": 90.7,
+      "height_cm": 162.6
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.3,
+      "waist_cm": 79.4,
+      "hip_cm": 97.1,
+      "height_cm": 181.7
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 87.7,
+      "waist_cm": 71.2,
+      "hip_cm": 93.5,
+      "height_cm": 173.4
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.3,
+      "waist_cm": 78.5,
+      "hip_cm": 101.7,
+      "height_cm": 175.8
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 118.0,
+      "waist_cm": 94.4,
+      "hip_cm": 110.8,
+      "height_cm": 181.9
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.5,
+      "waist_cm": 63.9,
+      "hip_cm": 92.0,
+      "height_cm": 160.7
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.7,
+      "waist_cm": 79.1,
+      "hip_cm": 90.7,
+      "height_cm": 174.5
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.8,
+      "waist_cm": 108.4,
+      "hip_cm": 120.3,
+      "height_cm": 189.7
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.3,
+      "waist_cm": 92.9,
+      "hip_cm": 104.8,
+      "height_cm": 175.9
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.2,
+      "waist_cm": 111.2,
+      "hip_cm": 114.9,
+      "height_cm": 182.8
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.6,
+      "waist_cm": 83.0,
+      "hip_cm": 114.1,
+      "height_cm": 173.2
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.8,
+      "waist_cm": 69.0,
+      "hip_cm": 92.4,
+      "height_cm": 162.9
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.0,
+      "waist_cm": 78.8,
+      "hip_cm": 104.6,
+      "height_cm": 165.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.4,
+      "waist_cm": 84.0,
+      "hip_cm": 109.0,
+      "height_cm": 169.6
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.9,
+      "waist_cm": 90.0,
+      "hip_cm": 118.5,
+      "height_cm": 170.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.3,
+      "waist_cm": 78.4,
+      "hip_cm": 103.6,
+      "height_cm": 171.8
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.8,
+      "waist_cm": 84.2,
+      "hip_cm": 102.4,
+      "height_cm": 181.2
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.9,
+      "waist_cm": 61.5,
+      "hip_cm": 86.4,
+      "height_cm": 159.1
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.5,
+      "waist_cm": 84.9,
+      "hip_cm": 98.9,
+      "height_cm": 177.8
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 108.5,
+      "waist_cm": 90.4,
+      "hip_cm": 103.1,
+      "height_cm": 185.9
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.5,
+      "waist_cm": 91.3,
+      "hip_cm": 108.8,
+      "height_cm": 181.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.1,
+      "waist_cm": 90.9,
+      "hip_cm": 102.4,
+      "height_cm": 178.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.6,
+      "waist_cm": 79.7,
+      "hip_cm": 88.1,
+      "height_cm": 169.8
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.6,
+      "waist_cm": 90.1,
+      "hip_cm": 119.8,
+      "height_cm": 179.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.6,
+      "waist_cm": 75.0,
+      "hip_cm": 92.5,
+      "height_cm": 170.8
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 98.0,
+      "waist_cm": 79.5,
+      "hip_cm": 102.8,
+      "height_cm": 174.0
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.7,
+      "waist_cm": 77.9,
+      "hip_cm": 99.9,
+      "height_cm": 168.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.6,
+      "waist_cm": 82.0,
+      "hip_cm": 98.1,
+      "height_cm": 167.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 82.2,
+      "waist_cm": 63.2,
+      "hip_cm": 90.0,
+      "height_cm": 160.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 110.0,
+      "waist_cm": 94.6,
+      "hip_cm": 125.3,
+      "height_cm": 180.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.7,
+      "waist_cm": 82.7,
+      "hip_cm": 102.1,
+      "height_cm": 167.6
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.5,
+      "waist_cm": 80.9,
+      "hip_cm": 102.4,
+      "height_cm": 166.4
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 117.2,
+      "waist_cm": 103.7,
+      "hip_cm": 117.5,
+      "height_cm": 180.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.8,
+      "waist_cm": 75.9,
+      "hip_cm": 95.8,
+      "height_cm": 167.9
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.6,
+      "waist_cm": 89.6,
+      "hip_cm": 108.3,
+      "height_cm": 178.7
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.3,
+      "waist_cm": 59.5,
+      "hip_cm": 86.1,
+      "height_cm": 166.8
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.4,
+      "waist_cm": 80.3,
+      "hip_cm": 104.5,
+      "height_cm": 181.1
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.5,
+      "waist_cm": 80.2,
+      "hip_cm": 102.5,
+      "height_cm": 179.2
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 110.1,
+      "waist_cm": 98.9,
+      "hip_cm": 115.3,
+      "height_cm": 171.4
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.4,
+      "waist_cm": 87.3,
+      "hip_cm": 107.4,
+      "height_cm": 178.8
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.0,
+      "waist_cm": 60.4,
+      "hip_cm": 88.0,
+      "height_cm": 159.6
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 124.4,
+      "waist_cm": 104.8,
+      "hip_cm": 115.9,
+      "height_cm": 193.6
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.6,
+      "waist_cm": 86.1,
+      "hip_cm": 113.7,
+      "height_cm": 177.2
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.4,
+      "waist_cm": 76.1,
+      "hip_cm": 101.3,
+      "height_cm": 174.0
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.8,
+      "waist_cm": 71.2,
+      "hip_cm": 99.4,
+      "height_cm": 168.1
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 84.2,
+      "waist_cm": 62.0,
+      "hip_cm": 87.8,
+      "height_cm": 164.5
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.8,
+      "waist_cm": 78.3,
+      "hip_cm": 103.7,
+      "height_cm": 174.7
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.6,
+      "waist_cm": 72.8,
+      "hip_cm": 95.7,
+      "height_cm": 173.6
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.2,
+      "waist_cm": 109.9,
+      "hip_cm": 117.9,
+      "height_cm": 181.8
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.2,
+      "waist_cm": 91.4,
+      "hip_cm": 120.9,
+      "height_cm": 165.9
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 99.7,
+      "waist_cm": 84.9,
+      "hip_cm": 114.4,
+      "height_cm": 169.2
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.3,
+      "waist_cm": 77.1,
+      "hip_cm": 104.7,
+      "height_cm": 170.1
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.1,
+      "waist_cm": 94.8,
+      "hip_cm": 116.5,
+      "height_cm": 184.1
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.0,
+      "waist_cm": 69.6,
+      "hip_cm": 102.5,
+      "height_cm": 160.4
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.4,
+      "waist_cm": 86.4,
+      "hip_cm": 106.6,
+      "height_cm": 172.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.7,
+      "waist_cm": 70.7,
+      "hip_cm": 91.8,
+      "height_cm": 167.5
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.6,
+      "waist_cm": 77.9,
+      "hip_cm": 91.6,
+      "height_cm": 171.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 119.8,
+      "waist_cm": 104.6,
+      "hip_cm": 117.2,
+      "height_cm": 177.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.8,
+      "waist_cm": 67.8,
+      "hip_cm": 89.7,
+      "height_cm": 160.4
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.2,
+      "waist_cm": 101.1,
+      "hip_cm": 110.6,
+      "height_cm": 187.7
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.0,
+      "waist_cm": 79.3,
+      "hip_cm": 91.5,
+      "height_cm": 175.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.9,
+      "waist_cm": 76.0,
+      "hip_cm": 94.2,
+      "height_cm": 173.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.0,
+      "waist_cm": 74.2,
+      "hip_cm": 93.4,
+      "height_cm": 164.8
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.4,
+      "waist_cm": 80.3,
+      "hip_cm": 96.0,
+      "height_cm": 175.9
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.4,
+      "waist_cm": 93.1,
+      "hip_cm": 114.9,
+      "height_cm": 175.3
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 118.9,
+      "waist_cm": 107.9,
+      "hip_cm": 113.6,
+      "height_cm": 176.4
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 83.5,
+      "waist_cm": 64.3,
+      "hip_cm": 87.3,
+      "height_cm": 161.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 96.8,
+      "waist_cm": 79.8,
+      "hip_cm": 100.5,
+      "height_cm": 164.3
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.1,
+      "waist_cm": 100.5,
+      "hip_cm": 112.7,
+      "height_cm": 165.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.5,
+      "waist_cm": 98.1,
+      "hip_cm": 108.8,
+      "height_cm": 178.9
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.6,
+      "waist_cm": 94.8,
+      "hip_cm": 111.2,
+      "height_cm": 191.7
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.3,
+      "waist_cm": 94.3,
+      "hip_cm": 120.8,
+      "height_cm": 174.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.4,
+      "waist_cm": 64.0,
+      "hip_cm": 87.0,
+      "height_cm": 160.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 111.7,
+      "waist_cm": 88.6,
+      "hip_cm": 105.4,
+      "height_cm": 182.8
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.1,
+      "waist_cm": 82.2,
+      "hip_cm": 114.4,
+      "height_cm": 169.7
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 107.8,
+      "waist_cm": 94.2,
+      "hip_cm": 120.8,
+      "height_cm": 169.7
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.5,
+      "waist_cm": 73.4,
+      "hip_cm": 93.6,
+      "height_cm": 168.3
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 89.9,
+      "waist_cm": 72.1,
+      "hip_cm": 94.5,
+      "height_cm": 171.8
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.7,
+      "waist_cm": 87.0,
+      "hip_cm": 117.0,
+      "height_cm": 174.9
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.7,
+      "waist_cm": 70.1,
+      "hip_cm": 92.0,
+      "height_cm": 172.5
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.3,
+      "waist_cm": 61.5,
+      "hip_cm": 86.4,
+      "height_cm": 161.7
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.9,
+      "waist_cm": 73.4,
+      "hip_cm": 98.5,
+      "height_cm": 161.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 105.5,
+      "waist_cm": 91.3,
+      "hip_cm": 105.3,
+      "height_cm": 176.2
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.2,
+      "waist_cm": 79.8,
+      "hip_cm": 97.6,
+      "height_cm": 171.0
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.7,
+      "waist_cm": 61.1,
+      "hip_cm": 87.4,
+      "height_cm": 160.7
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.2,
+      "waist_cm": 106.9,
+      "hip_cm": 113.2,
+      "height_cm": 194.7
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.5,
+      "waist_cm": 66.2,
+      "hip_cm": 94.4,
+      "height_cm": 167.8
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 106.1,
+      "waist_cm": 90.8,
+      "hip_cm": 108.9,
+      "height_cm": 177.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.1,
+      "waist_cm": 70.6,
+      "hip_cm": 92.7,
+      "height_cm": 166.8
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 93.5,
+      "waist_cm": 77.6,
+      "hip_cm": 87.6,
+      "height_cm": 164.1
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 80.6,
+      "waist_cm": 60.1,
+      "hip_cm": 88.7,
+      "height_cm": 154.1
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.8,
+      "waist_cm": 96.4,
+      "hip_cm": 114.3,
+      "height_cm": 190.7
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 121.7,
+      "waist_cm": 103.2,
+      "hip_cm": 114.2,
+      "height_cm": 186.0
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.6,
+      "waist_cm": 58.4,
+      "hip_cm": 85.7,
+      "height_cm": 166.9
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.3,
+      "waist_cm": 65.8,
+      "hip_cm": 86.9,
+      "height_cm": 172.8
+    },
+    "actual_size": "S",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.0,
+      "waist_cm": 72.1,
+      "hip_cm": 95.0,
+      "height_cm": 171.6
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.2,
+      "waist_cm": 91.0,
+      "hip_cm": 105.8,
+      "height_cm": 184.6
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.4,
+      "waist_cm": 73.3,
+      "hip_cm": 102.2,
+      "height_cm": 166.1
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 102.0,
+      "waist_cm": 88.5,
+      "hip_cm": 105.7,
+      "height_cm": 183.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 85.3,
+      "waist_cm": 62.7,
+      "hip_cm": 83.8,
+      "height_cm": 154.8
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 97.5,
+      "waist_cm": 89.5,
+      "hip_cm": 106.5,
+      "height_cm": 176.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.3,
+      "waist_cm": 76.6,
+      "hip_cm": 90.5,
+      "height_cm": 169.3
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.9,
+      "waist_cm": 96.4,
+      "hip_cm": 116.6,
+      "height_cm": 168.1
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 123.1,
+      "waist_cm": 107.9,
+      "hip_cm": 120.0,
+      "height_cm": 190.3
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.0,
+      "waist_cm": 70.6,
+      "hip_cm": 95.0,
+      "height_cm": 166.5
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 109.7,
+      "waist_cm": 94.6,
+      "hip_cm": 121.8,
+      "height_cm": 175.6
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 114.1,
+      "waist_cm": 98.7,
+      "hip_cm": 122.9,
+      "height_cm": 166.0
+    },
+    "actual_size": "XXL",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 98.6,
+      "waist_cm": 80.3,
+      "hip_cm": 101.3,
+      "height_cm": 173.7
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.8,
+      "waist_cm": 72.1,
+      "hip_cm": 101.8,
+      "height_cm": 168.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.4,
+      "waist_cm": 63.9,
+      "hip_cm": 92.8,
+      "height_cm": 164.3
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 113.0,
+      "waist_cm": 97.8,
+      "hip_cm": 111.0,
+      "height_cm": 183.5
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 98.1,
+      "waist_cm": 74.6,
+      "hip_cm": 106.0,
+      "height_cm": 175.5
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 94.4,
+      "waist_cm": 80.0,
+      "hip_cm": 105.2,
+      "height_cm": 166.2
+    },
+    "actual_size": "L",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.1,
+      "waist_cm": 87.5,
+      "hip_cm": 111.4,
+      "height_cm": 171.4
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 92.7,
+      "waist_cm": 81.7,
+      "hip_cm": 98.2,
+      "height_cm": 177.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.0,
+      "waist_cm": 88.8,
+      "hip_cm": 103.9,
+      "height_cm": 184.0
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.2,
+      "waist_cm": 70.9,
+      "hip_cm": 95.9,
+      "height_cm": 171.6
+    },
+    "actual_size": "M",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 82.1,
+      "waist_cm": 63.5,
+      "hip_cm": 86.4,
+      "height_cm": 163.4
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 112.2,
+      "waist_cm": 100.8,
+      "hip_cm": 114.3,
+      "height_cm": 177.3
+    },
+    "actual_size": "XL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 81.4,
+      "waist_cm": 57.6,
+      "hip_cm": 87.7,
+      "height_cm": 158.2
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 72.6,
+      "waist_cm": 58.2,
+      "hip_cm": 91.1,
+      "height_cm": 157.3
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.2,
+      "waist_cm": 86.4,
+      "hip_cm": 108.0,
+      "height_cm": 171.0
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 78.3,
+      "waist_cm": 61.1,
+      "hip_cm": 87.1,
+      "height_cm": 159.8
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 91.1,
+      "waist_cm": 77.7,
+      "hip_cm": 89.4,
+      "height_cm": 164.0
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 120.8,
+      "waist_cm": 104.3,
+      "hip_cm": 117.2,
+      "height_cm": 188.8
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 103.6,
+      "waist_cm": 86.7,
+      "hip_cm": 107.4,
+      "height_cm": 180.4
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.2,
+      "waist_cm": 86.9,
+      "hip_cm": 110.2,
+      "height_cm": 170.7
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "pants"
+  },
+  {
+    "measurements": {
+      "chest_cm": 79.9,
+      "waist_cm": 62.6,
+      "hip_cm": 89.4,
+      "height_cm": 154.1
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 104.3,
+      "waist_cm": 82.9,
+      "hip_cm": 101.7,
+      "height_cm": 183.5
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 115.2,
+      "waist_cm": 106.7,
+      "hip_cm": 117.0,
+      "height_cm": 180.7
+    },
+    "actual_size": "XXL",
+    "gender": "male",
+    "clothing_type": "dress"
+  },
+  {
+    "measurements": {
+      "chest_cm": 90.2,
+      "waist_cm": 74.4,
+      "hip_cm": 96.0,
+      "height_cm": 171.9
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 77.6,
+      "waist_cm": 61.9,
+      "hip_cm": 90.8,
+      "height_cm": 152.5
+    },
+    "actual_size": "XS",
+    "gender": "female",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 95.5,
+      "waist_cm": 84.9,
+      "hip_cm": 93.3,
+      "height_cm": 176.2
+    },
+    "actual_size": "M",
+    "gender": "male",
+    "clothing_type": "jacket"
+  },
+  {
+    "measurements": {
+      "chest_cm": 88.2,
+      "waist_cm": 77.1,
+      "hip_cm": 96.6,
+      "height_cm": 172.5
+    },
+    "actual_size": "S",
+    "gender": "male",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 100.8,
+      "waist_cm": 83.9,
+      "hip_cm": 108.5,
+      "height_cm": 175.8
+    },
+    "actual_size": "XL",
+    "gender": "female",
+    "clothing_type": "shirt"
+  },
+  {
+    "measurements": {
+      "chest_cm": 101.4,
+      "waist_cm": 90.3,
+      "hip_cm": 108.2,
+      "height_cm": 177.2
+    },
+    "actual_size": "L",
+    "gender": "male",
+    "clothing_type": "shirt"
+  }
+]

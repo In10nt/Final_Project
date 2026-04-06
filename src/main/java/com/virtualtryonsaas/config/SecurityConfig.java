@@ -71,6 +71,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/upload/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers("/api/upload/serve-model/**").permitAll()
+                .requestMatchers("/api/ai/**").permitAll()  // AI endpoints - no auth required
                 .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/error").permitAll()

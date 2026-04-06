@@ -145,13 +145,13 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       
       console.log('Model dimensions before rotation:', { x: size.x, y: size.y, z: size.z });
       
-      // For OBJ files, apply standard rotation to make mannequin stand upright
+      // For OBJ files, apply rotation to make mannequin stand upright
       if (isOBJ) {
-        console.log('Applying standard mannequin rotation');
-        // This specific rotation makes the mannequin stand up
-        object.rotation.x = -Math.PI / 2; // Rotate -90 degrees on X
+        console.log('Applying mannequin rotation');
+        // Rotate to stand up and face forward
+        object.rotation.x = -Math.PI / 2; // Rotate -90 degrees on X to stand up correctly
         object.rotation.y = 0;
-        object.rotation.z = 0;
+        object.rotation.z = 0; // No Z rotation needed
       }
       
       // Update matrix after rotation
@@ -280,13 +280,13 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
               hairModel.scale.set(hairScale, hairScale, hairScale);
               
               // Position hair on top of mannequin's head
-              // Mannequin is now rotated -90° on X axis
-              hairModel.position.set(0, 0, 1.0); // Z-axis is now "up"
+              // Mannequin is now rotated -90° on X
+              hairModel.position.set(0, 1.0, 0); // Position on top of head
               
               // Rotate hair to match mannequin orientation
               hairModel.rotation.x = -Math.PI / 2; // Match mannequin rotation
               hairModel.rotation.y = 0;
-              hairModel.rotation.z = 0;
+              hairModel.rotation.z = 0; // No Z rotation needed
               
               // Apply realistic hair material
               hairModel.traverse((child) => {
@@ -327,7 +327,9 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       const clothingExtension = clothingModelUrl.toLowerCase().split('.').pop();
       const clothingFullUrl = clothingModelUrl.startsWith('http') ? clothingModelUrl : `http://localhost:8082${clothingModelUrl}`;
       
-      console.log('Loading clothing model:', clothingFullUrl);
+      console.log('=== CLOTHING MODEL LOADING ===');
+      console.log('Clothing URL:', clothingFullUrl);
+      console.log('Clothing extension:', clothingExtension);
       
       // Wait for mannequin to load, then add clothing
       setTimeout(() => {
@@ -335,75 +337,119 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
           new GLTFLoader() : 
           (clothingExtension === 'fbx' ? new FBXLoader() : new OBJLoader());
         
-        const loadMethod = (clothingExtension === 'glb' || clothingExtension === 'gltf') ? 
-          'load' : 'load';
-        
         loadClothingModel.load(
           clothingFullUrl,
           (loaded) => {
             const clothingModel = (clothingExtension === 'glb' || clothingExtension === 'gltf') ? 
               loaded.scene : loaded;
             
-            console.log('Clothing model loaded successfully!');
+            console.log('=== CLOTHING MODEL LOADED ===');
+            console.log('Clothing model object:', clothingModel);
+            console.log('Clothing children count:', clothingModel.children.length);
             
-            // Apply same rotation as mannequin
-            clothingModel.rotation.x = -Math.PI / 2;
-            clothingModel.rotation.y = 0;
-            clothingModel.rotation.z = 0;
+            // Apply same rotation as mannequin to match orientation
+            if (clothingExtension === 'obj') {
+              clothingModel.rotation.x = -Math.PI / 2; // Same as mannequin
+              clothingModel.rotation.y = 0;
+              clothingModel.rotation.z = 0; // No Z rotation needed
+            } else if (clothingExtension === 'glb' || clothingExtension === 'gltf') {
+              // GLB files might need different rotation
+              clothingModel.rotation.x = -Math.PI / 2;
+              clothingModel.rotation.y = 0;
+              clothingModel.rotation.z = 0;
+            }
             
-            // Get clothing dimensions
+            // Update matrix after rotation
             clothingModel.updateMatrixWorld(true);
+            
+            // Get clothing dimensions AFTER rotation
             const clothingBox = new THREE.Box3().setFromObject(clothingModel);
             const clothingSize = clothingBox.getSize(new THREE.Vector3());
             const clothingCenter = clothingBox.getCenter(new THREE.Vector3());
             
-            console.log('Clothing original size:', clothingSize);
+            console.log('Clothing size after rotation:', clothingSize);
+            console.log('Clothing center after rotation:', clothingCenter);
             
-            // Scale clothing to match mannequin size (slightly larger to fit over)
+            // Scale clothing to match mannequin size exactly
             const clothingMaxDim = Math.max(clothingSize.x, clothingSize.y, clothingSize.z);
-            const targetClothingSize = 2.6; // Slightly larger than mannequin (2.5)
+            const targetClothingSize = 2.5; // Same as mannequin
             const clothingScale = targetClothingSize / clothingMaxDim;
-            clothingModel.scale.set(clothingScale, clothingScale, clothingScale);
+            clothingModel.scale.multiplyScalar(clothingScale);
             
-            // Position clothing to align with mannequin
+            console.log('Clothing scale:', clothingScale);
+            
+            // Position clothing to align perfectly with mannequin center
+            // Both models should be centered at (0, 0, 0)
             clothingModel.position.set(
               -clothingCenter.x * clothingScale,
               -clothingCenter.y * clothingScale,
               -clothingCenter.z * clothingScale
             );
             
+            console.log('Clothing final position:', clothingModel.position);
+            
             // Apply clothing material with product color
+            let meshCount = 0;
             clothingModel.traverse((child) => {
               if (child instanceof THREE.Mesh) {
-                if (!child.material) {
-                  child.material = new THREE.MeshStandardMaterial();
-                }
-                // Apply product color
-                child.material.color.set(productColor === 'White' ? 0xffffff : 0xcccccc);
-                child.material.roughness = 0.6;
-                child.material.metalness = 0.0;
-                child.material.side = THREE.DoubleSide;
+                meshCount++;
+                // Create new material if it doesn't exist
+                child.material = new THREE.MeshStandardMaterial({
+                  color: productColor === 'White' ? 0xffffff : 
+                         productColor === 'Black' ? 0x000000 :
+                         productColor === 'Red' ? 0xDC143C :
+                         productColor === 'Blue' ? 0x4169E1 :
+                         0xcccccc,
+                  roughness: 0.6,
+                  metalness: 0.0,
+                  side: THREE.DoubleSide,
+                  transparent: false,
+                  opacity: 1.0,
+                  depthTest: true,
+                  depthWrite: true
+                });
+                
                 child.castShadow = true;
                 child.receiveShadow = true;
+                child.renderOrder = 1;
+                
+                console.log('Applied material to mesh:', child.name || 'unnamed');
               }
             });
             
+            console.log('Total meshes in clothing:', meshCount);
+            
+            // Make mannequin slightly transparent so clothing is more visible
+            if (modelRef.current) {
+              let mannequinMeshCount = 0;
+              modelRef.current.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
+                  mannequinMeshCount++;
+                  child.material.transparent = true;
+                  child.material.opacity = 0.3; // Semi-transparent mannequin
+                  child.renderOrder = 0;
+                }
+              });
+              console.log('Made mannequin transparent, meshes:', mannequinMeshCount);
+            }
+            
             scene.add(clothingModel);
             clothingRef.current = clothingModel;
-            console.log('Clothing model added to scene');
-            console.log('Clothing position:', clothingModel.position);
-            console.log('Clothing rotation:', clothingModel.rotation);
-            console.log('Clothing scale:', clothingModel.scale);
+            console.log('=== CLOTHING MODEL ADDED TO SCENE ===');
+            console.log('Scene children count:', scene.children.length);
           },
           (progress) => {
             const percent = (progress.loaded / progress.total * 100).toFixed(0);
             console.log(`Clothing loading: ${percent}%`);
           },
           (error) => {
-            console.error('Error loading clothing model:', error);
+            console.error('=== ERROR LOADING CLOTHING ===');
+            console.error('Error:', error);
           }
         );
       }, 2000); // Wait 2 seconds for mannequin to load
+    } else {
+      console.log('No clothing model URL provided');
     }
 
     // Animation loop

@@ -8,7 +8,7 @@ import { CustomerAuthProvider, useCustomerAuth } from './contexts/CustomerAuthCo
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import VirtualTryOnPage from './pages/VirtualTryOnPage';
+import VirtualTryOnPage from './pages/VirtualTryOnPageNew';  // Using new image-based version
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import AvatarCustomizationPage from './pages/AvatarCustomizationPage';
@@ -16,6 +16,7 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import CustomerLoginPage from './pages/CustomerLoginPage';
 import CustomerRegisterPage from './pages/CustomerRegisterPage';
+import AITestPage from './pages/AITestPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -30,23 +31,89 @@ const ProtectedRoute = ({ children }) => {
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      main: '#2c3e50',
+      main: '#ffffff',
+      light: '#ffffff',
+      dark: '#e0e0e0',
+      contrastText: '#000000',
     },
     secondary: {
-      main: '#e74c3c',
+      main: '#000000',
+      light: '#333333',
+      dark: '#000000',
+      contrastText: '#ffffff',
     },
     background: {
-      default: '#f8f9fa',
+      default: '#000000',
+      paper: '#1a1a1a',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#b0b0b0',
+    },
+    divider: '#333333',
+    success: {
+      main: '#ffffff',
+      contrastText: '#000000',
+    },
+    info: {
+      main: '#666666',
+      contrastText: '#ffffff',
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontWeight: 700,
+      fontWeight: 800,
+      letterSpacing: '-0.02em',
     },
     h2: {
+      fontWeight: 800,
+      letterSpacing: '-0.01em',
+    },
+    h3: {
+      fontWeight: 700,
+    },
+    h4: {
+      fontWeight: 700,
+    },
+    h5: {
       fontWeight: 600,
+    },
+    h6: {
+      fontWeight: 600,
+    },
+    button: {
+      fontWeight: 600,
+      textTransform: 'none',
+    },
+  },
+  shape: {
+    borderRadius: 12,
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          padding: '10px 24px',
+        },
+        contained: {
+          boxShadow: '0 4px 14px 0 rgba(255, 255, 255, 0.15)',
+          '&:hover': {
+            boxShadow: '0 6px 20px rgba(255, 255, 255, 0.25)',
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          border: '1px solid #333333',
+        },
+      },
     },
   },
 });
@@ -74,6 +141,7 @@ function App() {
                   } />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/products/:id" element={<ProductDetailPage />} />
+                  <Route path="/ai-test" element={<AITestPage />} />
                   <Route path="/avatar/customize" element={
                     <ProtectedRoute>
                       <AvatarCustomizationPage />
