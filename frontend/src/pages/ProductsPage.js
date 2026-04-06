@@ -3,7 +3,7 @@ import {
   Box, Typography, Button, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Paper, IconButton, Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, CircularProgress, Alert, Select, MenuItem, 
-  FormControl, InputLabel, Grid, Chip
+  FormControl, InputLabel, Grid, Chip, Checkbox, FormControlLabel, Divider
 } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, CloudUpload, ThreeDRotation } from '@mui/icons-material';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/apiService';
@@ -28,7 +28,20 @@ const ProductsPage = () => {
     material: '',
     imageUrl: '',
     model3dUrl: '',
-    status: 'active'
+    status: 'active',
+    category: '',
+    availableSizes: '',
+    sizeChart: ''
+  });
+  
+  // Size chart builder state
+  const [sizeChartBuilder, setSizeChartBuilder] = useState({
+    XS: { chest: 80, waist: 64, hip: 88, enabled: false },
+    S: { chest: 86, waist: 68, hip: 92, enabled: true },
+    M: { chest: 92, waist: 74, hip: 98, enabled: true },
+    L: { chest: 98, waist: 80, hip: 104, enabled: true },
+    XL: { chest: 106, waist: 88, hip: 112, enabled: false },
+    XXL: { chest: 114, waist: 96, hip: 120, enabled: false },
   });
 
   useEffect(() => {
@@ -79,8 +92,34 @@ const ProductsPage = () => {
         material: product.material || '',
         imageUrl: product.imageUrl || '',
         model3dUrl: product.model3dUrl || '',
-        status: product.status || 'active'
+        status: product.status || 'active',
+        category: product.category || '',
+        availableSizes: product.availableSizes || '',
+        sizeChart: product.sizeChart || ''
       });
+      
+      // Parse existing size chart into builder
+      if (product.sizeChart) {
+        try {
+          const parsedChart = JSON.parse(product.sizeChart);
+          const newBuilder = { ...sizeChartBuilder };
+          Object.keys(newBuilder).forEach(size => {
+            if (parsedChart[size]) {
+              newBuilder[size] = {
+                chest: parsedChart[size].chest || 0,
+                waist: parsedChart[size].waist || 0,
+                hip: parsedChart[size].hip || 0,
+                enabled: true
+              };
+            } else {
+              newBuilder[size].enabled = false;
+            }
+          });
+          setSizeChartBuilder(newBuilder);
+        } catch (e) {
+          console.error('Failed to parse size chart:', e);
+        }
+      }
     } else {
       setEditingProduct(null);
       setFormData({
@@ -94,7 +133,20 @@ const ProductsPage = () => {
         material: '',
         imageUrl: '',
         model3dUrl: '',
-        status: 'active'
+        status: 'active',
+        category: '',
+        availableSizes: '',
+        sizeChart: ''
+      });
+      
+      // Reset size chart builder to defaults
+      setSizeChartBuilder({
+        XS: { chest: 80, waist: 64, hip: 88, enabled: false },
+        S: { chest: 86, waist: 68, hip: 92, enabled: true },
+        M: { chest: 92, waist: 74, hip: 98, enabled: true },
+        L: { chest: 98, waist: 80, hip: 104, enabled: true },
+        XL: { chest: 106, waist: 88, hip: 112, enabled: false },
+        XXL: { chest: 114, waist: 96, hip: 120, enabled: false },
       });
     }
     setOpenDialog(true);
@@ -108,6 +160,47 @@ const ProductsPage = () => {
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  
+  const handleSizeToggle = (size) => {
+    setSizeChartBuilder({
+      ...sizeChartBuilder,
+      [size]: {
+        ...sizeChartBuilder[size],
+        enabled: !sizeChartBuilder[size].enabled
+      }
+    });
+  };
+  
+  const handleSizeMeasurementChange = (size, measurement, value) => {
+    setSizeChartBuilder({
+      ...sizeChartBuilder,
+      [size]: {
+        ...sizeChartBuilder[size],
+        [measurement]: parseFloat(value) || 0
+      }
+    });
+  };
+  
+  const buildSizeChartJSON = () => {
+    const chart = {};
+    const enabledSizes = [];
+    
+    Object.keys(sizeChartBuilder).forEach(size => {
+      if (sizeChartBuilder[size].enabled) {
+        chart[size] = {
+          chest: sizeChartBuilder[size].chest,
+          waist: sizeChartBuilder[size].waist,
+          hip: sizeChartBuilder[size].hip
+        };
+        enabledSizes.push(size);
+      }
+    });
+    
+    return {
+      sizeChart: JSON.stringify(chart),
+      availableSizes: enabledSizes.join(',')
+    };
+  };
 
   const handleSubmit = async () => {
     try {
@@ -120,10 +213,19 @@ const ProductsPage = () => {
 
       console.log('Submitting product with token:', token.substring(0, 50) + '...');
 
+      // Build size chart from builder
+      const { sizeChart, availableSizes } = buildSizeChartJSON();
+      
+      const productData = {
+        ...formData,
+        sizeChart,
+        availableSizes
+      };
+
       if (editingProduct) {
-        await updateProduct(editingProduct.id, formData);
+        await updateProduct(editingProduct.id, productData);
       } else {
-        await createProduct(formData);
+        await createProduct(productData);
       }
       handleCloseDialog();
       fetchProducts();
@@ -256,9 +358,9 @@ const ProductsPage = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Brand</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Available Sizes</TableCell>
               <TableCell>Price</TableCell>
-              <TableCell>SKU</TableCell>
-              <TableCell>Color</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -273,10 +375,32 @@ const ProductsPage = () => {
                 <TableRow key={product.id}>
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.brand}</TableCell>
+                  <TableCell>
+                    {product.category ? (
+                      <Chip label={product.category} size="small" color="primary" variant="outlined" />
+                    ) : (
+                      <Typography variant="caption" color="text.secondary">-</Typography>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {product.availableSizes ? (
+                      <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                        {product.availableSizes.split(',').map((size, idx) => (
+                          <Chip key={idx} label={size.trim()} size="small" sx={{ height: 20, fontSize: '0.7rem' }} />
+                        ))}
+                      </Box>
+                    ) : (
+                      <Typography variant="caption" color="text.secondary">Not set</Typography>
+                    )}
+                  </TableCell>
                   <TableCell>${product.price}</TableCell>
-                  <TableCell>{product.sku}</TableCell>
-                  <TableCell>{product.color}</TableCell>
-                  <TableCell>{product.status}</TableCell>
+                  <TableCell>
+                    <Chip 
+                      label={product.status} 
+                      size="small" 
+                      color={product.status === 'active' ? 'success' : 'default'}
+                    />
+                  </TableCell>
                   <TableCell align="right">
                     <IconButton onClick={() => handleOpenDialog(product)} color="primary">
                       <EditIcon />
@@ -292,45 +416,173 @@ const ProductsPage = () => {
         </Table>
       </TableContainer>
 
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-        <DialogTitle>{editingProduct ? 'Edit Product' : 'Add Product'}</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="lg" fullWidth>
+        <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white', py: 2 }}>
+          <Typography variant="h5" fontWeight="bold">
+            {editingProduct ? 'Edit Product' : 'Add New Product'}
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ mt: 2 }}>
+          <Grid container spacing={3} sx={{ mt: 0.5 }}>
+            
+            {/* Basic Information Section */}
             <Grid item xs={12}>
-              <TextField fullWidth label="Name" name="name" value={formData.name} onChange={handleInputChange} required />
+              <Typography variant="h6" fontWeight="bold" color="primary" sx={{ mb: 2, pb: 1, borderBottom: '2px solid', borderColor: 'primary.main' }}>
+                Basic Information
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={12} md={8}>
+              <TextField fullWidth label="Product Name" name="name" value={formData.name} onChange={handleInputChange} required />
+            </Grid>
+            
+            <Grid item xs={12} md={4}>
+              <TextField fullWidth label="Price" name="price" type="number" value={formData.price} onChange={handleInputChange} required InputProps={{ startAdornment: '$' }} />
             </Grid>
             
             <Grid item xs={12}>
               <TextField fullWidth label="Description" name="description" value={formData.description} onChange={handleInputChange} multiline rows={3} />
             </Grid>
             
-            <Grid item xs={6}>
+            <Grid item xs={12} md={4}>
               <TextField fullWidth label="Brand" name="brand" value={formData.brand} onChange={handleInputChange} />
             </Grid>
             
-            <Grid item xs={6}>
-              <TextField fullWidth label="Price" name="price" type="number" value={formData.price} onChange={handleInputChange} required />
-            </Grid>
-            
-            <Grid item xs={6}>
+            <Grid item xs={12} md={4}>
               <TextField fullWidth label="SKU" name="sku" value={formData.sku} onChange={handleInputChange} />
             </Grid>
             
-            <Grid item xs={6}>
+            <Grid item xs={12} md={4}>
               <TextField fullWidth label="Barcode" name="barcode" value={formData.barcode} onChange={handleInputChange} />
             </Grid>
             
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField fullWidth label="Color" name="color" value={formData.color} onChange={handleInputChange} />
             </Grid>
             
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField fullWidth label="Material" name="material" value={formData.material} onChange={handleInputChange} />
+            </Grid>
+
+            {/* Category and Size Information */}
+            <Grid item xs={12}>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h6" fontWeight="bold" color="primary" sx={{ mb: 2, pb: 1, borderBottom: '2px solid', borderColor: 'primary.main' }}>
+                Category & Size Information
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  label="Category"
+                >
+                  <MenuItem value="shirt">Shirt</MenuItem>
+                  <MenuItem value="pants">Pants</MenuItem>
+                  <MenuItem value="dress">Dress</MenuItem>
+                  <MenuItem value="jacket">Jacket</MenuItem>
+                  <MenuItem value="skirt">Skirt</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {/* Visual Size Chart Builder */}
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1, mt: 2 }}>
+                Size Chart Builder
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ mb: 2, display: 'block' }}>
+                Check sizes to enable, then enter measurements (cm)
+              </Typography>
+            </Grid>
+
+            {Object.keys(sizeChartBuilder).map((size) => (
+              <Grid item xs={12} key={size}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 2, 
+                  p: 1.5, 
+                  bgcolor: sizeChartBuilder[size].enabled ? 'action.selected' : 'background.default',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: sizeChartBuilder[size].enabled ? 'primary.main' : 'divider'
+                }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sizeChartBuilder[size].enabled}
+                        onChange={() => handleSizeToggle(size)}
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <Typography variant="body1" fontWeight="bold" sx={{ minWidth: 40 }}>
+                        {size}
+                      </Typography>
+                    }
+                  />
+                  
+                  {sizeChartBuilder[size].enabled && (
+                    <>
+                      <TextField
+                        label="Chest"
+                        type="number"
+                        value={sizeChartBuilder[size].chest}
+                        onChange={(e) => handleSizeMeasurementChange(size, 'chest', e.target.value)}
+                        size="small"
+                        sx={{ width: 100 }}
+                        InputProps={{ endAdornment: 'cm' }}
+                      />
+                      <TextField
+                        label="Waist"
+                        type="number"
+                        value={sizeChartBuilder[size].waist}
+                        onChange={(e) => handleSizeMeasurementChange(size, 'waist', e.target.value)}
+                        size="small"
+                        sx={{ width: 100 }}
+                        InputProps={{ endAdornment: 'cm' }}
+                      />
+                      <TextField
+                        label="Hip"
+                        type="number"
+                        value={sizeChartBuilder[size].hip}
+                        onChange={(e) => handleSizeMeasurementChange(size, 'hip', e.target.value)}
+                        size="small"
+                        sx={{ width: 100 }}
+                        InputProps={{ endAdornment: 'cm' }}
+                      />
+                    </>
+                  )}
+                </Box>
+              </Grid>
+            ))}
+
+            <Grid item xs={12}>
+              <Alert severity="info" sx={{ fontSize: '0.85rem' }}>
+                <Typography variant="caption" fontWeight="bold" display="block">
+                  Selected Sizes: {Object.keys(sizeChartBuilder).filter(s => sizeChartBuilder[s].enabled).join(', ') || 'None'}
+                </Typography>
+                <Typography variant="caption" display="block" sx={{ mt: 0.5 }}>
+                  Tip: Check the boxes for sizes you want to offer, then enter the measurements for each size.
+                </Typography>
+              </Alert>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h6" fontWeight="bold" color="primary" sx={{ mb: 2, pb: 1, borderBottom: '2px solid', borderColor: 'primary.main' }}>
+                Media & Assets
+              </Typography>
             </Grid>
 
             {/* Image Upload Section */}
             <Grid item xs={12}>
-              <Typography variant="subtitle2" color="primary" sx={{ mb: 1, mt: 2 }}>
+              <Typography variant="subtitle2" fontWeight="bold" sx={{ mb: 1 }}>
                 Product Image
               </Typography>
             </Grid>
@@ -354,7 +606,7 @@ const ProductsPage = () => {
                 />
                 <label htmlFor="image-upload-button">
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     component="span"
                     startIcon={<CloudUpload />}
                     disabled={uploading}
@@ -367,7 +619,7 @@ const ProductsPage = () => {
 
             {/* 3D Model Section */}
             <Grid item xs={12}>
-              <Typography variant="subtitle2" color="primary" sx={{ mb: 1, mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="subtitle2" fontWeight="bold" sx={{ mb: 1, mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                 <ThreeDRotation /> 3D Model
               </Typography>
             </Grid>
@@ -433,20 +685,14 @@ const ProductsPage = () => {
                 />
               </Grid>
             )}
-
-            {availableModels.length > 0 && (
-              <Grid item xs={12}>
-                <Typography variant="caption" color="text.secondary">
-                  Available models: {availableModels.map(m => m.filename).join(', ')}
-                </Typography>
-              </Grid>
-            )}
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained" disabled={uploading}>
-            {uploading ? <CircularProgress size={20} /> : (editingProduct ? 'Update' : 'Create')}
+        <DialogActions sx={{ px: 3, py: 2, bgcolor: 'grey.50' }}>
+          <Button onClick={handleCloseDialog} variant="outlined" size="large">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} variant="contained" disabled={uploading} size="large">
+            {uploading ? <CircularProgress size={20} /> : (editingProduct ? 'Update Product' : 'Create Product')}
           </Button>
         </DialogActions>
       </Dialog>

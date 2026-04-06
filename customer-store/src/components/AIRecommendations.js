@@ -326,7 +326,7 @@ const AIRecommendations = ({ bodyProfile, selectedProduct }) => {
                 <Box sx={{ mt: 2, bgcolor: 'primary.light', p: 1.5, borderRadius: 1 }}>
                   {styleRec.tips.map((tip, idx) => (
                     <Typography key={idx} variant="caption" display="block" sx={{ mb: 0.5 }}>
-                      💡 {tip}
+                      {tip}
                     </Typography>
                   ))}
                 </Box>

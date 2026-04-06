@@ -207,10 +207,11 @@ def calculate_fit():
     
     Request:
         - measurements: user body measurements
-        - product_size: size of the product (XS, S, M, L, XL, XXL)
+        - product_size_chart: product-specific size chart (optional)
         - clothing_type: type of clothing
         
     Response:
+        - best_size: recommended size for this product
         - fit_score: 0-100
         - fit_level: PERFECT_FIT, GOOD_FIT, LOOSE_FIT, TIGHT_FIT
         - detailed fit analysis
@@ -218,11 +219,11 @@ def calculate_fit():
     try:
         data = request.json
         measurements = data.get('measurements', {})
-        product_size = data.get('product_size', 'M')
+        product_size_chart = data.get('product_size_chart', None)
         clothing_type = data.get('clothing_type', 'shirt')
         
         fit_details = fit_calculator.calculate_fit_score(
-            measurements, product_size, clothing_type
+            measurements, product_size_chart, clothing_type
         )
         
         return jsonify({

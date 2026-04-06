@@ -15,51 +15,73 @@ class FitCalculator:
             'XXL': {'chest': 114, 'waist': 96, 'hip': 120},
         }
     
-    def calculate_fit_score(self, user_measurements, product_size, clothing_type='shirt'):
+    def calculate_fit_score(self, user_measurements, product_size_chart, clothing_type='shirt'):
         """
-        Calculate how well a product fits the user
+        Calculate how well a product fits the user using PRODUCT-SPECIFIC measurements
+        
+        Args:
+            user_measurements: dict with chest_cm, waist_cm, hip_cm
+            product_size_chart: dict like {"S": {"chest": 86, "waist": 68, "hip": 92}, "M": {...}}
+            clothing_type: 'shirt', 'pants', 'dress'
         
         Returns:
             dict: {
-                'fit_score': 0-100,
-                'fit_level': 'PERFECT_FIT', 'GOOD_FIT', 'LOOSE_FIT', 'TIGHT_FIT',
-                'chest_fit': percentage,
-                'waist_fit': percentage,
-                'hip_fit': percentage,
-                'recommendation': text
+                'best_size': 'M',
+                'fit_score': 95,
+                'fit_level': 'PERFECT_FIT',
+                'all_sizes': [{'size': 'M', 'score': 95}, {'size': 'L', 'score': 78}]
             }
         """
-        if product_size not in self.size_chart:
-            return self._default_fit()
+        if not product_size_chart:
+            # Fallback to standard size chart
+            product_size_chart = self.size_chart
         
-        product_measurements = self.size_chart[product_size]
+        # Calculate fit score for each available size
+        size_scores = []
         
-        # Calculate fit for each measurement
-        chest_diff = abs(user_measurements['chest_cm'] - product_measurements['chest'])
-        waist_diff = abs(user_measurements['waist_cm'] - product_measurements['waist'])
-        hip_diff = abs(user_measurements['hip_cm'] - product_measurements['hip'])
+        for size, size_measurements in product_size_chart.items():
+            # Calculate difference for each measurement
+            chest_diff = abs(user_measurements['chest_cm'] - size_measurements.get('chest', 0))
+            waist_diff = abs(user_measurements['waist_cm'] - size_measurements.get('waist', 0))
+            hip_diff = abs(user_measurements['hip_cm'] - size_measurements.get('hip', 0))
+            
+            # Calculate fit percentages (closer to 0 diff = better fit)
+            chest_fit = max(0, 100 - (chest_diff * 5))
+            waist_fit = max(0, 100 - (waist_diff * 5))
+            hip_fit = max(0, 100 - (hip_diff * 5))
+            
+            # Overall fit score (weighted average)
+            if clothing_type == 'shirt':
+                fit_score = (chest_fit * 0.5 + waist_fit * 0.3 + hip_fit * 0.2)
+            elif clothing_type == 'pants':
+                fit_score = (waist_fit * 0.5 + hip_fit * 0.4 + chest_fit * 0.1)
+            else:
+                fit_score = (chest_fit + waist_fit + hip_fit) / 3
+            
+            size_scores.append({
+                'size': size,
+                'score': round(fit_score, 1),
+                'chest_fit': round(chest_fit, 1),
+                'waist_fit': round(waist_fit, 1),
+                'hip_fit': round(hip_fit, 1),
+                'chest_diff': round(chest_diff, 1),
+                'waist_diff': round(waist_diff, 1),
+                'hip_diff': round(hip_diff, 1)
+            })
         
-        # Calculate fit percentages (closer to 0 diff = better fit)
-        chest_fit = max(0, 100 - (chest_diff * 5))  # 5% penalty per cm difference
-        waist_fit = max(0, 100 - (waist_diff * 5))
-        hip_fit = max(0, 100 - (hip_diff * 5))
+        # Sort by fit score (best first)
+        size_scores.sort(key=lambda x: x['score'], reverse=True)
         
-        # Overall fit score (weighted average)
-        if clothing_type == 'shirt':
-            fit_score = (chest_fit * 0.5 + waist_fit * 0.3 + hip_fit * 0.2)
-        elif clothing_type == 'pants':
-            fit_score = (waist_fit * 0.5 + hip_fit * 0.4 + chest_fit * 0.1)
-        else:
-            fit_score = (chest_fit + waist_fit + hip_fit) / 3
+        best_size = size_scores[0]
         
         # Determine fit level
-        if fit_score >= 90:
+        if best_size['score'] >= 90:
             fit_level = 'PERFECT_FIT'
             recommendation = 'This will fit you perfectly!'
-        elif fit_score >= 75:
+        elif best_size['score'] >= 75:
             fit_level = 'GOOD_FIT'
             recommendation = 'This should fit you well'
-        elif fit_score >= 60:
+        elif best_size['score'] >= 60:
             fit_level = 'LOOSE_FIT'
             recommendation = 'This might be slightly loose'
         else:
@@ -67,16 +89,18 @@ class FitCalculator:
             recommendation = 'This might be tight'
         
         return {
-            'fit_score': round(fit_score, 1),
+            'best_size': best_size['size'],
+            'fit_score': best_size['score'],
             'fit_level': fit_level,
-            'chest_fit': round(chest_fit, 1),
-            'waist_fit': round(waist_fit, 1),
-            'hip_fit': round(hip_fit, 1),
             'recommendation': recommendation,
+            'chest_fit': best_size['chest_fit'],
+            'waist_fit': best_size['waist_fit'],
+            'hip_fit': best_size['hip_fit'],
+            'all_sizes': size_scores,
             'size_difference': {
-                'chest': round(chest_diff, 1),
-                'waist': round(waist_diff, 1),
-                'hip': round(hip_diff, 1)
+                'chest': best_size['chest_diff'],
+                'waist': best_size['waist_diff'],
+                'hip': best_size['hip_diff']
             }
         }
     

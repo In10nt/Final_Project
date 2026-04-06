@@ -26,6 +26,9 @@ public class ProductRequest {
     private String imageUrl;
     private String model3dUrl;
     private UUID categoryId;
+    private String category;
+    private String sizeChart;
+    private String availableSizes;
 
     // Constructors
     public ProductRequest() {}
@@ -66,4 +69,13 @@ public class ProductRequest {
 
     public String getModel3dUrl() { return model3dUrl; }
     public void setModel3dUrl(String model3dUrl) { this.model3dUrl = model3dUrl; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getSizeChart() { return sizeChart; }
+    public void setSizeChart(String sizeChart) { this.sizeChart = sizeChart; }
+
+    public String getAvailableSizes() { return availableSizes; }
+    public void setAvailableSizes(String availableSizes) { this.availableSizes = availableSizes; }
 }

@@ -55,6 +55,15 @@ public class Product {
     @Column(name = "model3d_url")
     private String model3dUrl;
     
+    @Column(name = "category")
+    private String category;
+    
+    @Column(name = "size_chart", columnDefinition = "TEXT")
+    private String sizeChart; // JSON format: {"S": {"chest": 86, "waist": 68, "hip": 92}, "M": {...}}
+    
+    @Column(name = "available_sizes")
+    private String availableSizes; // Comma-separated: "S,M,L,XL"
+    
     private String status = "active";
     
     @CreatedDate
@@ -124,4 +133,13 @@ public class Product {
 
     public String getModel3dUrl() { return model3dUrl; }
     public void setModel3dUrl(String model3dUrl) { this.model3dUrl = model3dUrl; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getSizeChart() { return sizeChart; }
+    public void setSizeChart(String sizeChart) { this.sizeChart = sizeChart; }
+
+    public String getAvailableSizes() { return availableSizes; }
+    public void setAvailableSizes(String availableSizes) { this.availableSizes = availableSizes; }
 }

@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
 
-const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = 400, height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
+const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
   const mountRef = useRef(null);
   const modelRef = useRef(null);
   const hairRef = useRef(null);
@@ -18,6 +18,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
   const [error, setError] = React.useState(null);
   const [autoRotate, setAutoRotate] = React.useState(true);
   const [selectedColor, setSelectedColor] = React.useState(productColor);
+  const [containerSize, setContainerSize] = React.useState({ width: 400, height: 600 });
 
   // Available colors for the product
   const availableColors = [
@@ -42,14 +43,26 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       return;
     }
 
+    // Calculate responsive dimensions
+    const calculateDimensions = () => {
+      if (mountRef.current) {
+        const containerWidth = typeof width === 'number' ? width : mountRef.current.offsetWidth || 400;
+        const containerHeight = typeof height === 'number' ? height : 600;
+        setContainerSize({ width: containerWidth, height: containerHeight });
+      }
+    };
+
+    calculateDimensions();
+    window.addEventListener('resize', calculateDimensions);
+
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
+    scene.background = new THREE.Color(0x000000); // Pure black background
 
     // Camera setup - position camera to look at model from front
     const camera = new THREE.PerspectiveCamera(
       50,
-      width / height,
+      containerSize.width / containerSize.height,
       0.1,
       1000
     );
@@ -58,7 +71,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
+    renderer.setSize(containerSize.width, containerSize.height);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -113,7 +126,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
     controls.maxPolarAngle = Math.PI / 2; // Horizontal
     
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 3.0; // Horizontal rotation speed
+    controls.autoRotateSpeed = 2.0; // Smooth rotation speed
     controls.enablePan = false; // Disable panning
     controls.target.set(0, 0, 0); // Rotate around center of model
     controlsRef.current = controls;
@@ -463,9 +476,12 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
 
     // Handle window resize
     const handleResize = () => {
-      camera.aspect = width / height;
+      const containerWidth = typeof width === 'number' ? width : mountRef.current?.offsetWidth || 400;
+      const containerHeight = typeof height === 'number' ? height : 600;
+      camera.aspect = containerWidth / containerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
+      renderer.setSize(containerWidth, containerHeight);
+      setContainerSize({ width: containerWidth, height: containerHeight });
     };
     window.addEventListener('resize', handleResize);
 
@@ -572,8 +588,8 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
     return (
       <Box
         sx={{
-          width,
-          height,
+          width: '100%',
+          height: typeof height === 'number' ? height : '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -587,7 +603,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
   }
 
   return (
-    <Box sx={{ position: 'relative', width, height }}>
+    <Box sx={{ position: 'relative', width: '100%', height: typeof height === 'number' ? height : '100%' }}>
       {loading && (
         <Box
           sx={{
@@ -769,7 +785,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
         </Box>
       )}
       
-      <div ref={mountRef} style={{ width, height, borderRadius: 8 }} />
+      <div ref={mountRef} style={{ width: '100%', height: '100%', borderRadius: 8 }} />
     </Box>
   );
 });

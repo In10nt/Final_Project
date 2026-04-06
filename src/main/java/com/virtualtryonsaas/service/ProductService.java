@@ -48,6 +48,9 @@ public class ProductService {
         product.setCategoryId(request.getCategoryId());
         product.setImageUrl(request.getImageUrl());
         product.setModel3dUrl(request.getModel3dUrl());
+        product.setCategory(request.getCategory());
+        product.setSizeChart(request.getSizeChart());
+        product.setAvailableSizes(request.getAvailableSizes());
 
         Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
@@ -65,6 +68,9 @@ public class ProductService {
         product.setMaterial(request.getMaterial());
         product.setImageUrl(request.getImageUrl());
         product.setModel3dUrl(request.getModel3dUrl());
+        product.setCategory(request.getCategory());
+        product.setSizeChart(request.getSizeChart());
+        product.setAvailableSizes(request.getAvailableSizes());
 
         Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
@@ -91,6 +97,9 @@ public class ProductService {
         dto.setStatus(product.getStatus());
         dto.setImageUrl(product.getImageUrl());
         dto.setModel3dUrl(product.getModel3dUrl());
+        dto.setCategory(product.getCategory());
+        dto.setSizeChart(product.getSizeChart());
+        dto.setAvailableSizes(product.getAvailableSizes());
         return dto;
     }
 }
