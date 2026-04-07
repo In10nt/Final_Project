@@ -11,6 +11,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import pickle
 import os
+import time
+from datetime import datetime
 
 def load_training_data(filename='training_data_size.json'):
     """Load training data from JSON file"""
@@ -59,6 +61,9 @@ def train_model(X, y, size_labels):
     print("\n" + "=" * 60)
     print("Training Size Recommendation Model")
     print("=" * 60)
+    
+    # Start timing
+    start_time = time.time()
     
     # Split data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(
@@ -129,6 +134,12 @@ def train_model(X, y, size_labels):
     for name, importance in zip(feature_names, importances):
         print(f"  {name}: {importance * 100:.1f}%")
     
+    # Calculate training duration
+    duration = time.time() - start_time
+    
+    # Save training history
+    save_training_history(len(X_train), train_accuracy, test_accuracy, duration)
+    
     return model, scaler, test_accuracy
 
 
@@ -140,7 +151,11 @@ def save_model(model, scaler, size_labels, accuracy):
         'model': model,
         'scaler': scaler,
         'size_labels': size_labels,
-        'accuracy': accuracy
+        'accuracy': accuracy,
+        'trained_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'algorithm': 'Random Forest Classifier',
+        'n_estimators': model.n_estimators,
+        'max_depth': model.max_depth
     }
     
     filename = 'models/size_recommender.pkl'
@@ -149,6 +164,37 @@ def save_model(model, scaler, size_labels, accuracy):
     
     print(f"\n✓ Model saved to {filename}")
     print(f"✓ Model accuracy: {accuracy * 100:.2f}%")
+
+
+def save_training_history(training_samples, training_accuracy, testing_accuracy, duration):
+    """Save training session to history log"""
+    history_file = 'training_history.json'
+    
+    # Load existing history
+    if os.path.exists(history_file):
+        with open(history_file, 'r') as f:
+            history = json.load(f)
+    else:
+        history = []
+    
+    # Create new record
+    record = {
+        'session': len(history) + 1,
+        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'training_samples': training_samples,
+        'training_accuracy': round(training_accuracy * 100, 2),
+        'testing_accuracy': round(testing_accuracy * 100, 2),
+        'duration': round(duration, 2)
+    }
+    
+    # Add to history
+    history.append(record)
+    
+    # Save
+    with open(history_file, 'w') as f:
+        json.dump(history, f, indent=2)
+    
+    print(f"✓ Training session logged to {history_file}")
 
 
 def test_model(model, scaler, size_labels):

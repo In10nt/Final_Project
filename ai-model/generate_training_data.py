@@ -7,10 +7,10 @@ import json
 import random
 import numpy as np
 
-def generate_size_training_data(num_samples=500):
+def generate_size_training_data(num_samples=2000):
     """
     Generate synthetic training data for size recommendation
-    Increased to 500 samples for better accuracy
+    Increased to 2000 samples for maximum accuracy
     
     Args:
         num_samples: Number of training samples to generate
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     
     # Generate size recommendation training data
     print("1. Generating Size Recommendation Training Data...")
-    size_data = generate_size_training_data(num_samples=500)  # Increased to 500
+    size_data = generate_size_training_data(num_samples=2000)  # Increased to 2000
     save_training_data(size_data, 'training_data_size.json')
     
     print()
