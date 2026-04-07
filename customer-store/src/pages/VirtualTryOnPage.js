@@ -831,6 +831,7 @@ const VirtualTryOnPage = () => {
                       width={400} 
                       height={480}
                       productColor={selectedModelColor}
+                      productCategory={selectedProduct.category}
                       showColorPicker={false}
                     />
                   </Box>

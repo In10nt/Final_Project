@@ -591,6 +591,7 @@ const VirtualTryOnPageNew = () => {
                       height={450}
                       width="100%"
                       productColor={selectedColor || selectedProduct.color?.split(',')[0]?.trim() || 'White'}
+                      productCategory={selectedProduct.category}
                       showColorPicker={false}
                     />
                   </Box>
@@ -998,6 +999,7 @@ const VirtualTryOnPageNew = () => {
                         height={380}
                         width="100%"
                         productColor={product.color?.split(',')[0]?.trim() || 'White'}
+                        productCategory={product.category}
                         showColorPicker={false}
                         autoRotate={false}
                       />

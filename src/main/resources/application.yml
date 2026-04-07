@@ -39,6 +39,13 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   
+  web:
+    resources:
+      static-locations: classpath:/static/,file:src/main/resources/static/
+  
+  mvc:
+    static-path-pattern: /**
+  
   mail:
     host: smtp.gmail.com
     port: 587

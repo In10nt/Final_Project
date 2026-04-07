@@ -101,6 +101,7 @@ const ProductsPage = () => {
                     height={380}
                     width="100%"
                     productColor={product.color?.split(',')[0]?.trim() || 'White'}
+                    productCategory={product.category}
                     showColorPicker={false}
                     autoRotate={false}
                   />

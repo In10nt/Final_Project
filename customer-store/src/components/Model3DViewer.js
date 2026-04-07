@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
 
-const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', showColorPicker = true, autoRotate = true, onColorChange }, ref) => {
+const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', productCategory = 'shirt', showColorPicker = true, autoRotate = true, onColorChange }, ref) => {
   const mountRef = useRef(null);
   const modelRef = useRef(null);
   const hairRef = useRef(null);
@@ -165,15 +165,33 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       const box = new THREE.Box3().setFromObject(object);
       const size = box.getSize(new THREE.Vector3());
       
+      console.log('=== MODEL ROTATION DEBUG ===');
       console.log('Model dimensions before rotation:', { x: size.x, y: size.y, z: size.z });
+      console.log('Product category received:', productCategory);
+      console.log('Product category type:', typeof productCategory);
       
-      // For OBJ files, apply rotation to make mannequin stand upright
-      if (isOBJ) {
-        console.log('Applying mannequin rotation');
-        // Rotate to stand up and face forward
-        object.rotation.x = -Math.PI / 2; // Rotate -90 degrees on X to stand up correctly
+      // Apply rotation based on product category
+      const category = (productCategory || 'shirt').toLowerCase();
+      console.log('Category after toLowerCase:', category);
+      
+      if (category.includes('dress') || category.includes('frock')) {
+        // DRESSES: Stand upright and face forward
+        object.rotation.x = 0;
+        object.rotation.y = Math.PI; // Rotate 180° to face front
+        object.rotation.z = 0;
+        console.log('✅ Applied DRESS rotation (Y:180° to face front)');
+      } else if (category.includes('pant') || category.includes('trouser') || category.includes('jean')) {
+        // PANTS: Different orientation
+        object.rotation.x = -Math.PI / 2;
         object.rotation.y = 0;
-        object.rotation.z = 0; // No Z rotation needed
+        object.rotation.z = 0;
+        console.log('Applied PANTS rotation');
+      } else {
+        // SHIRTS and others: Default orientation
+        object.rotation.x = -Math.PI / 2;
+        object.rotation.y = 0;
+        object.rotation.z = 0;
+        console.log('Applied SHIRT rotation (default)');
       }
       
       // Update matrix after rotation
@@ -188,7 +206,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       
       // Scale to fit viewport - make smaller to show full product
       const maxDim = Math.max(rotatedSize.x, rotatedSize.y, rotatedSize.z);
-      const scale = 1.8 / maxDim; // Smaller scale to ensure full product is always visible
+      const scale = 2.5 / maxDim; // Increased from 1.8 to 2.5 to show full product
       object.scale.multiplyScalar(scale);
       
       // Center the model at origin
