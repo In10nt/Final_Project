@@ -196,6 +196,7 @@ const VirtualTryOnPageNew = () => {
   
   const handleColorChange = (color) => {
     setSelectedColor(color);
+    
     // Change 3D model color if viewer ref exists
     if (modelViewerRef.current && modelViewerRef.current.changeColor) {
       const colorMap = {
@@ -235,7 +236,18 @@ const VirtualTryOnPageNew = () => {
               color: '#ffffff',
               mb: 2,
               fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
-              textShadow: '0 2px 10px rgba(255,255,255,0.1)'
+              textShadow: '0 2px 10px rgba(255,255,255,0.1)',
+              animation: 'slideInDown 0.8s ease-out',
+              '@keyframes slideInDown': {
+                '0%': {
+                  opacity: 0,
+                  transform: 'translateY(-30px)',
+                },
+                '100%': {
+                  opacity: 1,
+                  transform: 'translateY(0)',
+                },
+              },
             }}
           >
             AI-Powered Virtual Try-On
@@ -599,7 +611,7 @@ const VirtualTryOnPageNew = () => {
               <Box sx={{ 
                 position: 'relative', 
                 height: { xs: 300, sm: 400, md: 450 }, 
-                bgcolor: '#0a0a0a', 
+                background: 'radial-gradient(circle, #2a2a2a 0%, #0a0a0a 100%)', 
                 overflow: 'hidden' 
               }}>
                 {selectedProduct.model3dUrl ? (
@@ -792,14 +804,96 @@ const VirtualTryOnPageNew = () => {
             <Card sx={{ 
               background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
               border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 4
+              borderRadius: 4,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: { xs: '400px', md: '500px' }
             }}>
-              <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-                <Typography variant="body2" color="#888" textAlign="center" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+              <CardContent sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center', width: '100%' }}>
+                {/* Dancing GIF */}
+                <Box
+                  sx={{
+                    width: { xs: '200px', sm: '250px' },
+                    height: { xs: '200px', sm: '250px' },
+                    margin: '0 auto',
+                    mb: 3,
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '3px solid rgba(255,255,255,0.2)',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+                    animation: 'float 4s ease-in-out infinite',
+                    '@keyframes float': {
+                      '0%, 100%': { transform: 'translateY(0px)' },
+                      '50%': { transform: 'translateY(-15px)' },
+                    },
+                  }}
+                >
+                  <img
+                    src="/dance-animation.gif"
+                    alt="Get AI Recommendations"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = '<div style="color: white; display: flex; align-items: center; justify-content: center; height: 100%; font-size: 60px;">🤖</div>';
+                    }}
+                  />
+                </Box>
+
+                <Typography variant="h5" color="#ffffff" gutterBottom fontWeight="bold" sx={{ mb: 2 }}>
                   {!bodyProfile
-                    ? 'Save your profile to get AI recommendations'
-                    : 'Select a product to see recommendations'}
+                    ? 'Get AI-Powered Recommendations'
+                    : 'Select a Product'}
                 </Typography>
+                <Typography variant="body1" color="#888" sx={{ mb: 3, lineHeight: 1.6 }}>
+                  {!bodyProfile
+                    ? 'Save your profile to unlock personalized size recommendations with 84% accuracy'
+                    : 'Choose a product from our collection to see AI-powered fit analysis'}
+                </Typography>
+                
+                {!bodyProfile && (
+                  <Box sx={{ 
+                    display: 'flex', 
+                    gap: 2, 
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    mt: 2
+                  }}>
+                    <Chip 
+                      label="84% Accuracy" 
+                      size="small" 
+                      sx={{ 
+                        bgcolor: 'rgba(255,255,255,0.1)', 
+                        color: 'white',
+                        border: '1px solid rgba(255,255,255,0.2)'
+                      }} 
+                    />
+                    <Chip 
+                      label="AI Powered" 
+                      size="small" 
+                      sx={{ 
+                        bgcolor: 'rgba(255,255,255,0.1)', 
+                        color: 'white',
+                        border: '1px solid rgba(255,255,255,0.2)'
+                      }} 
+                    />
+                    <Chip 
+                      label="Smart Fit" 
+                      size="small" 
+                      sx={{ 
+                        bgcolor: 'rgba(255,255,255,0.1)', 
+                        color: 'white',
+                        border: '1px solid rgba(255,255,255,0.2)'
+                      }} 
+                    />
+                  </Box>
+                )}
               </CardContent>
             </Card>
           )}
@@ -824,7 +918,21 @@ const VirtualTryOnPageNew = () => {
             gap: { xs: 2, sm: 0 }
           }}>
             <Box>
-              <Typography variant="h4" fontWeight="bold" color="#ffffff" sx={{ mb: 1, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' } }}>
+              <Typography variant="h4" fontWeight="bold" color="#ffffff" sx={{ 
+                mb: 1, 
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' },
+                animation: 'fadeInLeft 0.8s ease-out',
+                '@keyframes fadeInLeft': {
+                  '0%': {
+                    opacity: 0,
+                    transform: 'translateX(-30px)',
+                  },
+                  '100%': {
+                    opacity: 1,
+                    transform: 'translateX(0)',
+                  },
+                },
+              }}>
                 Our Collection
               </Typography>
               <Typography variant="body2" color="#888" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
@@ -916,19 +1024,24 @@ const VirtualTryOnPageNew = () => {
                     </Box>
                   )}
                   
-                  <Box sx={{ position: 'relative', height: { xs: 150, sm: 180, md: 200 }, bgcolor: '#000000' }}>
+                  <Box sx={{ 
+                    position: 'relative', 
+                    height: { xs: 280, sm: 320, md: 380 }, 
+                    background: 'radial-gradient(circle, #2a2a2a 0%, #0a0a0a 100%)'
+                  }}>
                     {product.model3dUrl ? (
                       <Model3DViewer 
                         modelUrl={`http://localhost:8082${product.model3dUrl}`}
-                        height={200}
+                        height={380}
                         width="100%"
-                        productColor={product.color || 'White'}
+                        productColor={product.color?.split(',')[0]?.trim() || 'White'}
                         showColorPicker={false}
+                        autoRotate={false}
                       />
                     ) : (
                       <CardMedia
                         component="img"
-                        height="200"
+                        height="380"
                         image={product.imageUrl || product.image}
                         alt={product.name}
                         sx={{ objectFit: 'contain', bgcolor: '#000000' }}

@@ -23,10 +23,11 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        bgcolor: 'primary.main',
+        bgcolor: '#0a0a0a',
         color: 'white',
         py: 6,
         mt: 'auto',
+        borderTop: '1px solid #333',
       }}
     >
       <Container maxWidth="lg">
@@ -36,21 +37,21 @@ const Footer = () => {
             <Typography variant="h6" gutterBottom fontWeight="bold">
               Fashion Store
             </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ mb: 2, color: '#888' }}>
               Your premier destination for virtual try-on fashion experiences. 
               Discover the perfect fit with our cutting-edge technology.
             </Typography>
             <Box>
-              <IconButton color="inherit" size="small">
+              <IconButton sx={{ color: '#888', '&:hover': { color: 'white' } }} size="small">
                 <Facebook />
               </IconButton>
-              <IconButton color="inherit" size="small">
+              <IconButton sx={{ color: '#888', '&:hover': { color: 'white' } }} size="small">
                 <Twitter />
               </IconButton>
-              <IconButton color="inherit" size="small">
+              <IconButton sx={{ color: '#888', '&:hover': { color: 'white' } }} size="small">
                 <Instagram />
               </IconButton>
-              <IconButton color="inherit" size="small">
+              <IconButton sx={{ color: '#888', '&:hover': { color: 'white' } }} size="small">
                 <YouTube />
               </IconButton>
             </Box>
@@ -62,19 +63,19 @@ const Footer = () => {
               Quick Links
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Link color="inherit" href="/" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="/" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Home
               </Link>
-              <Link color="inherit" href="/products" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="/products" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Products
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Categories
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="/virtual-tryon" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Virtual Try-On
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 About Us
               </Link>
             </Box>
@@ -86,19 +87,19 @@ const Footer = () => {
               Customer Service
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Contact Us
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Size Guide
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Shipping Info
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 Returns
               </Link>
-              <Link color="inherit" href="#" sx={{ mb: 1, textDecoration: 'none' }}>
+              <Link color="#888" href="#" sx={{ mb: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
                 FAQ
               </Link>
             </Box>
@@ -110,27 +111,27 @@ const Footer = () => {
               Contact Info
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <LocationOn sx={{ mr: 1, fontSize: 20 }} />
-              <Typography variant="body2">
+              <LocationOn sx={{ mr: 1, fontSize: 20, color: '#888' }} />
+              <Typography variant="body2" color="#888">
                 123 Fashion St, Style City, SC 12345
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <Phone sx={{ mr: 1, fontSize: 20 }} />
-              <Typography variant="body2">
+              <Phone sx={{ mr: 1, fontSize: 20, color: '#888' }} />
+              <Typography variant="body2" color="#888">
                 +1 (555) 123-4567
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <Email sx={{ mr: 1, fontSize: 20 }} />
-              <Typography variant="body2">
+              <Email sx={{ mr: 1, fontSize: 20, color: '#888' }} />
+              <Typography variant="body2" color="#888">
                 support@fashionstore.com
               </Typography>
             </Box>
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 4, bgcolor: 'rgba(255,255,255,0.2)' }} />
+        <Divider sx={{ my: 4, bgcolor: '#333' }} />
 
         <Box
           sx={{
@@ -140,14 +141,14 @@ const Footer = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="body2">
-            © 2026 Fashion Store. All rights reserved.
+          <Typography variant="body2" color="#888">
+            © 2024 Fashion Store. All rights reserved.
           </Typography>
           <Box>
-            <Link color="inherit" href="#" sx={{ mx: 1, textDecoration: 'none' }}>
+            <Link color="#888" href="#" sx={{ mx: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
               Privacy Policy
             </Link>
-            <Link color="inherit" href="#" sx={{ mx: 1, textDecoration: 'none' }}>
+            <Link color="#888" href="#" sx={{ mx: 1, textDecoration: 'none', '&:hover': { color: 'white' } }}>
               Terms of Service
             </Link>
           </Box>

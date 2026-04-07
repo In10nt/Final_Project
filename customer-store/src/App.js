@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { CustomerAuthProvider, useCustomerAuth } from './contexts/CustomerAuthContext';
+import { CartProvider } from './contexts/CartContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -12,11 +13,12 @@ import VirtualTryOnPage from './pages/VirtualTryOnPageNew';  // Using new image-
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import AvatarCustomizationPage from './pages/AvatarCustomizationPage';
-import CartPage from './pages/CartPage';
+import CartPage from './pages/CartPageNew';
 import CheckoutPage from './pages/CheckoutPage';
 import CustomerLoginPage from './pages/CustomerLoginPage';
 import CustomerRegisterPage from './pages/CustomerRegisterPage';
 import AITestPage from './pages/AITestPage';
+import AboutPage from './pages/AboutPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -127,32 +129,35 @@ function App() {
         <CssBaseline />
         <Router>
           <CustomerAuthProvider>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <Header />
-              <main style={{ flex: 1 }}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<CustomerLoginPage />} />
-                  <Route path="/register" element={<CustomerRegisterPage />} />
-                  <Route path="/virtual-tryon" element={
-                    <ProtectedRoute>
-                      <VirtualTryOnPage />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/products" element={<ProductsPage />} />
-                  <Route path="/products/:id" element={<ProductDetailPage />} />
-                  <Route path="/ai-test" element={<AITestPage />} />
-                  <Route path="/avatar/customize" element={
-                    <ProtectedRoute>
-                      <AvatarCustomizationPage />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
+            <CartProvider>
+              <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                <Header />
+                <main style={{ flex: 1 }}>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/login" element={<CustomerLoginPage />} />
+                    <Route path="/register" element={<CustomerRegisterPage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/virtual-tryon" element={
+                      <ProtectedRoute>
+                        <VirtualTryOnPage />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/products/:id" element={<ProductDetailPage />} />
+                    <Route path="/ai-test" element={<AITestPage />} />
+                    <Route path="/avatar/customize" element={
+                      <ProtectedRoute>
+                        <AvatarCustomizationPage />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/checkout" element={<CheckoutPage />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </div>
+            </CartProvider>
           </CustomerAuthProvider>
         </Router>
       </ThemeProvider>

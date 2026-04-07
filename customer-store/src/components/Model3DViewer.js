@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
 
-const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', showColorPicker = true, onColorChange }, ref) => {
+const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', showColorPicker = true, autoRotate = true, onColorChange }, ref) => {
   const mountRef = useRef(null);
   const modelRef = useRef(null);
   const hairRef = useRef(null);
@@ -16,7 +16,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
   const sceneRef = useRef(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const [autoRotate, setAutoRotate] = React.useState(true);
+  const [isAutoRotating, setIsAutoRotating] = React.useState(autoRotate);
   const [selectedColor, setSelectedColor] = React.useState(productColor);
   const [containerSize, setContainerSize] = React.useState({ width: 400, height: 600 });
 
@@ -57,16 +57,18 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000); // Pure black background
+    // Gradient-like background using fog for better product visibility
+    scene.background = new THREE.Color(0x1a1a1a); // Dark gray instead of pure black
+    scene.fog = new THREE.Fog(0x0a0a0a, 10, 50); // Subtle gradient effect
 
     // Camera setup - position camera to look at model from front
     const camera = new THREE.PerspectiveCamera(
-      50,
+      40, // Narrower field of view to zoom in slightly
       containerSize.width / containerSize.height,
       0.1,
       1000
     );
-    camera.position.set(0, 0, 4); // Front view, centered
+    camera.position.set(0, 0, 7); // Further back to show full product
     camera.lookAt(0, 0, 0); // Look at center of model
 
     // Renderer setup
@@ -118,17 +120,24 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.minDistance = 2;
-    controls.maxDistance = 10;
+    controls.minDistance = 4;
+    controls.maxDistance = 15;
     
     // Lock vertical rotation - keep camera at same height
     controls.minPolarAngle = Math.PI / 2; // Horizontal
     controls.maxPolarAngle = Math.PI / 2; // Horizontal
     
-    controls.autoRotate = true;
+    controls.autoRotate = autoRotate; // Use prop value
     controls.autoRotateSpeed = 2.0; // Smooth rotation speed
     controls.enablePan = false; // Disable panning
     controls.target.set(0, 0, 0); // Rotate around center of model
+    
+    // Disable user rotation if autoRotate is false (for product grids)
+    if (!autoRotate) {
+      controls.enableRotate = false; // Disable drag to rotate
+      controls.enableZoom = false; // Disable scroll to zoom
+    }
+    
     controlsRef.current = controls;
 
     // Load 3D model - detect file type and use appropriate loader
@@ -177,9 +186,9 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       
       console.log('Model dimensions after rotation:', { x: rotatedSize.x, y: rotatedSize.y, z: rotatedSize.z });
       
-      // Scale to fit viewport - make it taller
+      // Scale to fit viewport - make smaller to show full product
       const maxDim = Math.max(rotatedSize.x, rotatedSize.y, rotatedSize.z);
-      const scale = 2.5 / maxDim;
+      const scale = 1.8 / maxDim; // Smaller scale to ensure full product is always visible
       object.scale.multiplyScalar(scale);
       
       // Center the model at origin
@@ -507,21 +516,39 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
     };
   }, [modelUrl, hairModelUrl, clothingModelUrl, width, height, productColor]);
 
-  // Change model color
+  // Change model color - with safety checks
   const changeColor = (colorHex) => {
+    if (!sceneRef.current) return;
+    
     // Change clothing color if present
     if (clothingRef.current) {
       clothingRef.current.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.material.color.set(colorHex);
+        if (child instanceof THREE.Mesh && child.material) {
+          if (Array.isArray(child.material)) {
+            child.material.forEach(mat => {
+              mat.color.set(colorHex);
+              mat.needsUpdate = true;
+            });
+          } else {
+            child.material.color.set(colorHex);
+            child.material.needsUpdate = true;
+          }
         }
       });
     }
-    // Otherwise change mannequin color
+    // Otherwise change mannequin/model color
     else if (modelRef.current) {
       modelRef.current.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.material.color.set(colorHex);
+        if (child instanceof THREE.Mesh && child.material) {
+          if (Array.isArray(child.material)) {
+            child.material.forEach(mat => {
+              mat.color.set(colorHex);
+              mat.needsUpdate = true;
+            });
+          } else {
+            child.material.color.set(colorHex);
+            child.material.needsUpdate = true;
+          }
         }
       });
     }
@@ -540,10 +567,14 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
     }
   };
 
-  // Expose methods to parent via ref
+  // Expose methods to parent via ref - make sure changeColor is always available
   useImperativeHandle(ref, () => ({
-    changeColor,
-    changeHairColor
+    changeColor: (colorHex) => {
+      changeColor(colorHex);
+    },
+    changeHairColor: (colorHex) => {
+      changeHairColor(colorHex);
+    }
   }));
 
   // Handle color selection
@@ -555,8 +586,8 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
   // Toggle auto-rotation
   const toggleAutoRotate = () => {
     if (controlsRef.current) {
-      controlsRef.current.autoRotate = !autoRotate;
-      setAutoRotate(!autoRotate);
+      controlsRef.current.autoRotate = !isAutoRotating;
+      setIsAutoRotating(!isAutoRotating);
     }
   };
 
@@ -570,7 +601,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
   // Jump to specific view angles
   const jumpToView = (angle) => {
     if (controlsRef.current) {
-      const radius = 4; // Distance from model
+      const radius = 7; // Distance from model - matches camera position
       const height = 0; // Camera height - centered
       
       // Calculate camera position based on angle
@@ -746,9 +777,9 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
                 boxShadow: 2,
               }}
             >
-              <Tooltip title={autoRotate ? "Pause Rotation" : "Auto Rotate"}>
+              <Tooltip title={isAutoRotating ? "Pause Rotation" : "Auto Rotate"}>
                 <IconButton onClick={toggleAutoRotate} size="small" color="primary">
-                  {autoRotate ? <Pause /> : <PlayArrow />}
+                  {isAutoRotating ? <Pause /> : <PlayArrow />}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Reset View">
