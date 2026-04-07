@@ -46,37 +46,70 @@ const Layout = ({ children }) => {
   ];
 
   const drawer = (
-    <Box>
-      <Toolbar sx={{ bgcolor: 'primary.main', color: 'white' }}>
-        <Typography variant="h6" noWrap component="div">
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Toolbar sx={{ 
+        background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+        minHeight: '80px !important',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: '16px 24px',
+      }}>
+        <Typography variant="h5" sx={{ 
+          fontWeight: 700,
+          background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          mb: 0.5,
+        }}>
           Virtual Try-On
         </Typography>
+        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+          Admin Dashboard
+        </Typography>
       </Toolbar>
-      <Divider />
-      <List>
+      <Divider sx={{ borderColor: '#334155' }} />
+      <List sx={{ flexGrow: 1, py: 2 }}>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton
               selected={location.pathname === item.path}
               onClick={() => navigate(item.path)}
-              sx={{
-                '&.Mui-selected': {
-                  bgcolor: 'primary.light',
-                  color: 'primary.contrastText',
-                  '&:hover': {
-                    bgcolor: 'primary.light',
-                  },
-                },
-              }}
             >
-              <ListItemIcon sx={{ color: location.pathname === item.path ? 'primary.main' : 'inherit' }}>
+              <ListItemIcon sx={{ 
+                color: location.pathname === item.path ? '#3b82f6' : '#94a3b8',
+                minWidth: 40,
+              }}>
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText 
+                primary={item.text}
+                primaryTypographyProps={{
+                  fontSize: '0.95rem',
+                  fontWeight: location.pathname === item.path ? 600 : 400,
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
+      <Divider sx={{ borderColor: '#334155' }} />
+      <Box sx={{ p: 2 }}>
+        <Box sx={{
+          p: 2,
+          borderRadius: 2,
+          background: 'rgba(59, 130, 246, 0.1)',
+          border: '1px solid rgba(59, 130, 246, 0.2)',
+        }}>
+          <Typography variant="caption" sx={{ color: '#94a3b8', display: 'block', mb: 0.5 }}>
+            Logged in as
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#e2e8f0', fontWeight: 500 }}>
+            {user?.email}
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 
@@ -84,12 +117,13 @@ const Layout = ({ children }) => {
     <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"
+        elevation={0}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ minHeight: '70px !important' }}>
           <IconButton
             color="inherit"
             edge="start"
@@ -98,13 +132,22 @@ const Layout = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Admin Dashboard
-          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography variant="body2">{user?.email}</Typography>
-            <IconButton onClick={handleProfileMenuOpen} color="inherit">
-              <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}>
+            <IconButton 
+              onClick={handleProfileMenuOpen}
+              sx={{
+                background: 'rgba(59, 130, 246, 0.1)',
+                '&:hover': {
+                  background: 'rgba(59, 130, 246, 0.2)',
+                },
+              }}
+            >
+              <Avatar sx={{ 
+                width: 36, 
+                height: 36, 
+                background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+              }}>
                 <AccountCircle />
               </Avatar>
             </IconButton>
@@ -113,12 +156,24 @@ const Layout = ({ children }) => {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleProfileMenuClose}
+            PaperProps={{
+              sx: {
+                mt: 1.5,
+                minWidth: 200,
+                background: '#1e293b',
+                border: '1px solid #334155',
+              }
+            }}
           >
-            <MenuItem onClick={handleLogout}>
+            <MenuItem onClick={handleLogout} sx={{
+              '&:hover': {
+                background: 'rgba(59, 130, 246, 0.1)',
+              }
+            }}>
               <ListItemIcon>
-                <Logout fontSize="small" />
+                <Logout fontSize="small" sx={{ color: '#94a3b8' }} />
               </ListItemIcon>
-              Logout
+              <Typography sx={{ color: '#e2e8f0' }}>Logout</Typography>
             </MenuItem>
           </Menu>
         </Toolbar>
@@ -156,7 +211,9 @@ const Layout = ({ children }) => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          mt: 8,
+          mt: '70px',
+          minHeight: '100vh',
+          background: '#0f172a',
         }}
       >
         {children}

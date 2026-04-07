@@ -78,20 +78,22 @@ const ProductsPage = () => {
               height: '100%', 
               display: 'flex', 
               flexDirection: 'column',
-              bgcolor: '#1a1a1a',
-              border: '1px solid #333',
+              background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+              border: '1px solid #334155',
+              borderRadius: 3,
               transition: 'all 0.3s',
               '&:hover': {
                 transform: 'translateY(-8px)',
-                borderColor: '#666',
-                boxShadow: '0 20px 60px rgba(255,255,255,0.1)',
+                borderColor: '#3b82f6',
+                boxShadow: '0 20px 60px rgba(59, 130, 246, 0.3)',
               }
             }}>
               <Box sx={{ 
                 position: 'relative', 
                 height: 380, 
                 bgcolor: '#000',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                borderRadius: '12px 12px 0 0',
               }}>
                 {product.model3dUrl ? (
                   <Model3DViewer 
@@ -111,49 +113,87 @@ const ProductsPage = () => {
                     sx={{ objectFit: 'cover' }}
                   />
                 )}
+                <Box sx={{
+                  position: 'absolute',
+                  top: 12,
+                  right: 12,
+                  bgcolor: 'rgba(59, 130, 246, 0.9)',
+                  color: '#fff',
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: 2,
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                }}>
+                  ${product.price}
+                </Box>
               </Box>
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h5" component="h2" sx={{ color: '#ffffff', fontWeight: 'bold' }}>
+              <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                <Typography gutterBottom variant="h5" component="h2" sx={{ 
+                  color: '#e2e8f0', 
+                  fontWeight: 700,
+                  mb: 1.5,
+                }}>
                   {product.name}
                 </Typography>
-                <Typography variant="body2" sx={{ mb: 2, color: '#888' }}>
+                <Typography variant="body2" sx={{ 
+                  mb: 2, 
+                  color: '#94a3b8',
+                  lineHeight: 1.6,
+                }}>
                   {product.description}
                 </Typography>
-                <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 'bold' }}>
-                  ${product.price}
-                </Typography>
-                <Typography variant="caption" sx={{ color: '#666' }}>
-                  Category: {product.category}
-                </Typography>
+                <Box sx={{
+                  display: 'inline-block',
+                  px: 1.5,
+                  py: 0.5,
+                  bgcolor: 'rgba(59, 130, 246, 0.1)',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  borderRadius: 1,
+                }}>
+                  <Typography variant="caption" sx={{ 
+                    color: '#60a5fa',
+                    fontWeight: 500,
+                  }}>
+                    {product.category}
+                  </Typography>
+                </Box>
               </CardContent>
-              <CardActions sx={{ gap: 1, p: 2 }}>
+              <CardActions sx={{ gap: 1.5, p: 3, pt: 0 }}>
                 <Button 
-                  size="medium" 
+                  size="large" 
                   fullWidth 
                   variant="outlined" 
                   onClick={() => navigate(`/products/${product.id}`)}
                   sx={{
-                    borderColor: '#666',
-                    color: '#ffffff',
+                    borderColor: '#334155',
+                    color: '#e2e8f0',
+                    borderWidth: 2,
+                    fontWeight: 600,
+                    py: 1.2,
                     '&:hover': {
-                      borderColor: '#ffffff',
-                      bgcolor: 'rgba(255,255,255,0.05)',
+                      borderColor: '#3b82f6',
+                      bgcolor: 'rgba(59, 130, 246, 0.1)',
+                      borderWidth: 2,
                     }
                   }}
                 >
                   View Details
                 </Button>
                 <Button 
-                  size="medium" 
+                  size="large" 
                   fullWidth 
                   variant="contained" 
                   onClick={() => handleTryOn(product.id)}
                   sx={{
-                    bgcolor: '#ffffff',
-                    color: '#000000',
-                    fontWeight: 'bold',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    py: 1.2,
+                    boxShadow: '0 4px 14px rgba(59, 130, 246, 0.4)',
                     '&:hover': {
-                      bgcolor: '#e0e0e0',
+                      background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
+                      boxShadow: '0 6px 20px rgba(59, 130, 246, 0.6)',
                     }
                   }}
                 >

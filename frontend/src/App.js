@@ -17,11 +17,64 @@ import ForceLogoutPage from './pages/ForceLogoutPage';
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      main: '#1976d2',
+      main: '#3b82f6',
+      light: '#60a5fa',
+      dark: '#2563eb',
     },
     secondary: {
-      main: '#dc004e',
+      main: '#8b5cf6',
+      light: '#a78bfa',
+      dark: '#7c3aed',
+    },
+    background: {
+      default: '#0f172a',
+      paper: '#1e293b',
+    },
+    text: {
+      primary: '#e2e8f0',
+      secondary: '#94a3b8',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)',
+          borderRight: '1px solid #334155',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+          borderBottom: '1px solid #334155',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          margin: '4px 12px',
+          '&.Mui-selected': {
+            background: 'rgba(59, 130, 246, 0.15)',
+            borderLeft: '3px solid #3b82f6',
+            '&:hover': {
+              background: 'rgba(59, 130, 246, 0.2)',
+            },
+          },
+          '&:hover': {
+            background: 'rgba(59, 130, 246, 0.1)',
+          },
+        },
+      },
     },
   },
 });

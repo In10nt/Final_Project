@@ -39,8 +39,6 @@ const VirtualTryOnPageNew = () => {
     waist: 72,
     hips: 95,
   });
-  const [bodyShape, setBodyShape] = useState('rectangle');
-  const [skinTone, setSkinTone] = useState('medium');
   const [gender, setGender] = useState('female');
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
@@ -78,8 +76,6 @@ const VirtualTryOnPageNew = () => {
         waist: authBodyProfile.waistCm || 72,
         hips: authBodyProfile.hipCm || 95,
       });
-      setBodyShape(authBodyProfile.bodyShape || 'rectangle');
-      setSkinTone(authBodyProfile.skinTone || 'medium');
       setGender((authBodyProfile.gender || 'FEMALE').toLowerCase());
     }
   };
@@ -100,8 +96,6 @@ const VirtualTryOnPageNew = () => {
         chestCm: measurements.chest,
         waistCm: measurements.waist,
         hipCm: measurements.hips,
-        bodyShape: bodyShape,
-        skinTone: skinTone,
         gender: gender.toUpperCase(),
       };
 
@@ -526,37 +520,6 @@ const VirtualTryOnPageNew = () => {
                   }}
                 />
               </Box>
-
-              {/* Body Shape */}
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Body Shape</InputLabel>
-                <Select
-                  value={bodyShape}
-                  onChange={(e) => setBodyShape(e.target.value)}
-                  label="Body Shape"
-                >
-                  <MenuItem value="hourglass">Hourglass</MenuItem>
-                  <MenuItem value="pear">Pear</MenuItem>
-                  <MenuItem value="apple">Apple</MenuItem>
-                  <MenuItem value="rectangle">Rectangle</MenuItem>
-                  <MenuItem value="inverted-triangle">Inverted Triangle</MenuItem>
-                </Select>
-              </FormControl>
-
-              {/* Skin Tone */}
-              <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Skin Tone</InputLabel>
-                <Select
-                  value={skinTone}
-                  onChange={(e) => setSkinTone(e.target.value)}
-                  label="Skin Tone"
-                >
-                  <MenuItem value="light">Light</MenuItem>
-                  <MenuItem value="medium">Medium</MenuItem>
-                  <MenuItem value="tan">Tan</MenuItem>
-                  <MenuItem value="dark">Dark</MenuItem>
-                </Select>
-              </FormControl>
 
               <Button
                 fullWidth
