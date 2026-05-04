@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  TextField,
   Slider,
   FormControl,
   InputLabel,
@@ -20,10 +19,11 @@ import {
   CircularProgress,
   LinearProgress,
 } from '@mui/material';
-import { CheckCircle, Person, Straighten, Palette, Lightbulb } from '@mui/icons-material';
+import { CheckCircle, Person, Straighten, PhotoCamera } from '@mui/icons-material';
 import AIRecommendations from '../components/AIRecommendations';
 import FitBadge from '../components/FitBadge';
 import Model3DViewer from '../components/Model3DViewer';
+import PhotoMeasurementUpload from '../components/PhotoMeasurementUpload';
 import { productsAPI } from '../services/apiService';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import axios from 'axios';
@@ -50,6 +50,9 @@ const VirtualTryOnPageNew = () => {
   const [calculatingFit, setCalculatingFit] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const modelViewerRef = useRef(null);
+  
+  // Photo upload state
+  const [showPhotoUpload, setShowPhotoUpload] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -213,6 +216,20 @@ const VirtualTryOnPageNew = () => {
     }
   };
 
+  const handlePhotoMeasurementsExtracted = (measurements) => {
+    // Update measurements from photo
+    setMeasurements({
+      height: measurements.height,
+      chest: measurements.chest,
+      waist: measurements.waist,
+      hips: measurements.hips,
+    });
+    setShowPhotoUpload(false);
+    
+    // Show success message
+    setSaveError('');
+  };
+
   return (
     <Box sx={{ 
       minHeight: '100vh',
@@ -291,6 +308,12 @@ const VirtualTryOnPageNew = () => {
       <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
         {/* Left: Profile Form */}
         <Grid item xs={12} lg={4}>
+          {showPhotoUpload ? (
+            <PhotoMeasurementUpload
+              onMeasurementsExtracted={handlePhotoMeasurementsExtracted}
+              onClose={() => setShowPhotoUpload(false)}
+            />
+          ) : (
           <Card sx={{ 
             background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
             border: '1px solid rgba(255,255,255,0.1)',
@@ -341,6 +364,43 @@ const VirtualTryOnPageNew = () => {
                   Please login to save your profile permanently
                 </Alert>
               )}
+
+              {/* AI Photo Upload Button */}
+              <Button
+                fullWidth
+                variant="outlined"
+                size="large"
+                startIcon={<PhotoCamera />}
+                onClick={() => setShowPhotoUpload(true)}
+                sx={{
+                  mb: 3,
+                  py: 1.5,
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  borderColor: '#ffffff',
+                  borderWidth: 2,
+                  '&:hover': {
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    bgcolor: 'rgba(255,255,255,0.1)',
+                  },
+                }}
+              >
+                📸 Upload Photo for AI Measurement
+              </Button>
+
+              <Divider sx={{ mb: 3, bgcolor: 'rgba(255,255,255,0.1)' }}>
+                <Chip 
+                  label="OR ENTER MANUALLY" 
+                  size="small" 
+                  sx={{ 
+                    bgcolor: 'rgba(255,255,255,0.05)', 
+                    color: '#888',
+                    fontSize: '0.7rem'
+                  }} 
+                />
+              </Divider>
 
               {/* Gender */}
               <FormControl fullWidth sx={{ mb: 2 }}>
@@ -556,6 +616,7 @@ const VirtualTryOnPageNew = () => {
               )}
             </CardContent>
           </Card>
+          )}
         </Grid>
 
         {/* Center: Product Display */}

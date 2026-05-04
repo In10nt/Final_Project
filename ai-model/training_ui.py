@@ -16,9 +16,33 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import pickle
+from train_measurement_model import MeasurementModelTrainer
+from train_gender_model import GenderDetectionTrainer
 
 app = Flask(__name__)
 CORS(app)
+
+# Initialize measurement model trainer
+try:
+    measurement_trainer = MeasurementModelTrainer()
+    print("✓ Measurement trainer initialized")
+except Exception as e:
+    print(f"⚠ Measurement trainer initialization warning: {e}")
+    print("⚠ Measurement training features may be limited")
+    measurement_trainer = None
+
+# Initialize gender detection trainer
+try:
+    gender_trainer = GenderDetectionTrainer()
+    # Try to load existing gender model
+    if os.path.exists('models/gender_detection_model.pkl'):
+        gender_trainer.load_model()
+        print("✓ Gender detection model loaded")
+    else:
+        print("✓ Gender trainer initialized (no model yet)")
+except Exception as e:
+    print(f"⚠ Gender trainer initialization warning: {e}")
+    gender_trainer = None
 
 # Global variable to track training progress
 training_status = {
@@ -28,6 +52,34 @@ training_status = {
     'message': 'Ready to train',
     'results': None
 }
+
+# Measurement training status
+measurement_training_status = {
+    'is_training': False,
+    'progress': 0,
+    'stage': 'idle',
+    'message': 'Ready to train measurement model',
+    'results': None
+}
+
+# Load existing measurement training data if available
+MEASUREMENT_TRAINING_FILE = 'training_data/measurement_samples.json'
+if measurement_trainer and os.path.exists(MEASUREMENT_TRAINING_FILE):
+    try:
+        with open(MEASUREMENT_TRAINING_FILE, 'r') as f:
+            existing_data = json.load(f)
+            print(f"✓ Loaded {len(existing_data)} existing measurement training samples")
+            for sample in existing_data:
+                measurement_trainer.add_training_sample(
+                    sample['image_path'],
+                    sample['height_cm'],
+                    sample['chest_cm'],
+                    sample['waist_cm'],
+                    sample['hip_cm'],
+                    sample['gender']
+                )
+    except Exception as e:
+        print(f"⚠ Could not load existing measurement data: {e}")
 
 
 @app.route('/')
@@ -612,6 +664,610 @@ def save_training_history(training_samples, training_accuracy, testing_accuracy,
     
     with open(history_file, 'w') as f:
         json.dump(history, f, indent=2)
+
+
+# ============================================================================
+# MEASUREMENT MODEL TRAINING ENDPOINTS (NEW)
+# ============================================================================
+
+@app.route('/api/measurement/extract-from-photo', methods=['POST'])
+def extract_from_photo():
+    """Extract measurements AND gender from photo automatically using trained models"""
+    try:
+        if 'photo' not in request.files:
+            return jsonify({'success': False, 'error': 'No photo uploaded'}), 400
+        
+        photo = request.files['photo']
+        height_cm = request.form.get('height_cm')
+        
+        if not height_cm:
+            return jsonify({'success': False, 'error': 'Height is required for calibration'}), 400
+        
+        height_cm = float(height_cm)
+        
+        # Save photo temporarily
+        import tempfile
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
+            photo.save(tmp_file.name)
+            temp_path = tmp_file.name
+        
+        try:
+            # Call AI service to extract measurements
+            import requests
+            
+            with open(temp_path, 'rb') as f:
+                files = {'image': f}
+                data = {'height_cm': height_cm}
+                
+                response = requests.post(
+                    'http://localhost:5000/api/ai/extract-measurements',
+                    files=files,
+                    data=data,
+                    timeout=30
+                )
+            
+            if response.status_code == 200:
+                result = response.json()
+                if result.get('success'):
+                    measurements = result['measurements']
+                    
+                    # Try to use TRAINED gender detection model first
+                    detected_gender = 'unknown'
+                    gender_confidence = 0.5
+                    gender_method = 'ratio-based'
+                    
+                    if gender_trainer and gender_trainer.model:
+                        # Use trained gender detection model
+                        gender_result = gender_trainer.predict_gender(temp_path)
+                        if 'error' not in gender_result:
+                            detected_gender = gender_result['gender']
+                            gender_confidence = gender_result['confidence']
+                            gender_method = 'trained-model'
+                            print(f"✓ Using trained gender model: {detected_gender} ({gender_confidence*100:.1f}%)")
+                    
+                    # Fallback to ratio-based detection if no trained model
+                    if detected_gender == 'unknown':
+                        chest = measurements['chest_cm']
+                        waist = measurements['waist_cm']
+                        hip = measurements['hip_cm']
+                        shoulder_width = measurements.get('shoulder_width_cm', chest / 2.2)
+                        
+                        # Calculate ratios for gender detection
+                        shoulder_hip_ratio = shoulder_width / (hip / 2.0) if hip > 0 else 1.0
+                        waist_hip_ratio = waist / hip if hip > 0 else 1.0
+                        
+                        # Gender detection logic
+                        male_score = 0
+                        female_score = 0
+                        
+                        # Shoulder-hip ratio (males: >0.95, females: <0.85)
+                        if shoulder_hip_ratio > 0.95:
+                            male_score += 2
+                        elif shoulder_hip_ratio < 0.85:
+                            female_score += 2
+                        else:
+                            male_score += 1
+                            female_score += 1
+                        
+                        # Waist-hip ratio (males: >0.85, females: <0.80)
+                        if waist_hip_ratio > 0.85:
+                            male_score += 1
+                        elif waist_hip_ratio < 0.80:
+                            female_score += 1
+                        
+                        # Hip-chest ratio (females typically have larger hips relative to chest)
+                        hip_chest_ratio = hip / chest if chest > 0 else 1.0
+                        if hip_chest_ratio > 1.05:
+                            female_score += 1
+                        elif hip_chest_ratio < 0.95:
+                            male_score += 1
+                        
+                        # Determine gender
+                        detected_gender = 'male' if male_score > female_score else 'female'
+                        gender_confidence = max(male_score, female_score) / (male_score + female_score) if (male_score + female_score) > 0 else 0.5
+                        gender_method = 'ratio-based (no trained model)'
+                        print(f"⚠ Using ratio-based gender detection: {detected_gender} ({gender_confidence*100:.1f}%)")
+                    
+                    # Clean up temp file
+                    os.remove(temp_path)
+                    
+                    return jsonify({
+                        'success': True,
+                        'measurements': {
+                            'height_cm': measurements['height_cm'],
+                            'chest_cm': measurements['chest_cm'],
+                            'waist_cm': measurements['waist_cm'],
+                            'hip_cm': measurements['hip_cm'],
+                            'confidence': measurements.get('confidence', 0.85)
+                        },
+                        'gender': {
+                            'detected': detected_gender,
+                            'confidence': round(gender_confidence, 2),
+                            'method': gender_method
+                        },
+                        'message': f'Measurements extracted! Gender: {detected_gender} ({int(gender_confidence*100)}% confident, {gender_method})'
+                    })
+                else:
+                    os.remove(temp_path)
+                    return jsonify({
+                        'success': False,
+                        'error': result.get('message', 'Failed to extract measurements')
+                    }), 400
+            else:
+                os.remove(temp_path)
+                return jsonify({
+                    'success': False,
+                    'error': 'AI service error'
+                }), 500
+                
+        except Exception as e:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+            raise e
+            
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/measurement/add-sample', methods=['POST'])
+def add_measurement_sample():
+    """Add a training sample with photo for measurement model"""
+    if not measurement_trainer:
+        return jsonify({'success': False, 'error': 'Measurement trainer not available'}), 503
+    
+    if not gender_trainer:
+        return jsonify({'success': False, 'error': 'Gender trainer not available'}), 503
+    
+    try:
+        # Get form data
+        if 'photo' not in request.files:
+            return jsonify({'success': False, 'error': 'No photo uploaded'}), 400
+        
+        photo = request.files['photo']
+        height_cm = float(request.form.get('height_cm'))
+        chest_cm = float(request.form.get('chest_cm'))
+        waist_cm = float(request.form.get('waist_cm'))
+        hip_cm = float(request.form.get('hip_cm'))
+        gender = request.form.get('gender')
+        
+        # Validate inputs
+        if not all([height_cm, chest_cm, waist_cm, hip_cm, gender]):
+            return jsonify({'success': False, 'error': 'Missing required fields'}), 400
+        
+        # Create directory
+        os.makedirs('training_photos', exist_ok=True)
+        
+        # Save photo
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"{gender}_{timestamp}_{photo.filename}"
+        filepath = os.path.join('training_photos', filename)
+        photo.save(filepath)
+        
+        # Add to measurement trainer
+        success = measurement_trainer.add_training_sample(
+            filepath, height_cm, chest_cm, waist_cm, hip_cm, gender
+        )
+        
+        if not success:
+            return jsonify({
+                'success': False,
+                'error': 'Could not process photo - ensure full body is visible'
+            }), 400
+        
+        # Add to gender trainer (for training gender detection model)
+        gender_trainer.add_training_sample(filepath, gender)
+        
+        # Save training data
+        os.makedirs('training_data', exist_ok=True)
+        measurement_trainer.save_training_data(MEASUREMENT_TRAINING_FILE)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Training sample added successfully (measurements + gender)',
+            'total_samples': len(measurement_trainer.training_data)
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+        return jsonify({'success': False, 'error': 'Measurement trainer not available'}), 503
+    
+    try:
+        # Get form data
+        if 'photo' not in request.files:
+            return jsonify({'success': False, 'error': 'No photo uploaded'}), 400
+        
+        photo = request.files['photo']
+        height_cm = float(request.form.get('height_cm'))
+        chest_cm = float(request.form.get('chest_cm'))
+        waist_cm = float(request.form.get('waist_cm'))
+        hip_cm = float(request.form.get('hip_cm'))
+        gender = request.form.get('gender')
+        
+        # Validate inputs
+        if not all([height_cm, chest_cm, waist_cm, hip_cm, gender]):
+            return jsonify({'success': False, 'error': 'Missing required fields'}), 400
+        
+        # Create directory
+        os.makedirs('training_photos', exist_ok=True)
+        
+        # Save photo
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"{gender}_{timestamp}_{photo.filename}"
+        filepath = os.path.join('training_photos', filename)
+        photo.save(filepath)
+        
+        # Add to trainer
+        success = measurement_trainer.add_training_sample(
+            filepath, height_cm, chest_cm, waist_cm, hip_cm, gender
+        )
+        
+        if not success:
+            return jsonify({
+                'success': False,
+                'error': 'Could not process photo - ensure full body is visible'
+            }), 400
+        
+        # Save training data
+        os.makedirs('training_data', exist_ok=True)
+        measurement_trainer.save_training_data(MEASUREMENT_TRAINING_FILE)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Training sample added successfully',
+            'total_samples': len(measurement_trainer.training_data)
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/measurement/stats', methods=['GET'])
+def get_measurement_stats():
+    """Get measurement training statistics"""
+    if not measurement_trainer:
+        return jsonify({
+            'total_samples': 0,
+            'male_samples': 0,
+            'female_samples': 0,
+            'ready_to_train': False,
+            'recommended_samples': 100,
+            'has_model': False,
+            'error': 'Measurement trainer not available'
+        })
+    
+    male_count = sum(1 for s in measurement_trainer.training_data if s['gender'] == 'male')
+    female_count = sum(1 for s in measurement_trainer.training_data if s['gender'] == 'female')
+    
+    return jsonify({
+        'total_samples': len(measurement_trainer.training_data),
+        'male_samples': male_count,
+        'female_samples': female_count,
+        'ready_to_train': len(measurement_trainer.training_data) >= 10,
+        'recommended_samples': 100,
+        'has_model': os.path.exists('models/custom_measurement_model.pkl')
+    })
+
+
+@app.route('/api/measurement/samples', methods=['GET'])
+def get_measurement_samples():
+    """Get list of measurement training samples"""
+    samples = []
+    for sample in measurement_trainer.training_data:
+        samples.append({
+            'image': os.path.basename(sample['image_path']),
+            'gender': sample['gender'],
+            'height': sample['height_cm'],
+            'chest': sample['chest_cm'],
+            'waist': sample['waist_cm'],
+            'hip': sample['hip_cm']
+        })
+    return jsonify({'samples': samples, 'count': len(samples)})
+
+
+@app.route('/api/measurement/train', methods=['POST'])
+def train_measurement_model():
+    """Train the measurement extraction model"""
+    global measurement_training_status
+    
+    if measurement_training_status['is_training']:
+        return jsonify({'error': 'Measurement training already in progress'}), 400
+    
+    if len(measurement_trainer.training_data) < 10:
+        return jsonify({
+            'error': f'Need at least 10 samples (have {len(measurement_trainer.training_data)})'
+        }), 400
+    
+    # Start training in background thread
+    thread = threading.Thread(target=train_measurement_model_background)
+    thread.start()
+    
+    return jsonify({'message': 'Measurement model training started'})
+
+
+def train_measurement_model_background():
+    """Train measurement model in background"""
+    global measurement_training_status
+    
+    try:
+        measurement_training_status['is_training'] = True
+        measurement_training_status['progress'] = 0
+        measurement_training_status['results'] = None
+        
+        # Stage 1: Prepare data
+        measurement_training_status['stage'] = 'preparing'
+        measurement_training_status['message'] = 'Preparing training data...'
+        measurement_training_status['progress'] = 10
+        time.sleep(0.5)
+        
+        # Stage 2: Train gender detection model FIRST
+        measurement_training_status['stage'] = 'training_gender'
+        measurement_training_status['message'] = 'Training gender detection model...'
+        measurement_training_status['progress'] = 25
+        
+        gender_success = False
+        if gender_trainer and len(gender_trainer.training_data) >= 10:
+            gender_success = gender_trainer.train_model()
+            if gender_success:
+                gender_trainer.save_model('models/gender_detection_model.pkl')
+                print("✓ Gender detection model trained and saved")
+        else:
+            print("⚠ Skipping gender model training (need at least 10 samples)")
+        
+        time.sleep(0.5)
+        
+        # Stage 3: Train measurement model
+        measurement_training_status['stage'] = 'training_measurements'
+        measurement_training_status['message'] = 'Training measurement extraction model...'
+        measurement_training_status['progress'] = 50
+        
+        start_time = time.time()
+        success = measurement_trainer.train_model()
+        
+        if not success:
+            raise Exception("Measurement model training failed")
+        
+        # Stage 4: Train gender classifier (built into measurement model)
+        measurement_training_status['stage'] = 'training_gender_classifier'
+        measurement_training_status['message'] = 'Training integrated gender classifier...'
+        measurement_training_status['progress'] = 75
+        
+        measurement_trainer.train_gender_classifier()
+        
+        duration = time.time() - start_time
+        
+        # Stage 5: Save model
+        measurement_training_status['stage'] = 'saving'
+        measurement_training_status['message'] = 'Saving trained models...'
+        measurement_training_status['progress'] = 90
+        
+        measurement_trainer.save_model('models/custom_measurement_model.pkl')
+        measurement_trainer.generate_training_report()
+        
+        # Prepare results
+        results = {
+            'training_samples': len(measurement_trainer.training_data),
+            'accuracy': measurement_trainer.model['accuracy'],
+            'avg_error': measurement_trainer.model['avg_mae'],
+            'duration': round(duration, 2),
+            'male_samples': sum(1 for s in measurement_trainer.training_data if s['gender'] == 'male'),
+            'female_samples': sum(1 for s in measurement_trainer.training_data if s['gender'] == 'female'),
+            'has_gender_classifier': measurement_trainer.gender_model is not None,
+            'has_standalone_gender_model': gender_success
+        }
+        
+        # Complete
+        measurement_training_status['stage'] = 'complete'
+        measurement_training_status['message'] = f'Training complete! Accuracy: {results["accuracy"]:.1f}%'
+        measurement_training_status['progress'] = 100
+        measurement_training_status['results'] = results
+        
+    except Exception as e:
+        measurement_training_status['stage'] = 'error'
+        measurement_training_status['message'] = f'Error: {str(e)}'
+        measurement_training_status['progress'] = 0
+    
+    finally:
+        measurement_training_status['is_training'] = False
+
+
+@app.route('/api/measurement/status', methods=['GET'])
+def get_measurement_training_status():
+    """Get measurement training status"""
+    return jsonify(measurement_training_status)
+
+
+@app.route('/api/measurement/model-info', methods=['GET'])
+def get_measurement_model_info():
+    """Get information about trained measurement model"""
+    model_path = 'models/custom_measurement_model.pkl'
+    gender_model_path = 'models/gender_detection_model.pkl'
+    
+    if not os.path.exists(model_path):
+        return jsonify({'exists': False})
+    
+    try:
+        file_stats = os.stat(model_path)
+        file_size_mb = file_stats.st_size / (1024 * 1024)
+        modified_time = datetime.fromtimestamp(file_stats.st_mtime)
+        
+        with open(model_path, 'rb') as f:
+            model_data = pickle.load(f)
+        
+        measurement_model = model_data['measurement_model']
+        
+        # Check for standalone gender model
+        has_standalone_gender = os.path.exists(gender_model_path)
+        gender_model_info = None
+        
+        if has_standalone_gender:
+            try:
+                with open(gender_model_path, 'rb') as f:
+                    gender_data = pickle.load(f)
+                gender_model_info = {
+                    'training_samples': gender_data['training_samples'],
+                    'male_samples': gender_data['male_samples'],
+                    'female_samples': gender_data['female_samples'],
+                    'trained_date': gender_data['trained_date']
+                }
+            except:
+                pass
+        
+        return jsonify({
+            'exists': True,
+            'file_size_mb': round(file_size_mb, 2),
+            'modified': modified_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'accuracy': round(measurement_model['accuracy'], 2),
+            'avg_error_cm': round(measurement_model['avg_mae'], 2),
+            'training_samples': measurement_model['training_samples'],
+            'trained_date': measurement_model['trained_date'],
+            'has_gender_classifier': model_data['gender_model'] is not None,
+            'has_standalone_gender_model': has_standalone_gender,
+            'gender_model_info': gender_model_info
+        })
+    except Exception as e:
+        return jsonify({'exists': True, 'error': str(e)})
+
+
+@app.route('/api/measurement/clear-data', methods=['POST'])
+def clear_measurement_data():
+    """Clear all measurement training data"""
+    try:
+        if os.path.exists(MEASUREMENT_TRAINING_FILE):
+            os.remove(MEASUREMENT_TRAINING_FILE)
+        
+        # Clear trainer data
+        measurement_trainer.training_data = []
+        
+        return jsonify({'message': 'Measurement training data cleared'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/measurement/predict-with-recommendations', methods=['POST'])
+def predict_with_recommendations():
+    """
+    Predict measurements and gender from photo, then provide size recommendations
+    This is the endpoint to use AFTER training the model
+    """
+    try:
+        if 'photo' not in request.files:
+            return jsonify({'success': False, 'error': 'No photo uploaded'}), 400
+        
+        photo = request.files['photo']
+        height_cm = request.form.get('height_cm')
+        
+        if not height_cm:
+            return jsonify({'success': False, 'error': 'Height is required'}), 400
+        
+        height_cm = float(height_cm)
+        
+        # Save photo temporarily
+        import tempfile
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
+            photo.save(tmp_file.name)
+            temp_path = tmp_file.name
+        
+        try:
+            # Step 1: Extract measurements using AI service
+            import requests
+            
+            with open(temp_path, 'rb') as f:
+                files = {'image': f}
+                data = {'height_cm': height_cm}
+                
+                response = requests.post(
+                    'http://localhost:5000/api/ai/extract-measurements',
+                    files=files,
+                    data=data,
+                    timeout=30
+                )
+            
+            if response.status_code != 200:
+                os.remove(temp_path)
+                return jsonify({'success': False, 'error': 'Failed to extract measurements'}), 500
+            
+            result = response.json()
+            if not result.get('success'):
+                os.remove(temp_path)
+                return jsonify({'success': False, 'error': 'Could not detect person in photo'}), 400
+            
+            measurements = result['measurements']
+            
+            # Step 2: Detect gender using TRAINED model
+            detected_gender = 'unknown'
+            gender_confidence = 0.0
+            gender_method = 'none'
+            
+            if gender_trainer and gender_trainer.model:
+                gender_result = gender_trainer.predict_gender(temp_path)
+                if 'error' not in gender_result:
+                    detected_gender = gender_result['gender']
+                    gender_confidence = gender_result['confidence']
+                    gender_method = 'trained-model'
+                    print(f"✓ Gender detected: {detected_gender} ({gender_confidence*100:.1f}%)")
+            
+            # Step 3: Get size recommendations based on measurements and gender
+            chest = measurements['chest_cm']
+            waist = measurements['waist_cm']
+            hip = measurements['hip_cm']
+            
+            # Simple size recommendation logic
+            size_recommendations = []
+            
+            if detected_gender == 'female':
+                if chest < 82:
+                    size_recommendations.append({'size': 'XS', 'confidence': 0.85})
+                elif chest < 88:
+                    size_recommendations.append({'size': 'S', 'confidence': 0.90})
+                elif chest < 94:
+                    size_recommendations.append({'size': 'M', 'confidence': 0.90})
+                elif chest < 100:
+                    size_recommendations.append({'size': 'L', 'confidence': 0.85})
+                elif chest < 108:
+                    size_recommendations.append({'size': 'XL', 'confidence': 0.85})
+                else:
+                    size_recommendations.append({'size': 'XXL', 'confidence': 0.80})
+            
+            elif detected_gender == 'male':
+                if chest < 92:
+                    size_recommendations.append({'size': 'S', 'confidence': 0.85})
+                elif chest < 100:
+                    size_recommendations.append({'size': 'M', 'confidence': 0.90})
+                elif chest < 108:
+                    size_recommendations.append({'size': 'L', 'confidence': 0.90})
+                elif chest < 116:
+                    size_recommendations.append({'size': 'XL', 'confidence': 0.85})
+                else:
+                    size_recommendations.append({'size': 'XXL', 'confidence': 0.80})
+            
+            # Clean up
+            os.remove(temp_path)
+            
+            return jsonify({
+                'success': True,
+                'measurements': {
+                    'height_cm': measurements['height_cm'],
+                    'chest_cm': chest,
+                    'waist_cm': waist,
+                    'hip_cm': hip,
+                    'confidence': measurements.get('confidence', 0.85)
+                },
+                'gender': {
+                    'detected': detected_gender,
+                    'confidence': gender_confidence,
+                    'method': gender_method
+                },
+                'recommendations': size_recommendations,
+                'message': f'Analysis complete! Gender: {detected_gender}, Recommended size: {size_recommendations[0]["size"] if size_recommendations else "N/A"}'
+            })
+            
+        except Exception as e:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+            raise e
+            
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 if __name__ == '__main__':
