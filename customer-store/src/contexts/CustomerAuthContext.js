@@ -99,6 +99,31 @@ export const CustomerAuthProvider = ({ children }) => {
     setBodyProfile(null);
   };
 
+  const refreshBodyProfile = async () => {
+    if (!customer?.id) return;
+    
+    try {
+      const token = localStorage.getItem('customer_token');
+      const response = await axios.get(
+        `http://localhost:8082/api/body-profile/user/${customer.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      
+      const updatedProfile = response.data;
+      localStorage.setItem('customer_body_profile', JSON.stringify(updatedProfile));
+      setBodyProfile(updatedProfile);
+      
+      return updatedProfile;
+    } catch (error) {
+      console.error('Failed to refresh body profile:', error);
+      return null;
+    }
+  };
+
   const value = {
     customer,
     bodyProfile,
@@ -106,6 +131,7 @@ export const CustomerAuthProvider = ({ children }) => {
     register,
     login,
     logout,
+    refreshBodyProfile,
     isAuthenticated: !!customer
   };
 

@@ -9,17 +9,17 @@ import Model3DViewer from '../components/Model3DViewer';
 import axios from 'axios';
 
 const AvatarCustomizationPage = () => {
-  const { customer, bodyProfile } = useCustomerAuth();
+  const { customer, bodyProfile, refreshBodyProfile } = useCustomerAuth();
   const navigate = useNavigate();
   const modelViewerRef = React.useRef();
   
   const [customization, setCustomization] = useState({
-    skinTone: 'medium',
-    hairColor: 'brown',
-    hairStyle: 'short',
-    eyeColor: 'brown',
+    skinTone: bodyProfile?.skinTone || 'medium',
+    hairColor: bodyProfile?.hairColor || 'brown',
+    hairStyle: bodyProfile?.hairStyle || 'short',
+    eyeColor: bodyProfile?.eyeColor || 'brown',
     faceShape: 'oval',
-    bodyShape: 'athletic'
+    bodyShape: bodyProfile?.bodyShape || 'athletic'
   });
   
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,63 @@ const AvatarCustomizationPage = () => {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [previewMode, setPreviewMode] = useState(false);
   const [aiDescription, setAiDescription] = useState('');
+
+  // Load saved avatar preferences from body profile
+  React.useEffect(() => {
+    // Refresh body profile from backend when component mounts
+    if (customer && refreshBodyProfile) {
+      refreshBodyProfile();
+    }
+  }, [customer]);
+
+  React.useEffect(() => {
+    if (bodyProfile) {
+      setCustomization({
+        skinTone: bodyProfile.skinTone || 'medium',
+        hairColor: bodyProfile.hairColor || 'brown',
+        hairStyle: bodyProfile.hairStyle || 'short',
+        eyeColor: bodyProfile.eyeColor || 'brown',
+        faceShape: 'oval',
+        bodyShape: bodyProfile.bodyShape || 'athletic'
+      });
+      
+      // Load avatar model if it exists
+      if (bodyProfile.avatarModelUrl) {
+        setAvatarUrl(bodyProfile.avatarModelUrl);
+        setPreviewMode(true);
+        
+        // Apply saved colors to the model after it loads
+        setTimeout(() => {
+          if (modelViewerRef.current) {
+            // Apply skin tone
+            const skinTones = [
+              { value: 'light', color: '#FFE0BD' },
+              { value: 'medium', color: '#D4A574' },
+              { value: 'tan', color: '#C68642' },
+              { value: 'dark', color: '#8D5524' }
+            ];
+            const savedSkinTone = skinTones.find(t => t.value === bodyProfile.skinTone);
+            if (savedSkinTone && modelViewerRef.current.changeColor) {
+              modelViewerRef.current.changeColor(savedSkinTone.color);
+            }
+            
+            // Apply hair color
+            const hairColors = [
+              { value: 'black', color: '#000000' },
+              { value: 'brown', color: '#654321' },
+              { value: 'blonde', color: '#FAF0BE' },
+              { value: 'red', color: '#8B0000' },
+              { value: 'gray', color: '#808080' }
+            ];
+            const savedHairColor = hairColors.find(h => h.value === bodyProfile.hairColor);
+            if (savedHairColor && modelViewerRef.current.changeHairColor) {
+              modelViewerRef.current.changeHairColor(savedHairColor.color);
+            }
+          }
+        }, 2000);
+      }
+    }
+  }, [bodyProfile]);
 
   const skinTones = [
     { value: 'light', label: 'Light', color: '#FFE0BD' },
@@ -175,6 +232,11 @@ const AvatarCustomizationPage = () => {
       
       console.log('Avatar saved:', response.data);
       setSuccess(true);
+      
+      // Refresh body profile to get updated avatar preferences
+      if (refreshBodyProfile) {
+        await refreshBodyProfile();
+      }
     } catch (err) {
       console.error('Avatar save error:', err);
       setError(err.response?.data?.message || 'Failed to save avatar');
@@ -304,6 +366,58 @@ const AvatarCustomizationPage = () => {
               <Alert severity="info" sx={{ mb: 2, fontSize: '0.875rem' }}>
                 Creating {bodyProfile.gender === 'FEMALE' ? 'Female' : 'Male'} Avatar based on your profile
               </Alert>
+              
+              {(bodyProfile.skinTone || bodyProfile.hairColor || bodyProfile.eyeColor) && (
+                <Alert severity="success" sx={{ mb: 2, fontSize: '0.875rem' }}>
+                  ✅ Loaded your saved avatar preferences
+                  <Box sx={{ mt: 1, display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+                    {bodyProfile.skinTone && (
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <Typography variant="caption">Skin:</Typography>
+                        <Box sx={{ 
+                          width: 16, 
+                          height: 16, 
+                          borderRadius: '50%',
+                          bgcolor: bodyProfile.skinTone === 'light' ? '#FFE0BD' :
+                                   bodyProfile.skinTone === 'medium' ? '#D4A574' :
+                                   bodyProfile.skinTone === 'tan' ? '#C68642' : '#8D5524',
+                          border: '1px solid #999'
+                        }} />
+                      </Box>
+                    )}
+                    {bodyProfile.hairColor && (
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <Typography variant="caption">Hair:</Typography>
+                        <Box sx={{ 
+                          width: 16, 
+                          height: 16, 
+                          borderRadius: '50%',
+                          bgcolor: bodyProfile.hairColor === 'black' ? '#000000' :
+                                   bodyProfile.hairColor === 'brown' ? '#654321' :
+                                   bodyProfile.hairColor === 'blonde' ? '#FAF0BE' :
+                                   bodyProfile.hairColor === 'red' ? '#8B0000' : '#808080',
+                          border: '1px solid #999'
+                        }} />
+                      </Box>
+                    )}
+                    {bodyProfile.eyeColor && (
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <Typography variant="caption">Eyes:</Typography>
+                        <Box sx={{ 
+                          width: 16, 
+                          height: 16, 
+                          borderRadius: '50%',
+                          bgcolor: bodyProfile.eyeColor === 'brown' ? '#654321' :
+                                   bodyProfile.eyeColor === 'blue' ? '#4169E1' :
+                                   bodyProfile.eyeColor === 'green' ? '#228B22' :
+                                   bodyProfile.eyeColor === 'hazel' ? '#8E7618' : '#708090',
+                          border: '1px solid #999'
+                        }} />
+                      </Box>
+                    )}
+                  </Box>
+                </Alert>
+              )}
               
               {previewMode && (
                 <Alert severity="success" sx={{ mb: 2, fontSize: '0.875rem' }}>

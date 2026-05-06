@@ -66,6 +66,7 @@ public class AvatarGenerationService {
         // Update body profile with avatar info
         profile.setSkinTone(customization.getSkinTone());
         profile.setHairColor(customization.getHairColor());
+        profile.setHairStyle(customization.getHairStyle());
         profile.setEyeColor(customization.getEyeColor());
         profile.setBodyShape(customization.getBodyShape());
         profile.setAvatarModelUrl(avatarUrl);

@@ -397,15 +397,26 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
             console.log('Clothing children count:', clothingModel.children.length);
             
             // Apply same rotation as mannequin to match orientation
-            if (clothingExtension === 'obj') {
+            // Check if this is for avatar (no rotation) or product (rotated)
+            const category = (productCategory || 'shirt').toLowerCase();
+            
+            if (category.includes('avatar') || category.includes('mannequin')) {
+              // Avatar/mannequin - no rotation needed
+              clothingModel.rotation.x = 0;
+              clothingModel.rotation.y = 0;
+              clothingModel.rotation.z = 0;
+              console.log('Applied AVATAR clothing rotation (no rotation)');
+            } else if (clothingExtension === 'obj') {
               clothingModel.rotation.x = -Math.PI / 2; // Same as mannequin
               clothingModel.rotation.y = 0;
               clothingModel.rotation.z = 0; // No Z rotation needed
+              console.log('Applied OBJ clothing rotation');
             } else if (clothingExtension === 'glb' || clothingExtension === 'gltf') {
               // GLB files might need different rotation
               clothingModel.rotation.x = -Math.PI / 2;
               clothingModel.rotation.y = 0;
               clothingModel.rotation.z = 0;
+              console.log('Applied GLB clothing rotation');
             }
             
             // Update matrix after rotation
@@ -475,11 +486,11 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
                 if (child instanceof THREE.Mesh) {
                   mannequinMeshCount++;
                   child.material.transparent = true;
-                  child.material.opacity = 0.3; // Semi-transparent mannequin
+                  child.material.opacity = 0.9; // Keep mannequin mostly visible
                   child.renderOrder = 0;
                 }
               });
-              console.log('Made mannequin transparent, meshes:', mannequinMeshCount);
+              console.log('Made mannequin semi-transparent, meshes:', mannequinMeshCount);
             }
             
             scene.add(clothingModel);

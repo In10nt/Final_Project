@@ -18,6 +18,7 @@ public class BodyProfileDto {
     private String nickname;
     private Integer age;
     private String hairColor;
+    private String hairStyle;
     private String eyeColor;
     private String profileImageUrl;
     private String faceImageUrl;
@@ -69,6 +70,9 @@ public class BodyProfileDto {
 
     public String getHairColor() { return hairColor; }
     public void setHairColor(String hairColor) { this.hairColor = hairColor; }
+
+    public String getHairStyle() { return hairStyle; }
+    public void setHairStyle(String hairStyle) { this.hairStyle = hairStyle; }
 
     public String getEyeColor() { return eyeColor; }
     public void setEyeColor(String eyeColor) { this.eyeColor = eyeColor; }

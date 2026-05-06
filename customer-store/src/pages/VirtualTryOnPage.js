@@ -39,9 +39,10 @@ import { bodyProfileAPI, virtualTryOnAPI, productsAPI } from '../services/apiSer
 import Model3DViewer from '../components/Model3DViewer';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import AIRecommendations from '../components/AIRecommendations';
+import Avatar2DView from '../components/Avatar2DView';
 
 const VirtualTryOnPage = () => {
-  const { customer } = useCustomerAuth();
+  const { customer, bodyProfile: contextBodyProfile, refreshBodyProfile } = useCustomerAuth();
   const [bodyProfile, setBodyProfile] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [tryOnResult, setTryOnResult] = useState(null);
@@ -67,6 +68,7 @@ const VirtualTryOnPage = () => {
   const [hairColor, setHairColor] = useState('brown');
   const [eyeColor, setEyeColor] = useState('brown');
   const [selectedModelColor, setSelectedModelColor] = useState('White');
+  const [viewMode, setViewMode] = useState('3d'); // Default to 3D view to show avatar wearing clothing
   const modelViewerRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -75,11 +77,34 @@ const VirtualTryOnPage = () => {
   const userId = customer?.id || '3a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d'; // Fallback to Sarah's ID for demo
 
   useEffect(() => {
-    // Load user's body profile if exists
-    loadBodyProfile();
+    // Refresh body profile from backend to get latest avatar preferences
+    if (customer && refreshBodyProfile) {
+      refreshBodyProfile();
+    }
     // Load products from backend
     loadProducts();
-  }, []);
+  }, [customer]);
+
+  // Sync with context body profile
+  useEffect(() => {
+    if (contextBodyProfile) {
+      setBodyProfile(contextBodyProfile);
+      setMeasurements({
+        height: contextBodyProfile.heightCm || 165,
+        chest: contextBodyProfile.chestCm || 88,
+        waist: contextBodyProfile.waistCm || 72,
+        hips: contextBodyProfile.hipCm || 95,
+        shoulders: contextBodyProfile.shoulderWidthCm || 42,
+      });
+      setBodyShape(contextBodyProfile.bodyShape || 'hourglass');
+      setSkinTone(contextBodyProfile.skinTone || 'medium');
+      setGender(contextBodyProfile.gender || 'female');
+      setNickname(contextBodyProfile.nickname || '');
+      setAge(contextBodyProfile.age || 25);
+      setHairColor(contextBodyProfile.hairColor || 'brown');
+      setEyeColor(contextBodyProfile.eyeColor || 'brown');
+    }
+  }, [contextBodyProfile]);
 
   const generateAvatarFromProfile = async (profile) => {
     try {
@@ -709,11 +734,87 @@ const VirtualTryOnPage = () => {
               {bodyProfile ? (
                 <Box>
                   <Box sx={{ textAlign: 'center', mb: 2 }}>
-                    <img
-                      src={bodyProfile.profileImageUrl || bodyProfile.avatarUrl || 'https://via.placeholder.com/200x300/cccccc/666666?text=Avatar'}
-                      alt="Your Avatar"
-                      style={{ width: 150, height: 200, objectFit: 'cover', borderRadius: 8 }}
-                    />
+                    {/* Avatar Visual Representation */}
+                    <Box sx={{ 
+                      width: 150, 
+                      height: 200, 
+                      margin: '0 auto',
+                      borderRadius: 2,
+                      bgcolor: '#f5f5f5',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '2px solid #ddd',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      {/* Avatar Icon with Colors */}
+                      <Box sx={{ 
+                        width: 80, 
+                        height: 80, 
+                        borderRadius: '50%',
+                        bgcolor: bodyProfile.skinTone === 'light' ? '#FFE0BD' :
+                                 bodyProfile.skinTone === 'medium' ? '#D4A574' :
+                                 bodyProfile.skinTone === 'tan' ? '#C68642' :
+                                 bodyProfile.skinTone === 'dark' ? '#8D5524' : '#D4A574',
+                        border: '3px solid #333',
+                        mb: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '40px'
+                      }}>
+                        {bodyProfile.gender === 'female' ? '👩' : '👨'}
+                      </Box>
+                      
+                      {/* Avatar Color Indicators */}
+                      <Box sx={{ display: 'flex', gap: 0.5, mt: 1 }}>
+                        {bodyProfile.skinTone && (
+                          <Box sx={{ 
+                            width: 20, 
+                            height: 20, 
+                            borderRadius: '50%',
+                            bgcolor: bodyProfile.skinTone === 'light' ? '#FFE0BD' :
+                                     bodyProfile.skinTone === 'medium' ? '#D4A574' :
+                                     bodyProfile.skinTone === 'tan' ? '#C68642' : '#8D5524',
+                            border: '1px solid #999',
+                            title: 'Skin Tone'
+                          }} />
+                        )}
+                        {bodyProfile.hairColor && (
+                          <Box sx={{ 
+                            width: 20, 
+                            height: 20, 
+                            borderRadius: '50%',
+                            bgcolor: bodyProfile.hairColor === 'black' ? '#000000' :
+                                     bodyProfile.hairColor === 'brown' ? '#654321' :
+                                     bodyProfile.hairColor === 'blonde' ? '#FAF0BE' :
+                                     bodyProfile.hairColor === 'red' ? '#8B0000' : '#808080',
+                            border: '1px solid #999',
+                            title: 'Hair Color'
+                          }} />
+                        )}
+                        {bodyProfile.eyeColor && (
+                          <Box sx={{ 
+                            width: 20, 
+                            height: 20, 
+                            borderRadius: '50%',
+                            bgcolor: bodyProfile.eyeColor === 'brown' ? '#654321' :
+                                     bodyProfile.eyeColor === 'blue' ? '#4169E1' :
+                                     bodyProfile.eyeColor === 'green' ? '#228B22' :
+                                     bodyProfile.eyeColor === 'hazel' ? '#8E7618' : '#708090',
+                            border: '1px solid #999',
+                            title: 'Eye Color'
+                          }} />
+                        )}
+                      </Box>
+                      
+                      <Typography variant="caption" sx={{ mt: 1, color: 'text.secondary' }}>
+                        Saved Avatar
+                      </Typography>
+                    </Box>
+                    
                     {bodyProfile.nickname && (
                       <Typography variant="h6" sx={{ mt: 1, fontWeight: 'bold', color: 'primary.main' }}>
                         {bodyProfile.nickname}
@@ -817,23 +918,53 @@ const VirtualTryOnPage = () => {
           </Card>
         </Grid>
 
-        {/* Center Panel - 3D Avatar */}
+        {/* Center Panel - Avatar Wearing Product (2D/3D View) */}
         <Grid item xs={12} md={5}>
-          <Card sx={{ height: 680 }}>
+          <Card sx={{ height: 680, border: selectedProduct ? '2px solid #3b82f6' : 'none' }}>
             <CardContent sx={{ height: '100%', p: 0 }}>
-              {selectedProduct && selectedProduct.model3dUrl ? (
+              {selectedProduct ? (
                 <Box sx={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <Box sx={{ flex: 1, position: 'relative' }}>
-                    <Model3DViewer 
-                      ref={modelViewerRef}
-                      modelUrl={bodyProfile?.avatarModelUrl || 'http://localhost:8082/uploads/models/ScaleReferenceDummy.obj'}
-                      clothingModelUrl={selectedProduct.model3dUrl}
-                      width={400} 
-                      height={480}
-                      productColor={selectedModelColor}
-                      productCategory={selectedProduct.category}
-                      showColorPicker={false}
-                    />
+                  {/* Header showing what's being displayed */}
+                  <Box sx={{ 
+                    bgcolor: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                    color: 'white',
+                    p: 1.5,
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="h6" fontWeight="bold">
+                      👔 Your Avatar Wearing This Product
+                    </Typography>
+                    <Typography variant="caption">
+                      {viewMode === '2d' ? '📱 2D View - Front • Side • Back' : selectedProduct.model3dUrl ? '🔄 3D View - Rotate 360° • Zoom' : '📱 2D View - Product Preview'}
+                    </Typography>
+                  </Box>
+                  
+                  <Box sx={{ flex: 1, position: 'relative', bgcolor: '#1a1a1a' }}>
+                    {viewMode === '2d' || !selectedProduct.model3dUrl ? (
+                      <Avatar2DView
+                        bodyProfile={bodyProfile}
+                        product={selectedProduct}
+                        selectedColor={selectedModelColor}
+                        onViewChange={(newView) => {
+                          if (selectedProduct.model3dUrl) {
+                            setViewMode(newView);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <Model3DViewer 
+                        ref={modelViewerRef}
+                        modelUrl={'http://localhost:8082/uploads/models/ScaleReferenceDummy.obj'}
+                        clothingModelUrl={selectedProduct.model3dUrl}
+                        width="100%" 
+                        height={480}
+                        productColor={selectedModelColor}
+                        productCategory="avatar"
+                        showColorPicker={false}
+                        autoRotate={true}
+                      />
+                    )}
                   </Box>
                   
                   {/* Product Information Card with Color Picker */}
@@ -968,11 +1099,24 @@ const VirtualTryOnPage = () => {
                   ) : (
                     <Box sx={{ textAlign: 'center' }}>
                       <ThreeDRotation sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
-                      <Typography variant="h6" color="text.secondary">
-                        Select a product to view in 3D
+                      <Typography variant="h6" color="text.secondary" gutterBottom>
+                        Select a Product to Try On
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 2 }}>
+                        Choose a product to see your avatar wearing it in 2D
+                      </Typography>
+                      <Typography variant="caption" color="primary" sx={{ 
+                        display: 'inline-block',
+                        px: 2,
+                        py: 1,
+                        bgcolor: 'rgba(59, 130, 246, 0.1)',
+                        borderRadius: 2,
+                        border: '1px solid rgba(59, 130, 246, 0.3)'
+                      }}>
+                        👔 2D Virtual Try-On Ready!
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                        Click on any product to see its 3D model
+                        Click any product to see it on your avatar
                       </Typography>
                     </Box>
                   )}

@@ -56,6 +56,9 @@ public class BodyProfile {
     @Column(name = "hair_color")
     private String hairColor;
     
+    @Column(name = "hair_style")
+    private String hairStyle;
+    
     @Column(name = "eye_color")
     private String eyeColor;
     
@@ -124,6 +127,9 @@ public class BodyProfile {
 
     public String getHairColor() { return hairColor; }
     public void setHairColor(String hairColor) { this.hairColor = hairColor; }
+
+    public String getHairStyle() { return hairStyle; }
+    public void setHairStyle(String hairStyle) { this.hairStyle = hairStyle; }
 
     public String getEyeColor() { return eyeColor; }
     public void setEyeColor(String eyeColor) { this.eyeColor = eyeColor; }
