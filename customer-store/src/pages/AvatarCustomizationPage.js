@@ -233,35 +233,41 @@ const AvatarCustomizationPage = () => {
         {/* Preview Section */}
         <Grid item xs={12} md={6}>
           <Card elevation={3}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>Avatar Preview</Typography>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom fontWeight="bold">Avatar Preview</Typography>
               <Box
                 sx={{
                   height: 500,
-                  bgcolor: '#f5f5f5',
+                  bgcolor: '#1a1a1a',
                   borderRadius: 2,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  position: 'relative'
+                  position: 'relative',
+                  overflow: 'hidden',
+                  border: '2px solid #333'
                 }}
               >
                 {avatarUrl ? (
-                  <Model3DViewer 
-                    ref={modelViewerRef}
-                    modelUrl={avatarUrl} 
-                    hairModelUrl="http://localhost:8082/api/models/hair"
-                    width={400} 
-                    height={500}
-                    showColorPicker={false}
-                  />
+                  <Box sx={{ width: '100%', height: '100%' }}>
+                    <Model3DViewer 
+                      ref={modelViewerRef}
+                      modelUrl={avatarUrl} 
+                      hairModelUrl="http://localhost:8082/api/models/hair"
+                      width="100%" 
+                      height={500}
+                      showColorPicker={false}
+                      productCategory="avatar"
+                      autoRotate={true}
+                    />
+                  </Box>
                 ) : (
                   <Box textAlign="center" p={3}>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                       {bodyProfile.gender === 'FEMALE' ? '♀ Female' : '♂ Male'} Avatar
                     </Typography>
                     <Typography variant="body2" color="text.secondary" paragraph>
-                      Customize your avatar and click "Generate" to see your 3D human model
+                      Customize your avatar and click "Preview Avatar" to see your 3D model
                     </Typography>
                     <Typography variant="caption" color="text.secondary" display="block">
                       Height: {bodyProfile.heightCm}cm | Chest: {bodyProfile.chestCm}cm
@@ -275,11 +281,11 @@ const AvatarCustomizationPage = () => {
               
               {previewMode && (
                 <Box sx={{ mt: 2 }}>
-                  <Alert severity="info">
+                  <Alert severity="info" sx={{ fontSize: '0.875rem' }}>
                     💡 Change options to see real-time updates on your avatar
                   </Alert>
                   {aiDescription && (
-                    <Alert severity="success" sx={{ mt: 1 }}>
+                    <Alert severity="success" sx={{ mt: 1, fontSize: '0.875rem' }}>
                       🤖 AI: {aiDescription}
                     </Alert>
                   )}
@@ -292,22 +298,22 @@ const AvatarCustomizationPage = () => {
         {/* Customization Options */}
         <Grid item xs={12} md={6}>
           <Card elevation={3}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>Customization Options</Typography>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom fontWeight="bold">Customization Options</Typography>
               
-              <Alert severity="info" sx={{ mb: 2 }}>
+              <Alert severity="info" sx={{ mb: 2, fontSize: '0.875rem' }}>
                 Creating {bodyProfile.gender === 'FEMALE' ? 'Female' : 'Male'} Avatar based on your profile
               </Alert>
               
               {previewMode && (
-                <Alert severity="success" sx={{ mb: 2 }}>
+                <Alert severity="success" sx={{ mb: 2, fontSize: '0.875rem' }}>
                   ✨ Preview Mode Active - Changes apply instantly!
                 </Alert>
               )}
               
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                 {/* Skin Tone */}
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Skin Tone</InputLabel>
                   <Select
                     value={customization.skinTone}
@@ -317,7 +323,7 @@ const AvatarCustomizationPage = () => {
                     {skinTones.map(tone => (
                       <MenuItem key={tone.value} value={tone.value}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Box sx={{ width: 20, height: 20, bgcolor: tone.color, borderRadius: 1 }} />
+                          <Box sx={{ width: 20, height: 20, bgcolor: tone.color, borderRadius: 1, border: '1px solid #ccc' }} />
                           {tone.label}
                         </Box>
                       </MenuItem>
@@ -326,7 +332,7 @@ const AvatarCustomizationPage = () => {
                 </FormControl>
 
                 {/* Hair Color */}
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Hair Color</InputLabel>
                   <Select
                     value={customization.hairColor}
@@ -336,7 +342,7 @@ const AvatarCustomizationPage = () => {
                     {hairColors.map(color => (
                       <MenuItem key={color.value} value={color.value}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Box sx={{ width: 20, height: 20, bgcolor: color.color, borderRadius: 1 }} />
+                          <Box sx={{ width: 20, height: 20, bgcolor: color.color, borderRadius: 1, border: '1px solid #ccc' }} />
                           {color.label}
                         </Box>
                       </MenuItem>
@@ -345,7 +351,7 @@ const AvatarCustomizationPage = () => {
                 </FormControl>
 
                 {/* Hair Style */}
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Hair Style</InputLabel>
                   <Select
                     value={customization.hairStyle}
@@ -359,7 +365,7 @@ const AvatarCustomizationPage = () => {
                 </FormControl>
 
                 {/* Eye Color */}
-                <FormControl fullWidth>
+                <FormControl fullWidth size="small">
                   <InputLabel>Eye Color</InputLabel>
                   <Select
                     value={customization.eyeColor}
@@ -369,7 +375,7 @@ const AvatarCustomizationPage = () => {
                     {eyeColors.map(color => (
                       <MenuItem key={color.value} value={color.value}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Box sx={{ width: 20, height: 20, bgcolor: color.color, borderRadius: '50%' }} />
+                          <Box sx={{ width: 20, height: 20, bgcolor: color.color, borderRadius: '50%', border: '1px solid #ccc' }} />
                           {color.label}
                         </Box>
                       </MenuItem>
@@ -384,12 +390,13 @@ const AvatarCustomizationPage = () => {
                   onClick={previewMode ? handleGenerate : handlePreview}
                   disabled={loading}
                   color={previewMode ? "success" : "primary"}
+                  sx={{ mt: 1, py: 1.5, fontWeight: 'bold' }}
                 >
                   {loading ? <CircularProgress size={24} /> : (previewMode ? 'Save Avatar' : 'Preview Avatar')}
                 </Button>
                 
                 {previewMode && (
-                  <Typography variant="caption" color="text.secondary" textAlign="center">
+                  <Typography variant="caption" color="text.secondary" textAlign="center" sx={{ mt: -1 }}>
                     Adjust the options above to customize your avatar in real-time
                   </Typography>
                 )}

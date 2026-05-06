@@ -174,7 +174,16 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
       const category = (productCategory || 'shirt').toLowerCase();
       console.log('Category after toLowerCase:', category);
       
-      if (category.includes('dress') || category.includes('frock')) {
+      if (category.includes('avatar') || category.includes('mannequin')) {
+        // AVATAR/MANNEQUIN: Stand upright facing forward like a human
+        // The model has Y as vertical (height ~84), lying along X-Z plane
+        // No rotation needed - it should already be standing!
+        // But if it appears horizontal, the camera or model needs adjustment
+        object.rotation.x = 0;
+        object.rotation.y = 0;
+        object.rotation.z = 0;
+        console.log('✅ Applied AVATAR rotation (no rotation - model is already vertical)');
+      } else if (category.includes('dress') || category.includes('frock')) {
         // DRESSES: Stand upright and face forward
         object.rotation.x = 0;
         object.rotation.y = Math.PI; // Rotate 180° to face front
