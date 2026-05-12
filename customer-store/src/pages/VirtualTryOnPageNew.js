@@ -24,6 +24,7 @@ import AIRecommendations from '../components/AIRecommendations';
 import FitBadge from '../components/FitBadge';
 import Model3DViewer from '../components/Model3DViewer';
 import PhotoMeasurementUpload from '../components/PhotoMeasurementUpload';
+import BodyMeasurementVisual from '../components/BodyMeasurementVisual';
 import { productsAPI } from '../services/apiService';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import axios from 'axios';
@@ -402,8 +403,8 @@ const VirtualTryOnPageNew = () => {
                 />
               </Divider>
 
-              {/* Gender */}
-              <FormControl fullWidth sx={{ mb: 2 }}>
+              {/* Gender Selection */}
+              <FormControl fullWidth sx={{ mb: 3 }}>
                 <InputLabel sx={{ color: '#888', '&.Mui-focused': { color: '#ffffff' } }}>Gender</InputLabel>
                 <Select
                   value={gender}
@@ -422,162 +423,18 @@ const VirtualTryOnPageNew = () => {
                 </Select>
               </FormControl>
 
-              {/* Height */}
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" fontWeight="600" color="#ffffff">
-                    Height
-                  </Typography>
-                  <Chip 
-                    label={`${measurements.height} cm`} 
-                    size="small" 
-                    sx={{ 
-                      bgcolor: '#ffffff',
-                      color: '#000000',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                </Box>
-                <Slider
-                  value={measurements.height}
-                  onChange={(_, val) => setMeasurements({ ...measurements, height: val })}
-                  min={140}
-                  max={200}
-                  valueLabelDisplay="auto"
-                  sx={{
-                    color: '#ffffff',
-                    '& .MuiSlider-thumb': {
-                      width: 20,
-                      height: 20,
-                      bgcolor: '#ffffff',
-                      '&:hover': {
-                        boxShadow: '0 0 0 8px rgba(255, 255, 255, 0.16)',
-                      },
-                    },
-                    '& .MuiSlider-track': {
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-rail': {
-                      bgcolor: '#333333',
-                    },
+              {/* Visual Body Measurement Component */}
+              <Box sx={{ mb: 3, mx: -3 }}>
+                <BodyMeasurementVisual
+                  measurements={{
+                    ...measurements,
+                    shoulders: measurements.shoulders || 42,
                   }}
-                />
-              </Box>
-
-              {/* Chest */}
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" fontWeight="600" color="#ffffff">
-                    Chest
-                  </Typography>
-                  <Chip 
-                    label={`${measurements.chest} cm`} 
-                    size="small" 
-                    sx={{ 
-                      bgcolor: '#ffffff',
-                      color: '#000000',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                </Box>
-                <Slider
-                  value={measurements.chest}
-                  onChange={(_, val) => setMeasurements({ ...measurements, chest: val })}
-                  min={70}
-                  max={130}
-                  valueLabelDisplay="auto"
-                  sx={{
-                    color: '#ffffff',
-                    '& .MuiSlider-thumb': {
-                      width: 20,
-                      height: 20,
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-track': {
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-rail': {
-                      bgcolor: '#333333',
-                    },
+                  onMeasurementChange={(key, value) => {
+                    setMeasurements({ ...measurements, [key]: value });
                   }}
-                />
-              </Box>
-
-              {/* Waist */}
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" fontWeight="600" color="#ffffff">
-                    Waist
-                  </Typography>
-                  <Chip 
-                    label={`${measurements.waist} cm`} 
-                    size="small" 
-                    sx={{ 
-                      bgcolor: '#ffffff',
-                      color: '#000000',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                </Box>
-                <Slider
-                  value={measurements.waist}
-                  onChange={(_, val) => setMeasurements({ ...measurements, waist: val })}
-                  min={55}
-                  max={120}
-                  valueLabelDisplay="auto"
-                  sx={{
-                    color: '#ffffff',
-                    '& .MuiSlider-thumb': {
-                      width: 20,
-                      height: 20,
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-track': {
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-rail': {
-                      bgcolor: '#333333',
-                    },
-                  }}
-                />
-              </Box>
-
-              {/* Hips */}
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" fontWeight="600" color="#ffffff">
-                    Hips
-                  </Typography>
-                  <Chip 
-                    label={`${measurements.hips} cm`} 
-                    size="small" 
-                    sx={{ 
-                      bgcolor: '#ffffff',
-                      color: '#000000',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                </Box>
-                <Slider
-                  value={measurements.hips}
-                  onChange={(_, val) => setMeasurements({ ...measurements, hips: val })}
-                  min={75}
-                  max={140}
-                  valueLabelDisplay="auto"
-                  sx={{
-                    color: '#ffffff',
-                    '& .MuiSlider-thumb': {
-                      width: 20,
-                      height: 20,
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-track': {
-                      bgcolor: '#ffffff',
-                    },
-                    '& .MuiSlider-rail': {
-                      bgcolor: '#333333',
-                    },
-                  }}
+                  gender={gender}
+                  avatarUrl={bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl}
                 />
               </Box>
 
