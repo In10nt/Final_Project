@@ -58,6 +58,12 @@ const VirtualTryOnPageNew = () => {
   useEffect(() => {
     loadProducts();
     loadProfile();
+    
+    // Force refresh body profile from backend to get latest avatar
+    if (customer && refreshBodyProfile) {
+      console.log('VirtualTryOnPageNew: Refreshing body profile to get avatar...');
+      refreshBodyProfile();
+    }
   }, [authBodyProfile, customer]);
 
   const loadProducts = async () => {
@@ -73,6 +79,7 @@ const VirtualTryOnPageNew = () => {
   const loadProfile = () => {
     // Use backend profile if available
     if (authBodyProfile) {
+      console.log('VirtualTryOnPageNew: Loading profile with avatar:', authBodyProfile.avatarModelUrl);
       setBodyProfile(authBodyProfile);
       setMeasurements({
         height: authBodyProfile.heightCm || 165,
@@ -81,6 +88,8 @@ const VirtualTryOnPageNew = () => {
         hips: authBodyProfile.hipCm || 95,
       });
       setGender((authBodyProfile.gender || 'FEMALE').toLowerCase());
+    } else {
+      console.log('VirtualTryOnPageNew: No authBodyProfile available');
     }
   };
 
@@ -425,6 +434,18 @@ const VirtualTryOnPageNew = () => {
 
               {/* Visual Body Measurement Component */}
               <Box sx={{ mb: 3, mx: -3 }}>
+                {/* Debug info - Show avatar status */}
+                {(bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) && (
+                  <Alert severity="success" sx={{ mb: 2, mx: 3 }}>
+                    ✅ Avatar Loaded: {bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl}
+                  </Alert>
+                )}
+                {!bodyProfile?.avatarModelUrl && !authBodyProfile?.avatarModelUrl && (
+                  <Alert severity="info" sx={{ mb: 2, mx: 3 }}>
+                    ℹ️ No avatar found. Visit <strong>Avatar Customization</strong> to create your 3D avatar.
+                  </Alert>
+                )}
+                
                 <BodyMeasurementVisual
                   measurements={{
                     ...measurements,

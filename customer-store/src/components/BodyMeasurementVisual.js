@@ -62,6 +62,9 @@ const BodyMeasurementVisual = ({ measurements, onMeasurementChange, gender = 'fe
         minHeight: 400,
       }}
     >
+      {/* Debug: Show avatar URL status */}
+      {console.log('BodyMeasurementVisual - avatarUrl:', avatarUrl)}
+      
       {/* Left Side - Avatar with Measurement Lines */}
       <Box
         sx={{
@@ -101,20 +104,22 @@ const BodyMeasurementVisual = ({ measurements, onMeasurementChange, gender = 'fe
               autoRotate={true}
             />
           ) : (
-            /* Professional Silhouette Avatar */
+            /* Professional Silhouette Avatar - Show when no avatar created */
             <Box
               sx={{
                 width: '100%',
                 height: '100%',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#666',
+                p: 2,
               }}
             >
               <svg
                 width="160"
-                height="360"
+                height="280"
                 viewBox="0 0 200 450"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -155,6 +160,29 @@ const BodyMeasurementVisual = ({ measurements, onMeasurementChange, gender = 'fe
                   opacity="0.6"
                 />
               </svg>
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  mt: 2, 
+                  color: '#9333ea', 
+                  textAlign: 'center',
+                  fontSize: '0.75rem',
+                  fontWeight: 'bold'
+                }}
+              >
+                No Avatar Created
+              </Typography>
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  color: '#666', 
+                  textAlign: 'center',
+                  fontSize: '0.65rem',
+                  mt: 0.5
+                }}
+              >
+                Visit Avatar Customization<br/>to create your 3D avatar
+              </Typography>
             </Box>
           )}
 
