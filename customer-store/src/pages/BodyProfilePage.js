@@ -24,7 +24,6 @@ import {
 import { CheckCircle, Person, PhotoCamera, ArrowForward, Save } from '@mui/icons-material';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import PhotoMeasurementUpload from '../components/PhotoMeasurementUpload';
-import BodyMeasurementVisual from '../components/BodyMeasurementVisual';
 import axios from 'axios';
 
 const BodyProfilePage = () => {
@@ -336,9 +335,9 @@ const BodyProfilePage = () => {
                 </FormControl>
 
                 <Grid container spacing={3}>
-                  {/* Left: Measurement Inputs */}
-                  <Grid item xs={12} md={6}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {/* Measurement Inputs */}
+                  <Grid item xs={12}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 600, mx: 'auto' }}>
                       {/* Height */}
                       <Box>
                         <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1 }}>
@@ -508,31 +507,6 @@ const BodyProfilePage = () => {
                           <Typography variant="body1" color="#666">cm</Typography>
                         </Box>
                       </Box>
-                    </Box>
-                  </Grid>
-
-                  {/* Right: Visual Guide */}
-                  <Grid item xs={12} md={6}>
-                    <Box sx={{ 
-                      bgcolor: '#0a0a0a',
-                      borderRadius: 2,
-                      p: 2,
-                      border: '1px solid #333',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <BodyMeasurementVisual 
-                        measurements={measurements}
-                        gender={gender}
-                        onMeasurementChange={(key, value) => {
-                          setMeasurements(prev => ({
-                            ...prev,
-                            [key]: value
-                          }));
-                        }}
-                      />
                     </Box>
                   </Grid>
                 </Grid>

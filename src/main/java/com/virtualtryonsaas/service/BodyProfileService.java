@@ -156,6 +156,7 @@ public class BodyProfileService {
         dto.setNickname(profile.getNickname());
         dto.setAge(profile.getAge());
         dto.setHairColor(profile.getHairColor());
+        dto.setHairStyle(profile.getHairStyle());
         dto.setEyeColor(profile.getEyeColor());
         dto.setProfileImageUrl(profile.getProfileImageUrl());
         dto.setFaceImageUrl(profile.getFaceImageUrl());

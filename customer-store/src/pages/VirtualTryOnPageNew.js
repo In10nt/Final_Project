@@ -12,7 +12,6 @@ import {
   Alert,
   Chip,
   Divider,
-  LinearProgress,
 } from '@mui/material';
 import { CheckCircle, Person, Straighten, Lock, ArrowForward } from '@mui/icons-material';
 import AIRecommendations from '../components/AIRecommendations';
@@ -41,7 +40,6 @@ const VirtualTryOnPageNew = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productFitScores, setProductFitScores] = useState({});
-  const [calculatingFit, setCalculatingFit] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const modelViewerRef = useRef(null);
 
@@ -57,15 +55,38 @@ const VirtualTryOnPageNew = () => {
   useEffect(() => {
     // Redirect to profile creation if no profile exists
     if (customer && !authBodyProfile) {
+      console.log('VirtualTryOnPageNew: No body profile, redirecting to profile creation');
       navigate('/profile/body');
       return;
     }
     
     // Load profile data if available
     if (authBodyProfile) {
+      console.log('VirtualTryOnPageNew: Body profile loaded:', {
+        id: authBodyProfile.id,
+        gender: authBodyProfile.gender,
+        avatarUrl: authBodyProfile.avatarModelUrl,
+        skinTone: authBodyProfile.skinTone,
+        hairColor: authBodyProfile.hairColor,
+        eyeColor: authBodyProfile.eyeColor
+      });
       loadProfile();
     }
-  }, [authBodyProfile, customer, navigate]);
+    
+    // Force refresh body profile from backend when component mounts
+    if (customer && refreshBodyProfile) {
+      console.log('VirtualTryOnPageNew: Forcing body profile refresh from backend...');
+      refreshBodyProfile().then((updatedProfile) => {
+        if (updatedProfile) {
+          console.log('VirtualTryOnPageNew: Body profile refreshed:', {
+            avatarUrl: updatedProfile.avatarModelUrl,
+            skinTone: updatedProfile.skinTone,
+            hairColor: updatedProfile.hairColor
+          });
+        }
+      });
+    }
+  }, [authBodyProfile, customer, navigate, refreshBodyProfile]);
 
   const loadProducts = async () => {
     try {
@@ -101,7 +122,6 @@ const VirtualTryOnPageNew = () => {
   const calculateFitScores = async () => {
     if (products.length === 0) return;
     
-    setCalculatingFit(true);
     const fitScores = {};
 
     try {
@@ -143,8 +163,6 @@ const VirtualTryOnPageNew = () => {
       setProductFitScores(fitScores);
     } catch (error) {
       console.error('Error calculating fit scores:', error);
-    } finally {
-      setCalculatingFit(false);
     }
   };
 
@@ -289,37 +307,115 @@ const VirtualTryOnPageNew = () => {
               )}
 
               {/* Avatar Display Section */}
-              {(bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) && (
-                <Box sx={{ mb: 2.5 }}>
-                  <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1.5, fontSize: '0.8rem', fontWeight: '600' }}>
-                    Your Avatar
-                  </Typography>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: 300,
-                      bgcolor: '#0a0a0a',
-                      borderRadius: 2,
-                      border: '1px solid #333',
-                      overflow: 'hidden',
-                      position: 'relative',
-                    }}
-                  >
-                    <Model3DViewer
-                      modelUrl={bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl}
-                      width="100%"
-                      height={300}
-                      productCategory="avatar"
-                      showColorPicker={false}
-                      showControls={false}
-                      autoRotate={true}
-                    />
+              {(() => {
+                const avatarUrl = bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl;
+                const skinTone = bodyProfile?.skinTone || authBodyProfile?.skinTone;
+                const hairColor = bodyProfile?.hairColor || authBodyProfile?.hairColor;
+                const eyeColor = bodyProfile?.eyeColor || authBodyProfile?.eyeColor;
+                
+                console.log('VirtualTryOnPageNew Avatar Display:', {
+                  hasBodyProfile: !!bodyProfile,
+                  hasAuthBodyProfile: !!authBodyProfile,
+                  avatarUrl,
+                  skinTone,
+                  hairColor,
+                  eyeColor
+                });
+                
+                if (!avatarUrl) {
+                  console.log('VirtualTryOnPageNew: No avatar URL, skipping avatar display');
+                  return null;
+                }
+                
+                return (
+                  <Box sx={{ mb: 2.5 }}>
+                    <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1.5, fontSize: '0.8rem', fontWeight: '600' }}>
+                      Your Avatar
+                    </Typography>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: 300,
+                        bgcolor: '#0a0a0a',
+                        borderRadius: 2,
+                        border: '1px solid #333',
+                        overflow: 'hidden',
+                        position: 'relative',
+                      }}
+                    >
+                      <Model3DViewer
+                        ref={modelViewerRef}
+                        modelUrl={avatarUrl}
+                        width="100%"
+                        height={300}
+                        productCategory="avatar"
+                        showColorPicker={false}
+                        showControls={false}
+                        autoRotate={true}
+                        skinTone={skinTone}
+                        hairColor={hairColor}
+                        eyeColor={eyeColor}
+                      />
+                    </Box>
+                    <Box sx={{ mt: 1, display: 'flex', gap: 1, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+                      {skinTone && (
+                        <Box sx={{ 
+                          px: 1.5, 
+                          py: 0.5, 
+                          bgcolor: 'rgba(147, 51, 234, 0.1)',
+                          borderRadius: 1,
+                          border: '1px solid rgba(147, 51, 234, 0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 0.5
+                        }}>
+                          <Box sx={{ 
+                            width: 12, 
+                            height: 12, 
+                            borderRadius: '50%',
+                            bgcolor: skinTone === 'light' ? '#FFE0BD' :
+                                     skinTone === 'medium' ? '#D4A574' :
+                                     skinTone === 'tan' ? '#C68642' : '#8D5524',
+                            border: '1px solid #666'
+                          }} />
+                          <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: '0.65rem' }}>
+                            {skinTone.charAt(0).toUpperCase() + skinTone.slice(1)} Skin
+                          </Typography>
+                        </Box>
+                      )}
+                      {hairColor && (
+                        <Box sx={{ 
+                          px: 1.5, 
+                          py: 0.5, 
+                          bgcolor: 'rgba(147, 51, 234, 0.1)',
+                          borderRadius: 1,
+                          border: '1px solid rgba(147, 51, 234, 0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 0.5
+                        }}>
+                          <Box sx={{ 
+                            width: 12, 
+                            height: 12, 
+                            borderRadius: '50%',
+                            bgcolor: hairColor === 'black' ? '#000000' :
+                                     hairColor === 'brown' ? '#654321' :
+                                     hairColor === 'blonde' ? '#FAF0BE' :
+                                     hairColor === 'red' ? '#8B0000' : '#808080',
+                            border: '1px solid #666'
+                          }} />
+                          <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: '0.65rem' }}>
+                            {hairColor.charAt(0).toUpperCase() + hairColor.slice(1)} Hair
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
+                    <Typography variant="caption" color="#666" sx={{ display: 'block', textAlign: 'center', mt: 0.5, fontSize: '0.65rem' }}>
+                      Your personalized 3D avatar
+                    </Typography>
                   </Box>
-                  <Typography variant="caption" color="#666" sx={{ display: 'block', textAlign: 'center', mt: 1, fontSize: '0.7rem' }}>
-                    Your personalized 3D avatar
-                  </Typography>
-                </Box>
-              )}
+                );
+              })()}
 
               {/* Measurements Display (Read-only) */}
               <Box sx={{ mb: 2.5 }}>
@@ -372,6 +468,7 @@ const VirtualTryOnPageNew = () => {
                 startIcon={<Person />}
                 onClick={() => navigate('/profile/body')}
                 sx={{
+                  mb: 1.5,
                   py: 1.2,
                   fontSize: '0.875rem',
                   fontWeight: '600',
@@ -388,6 +485,28 @@ const VirtualTryOnPageNew = () => {
                 }}
               >
                 Edit Profile
+              </Button>
+
+              {/* Create/Edit Avatar Button */}
+              <Button
+                fullWidth
+                variant="contained"
+                size="medium"
+                onClick={() => navigate('/avatar/customize')}
+                sx={{
+                  py: 1.2,
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  bgcolor: (bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) ? '#7c3aed' : '#22c55e',
+                  color: '#ffffff',
+                  textTransform: 'none',
+                  borderRadius: 2,
+                  '&:hover': {
+                    bgcolor: (bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) ? '#6d28d9' : '#16a34a',
+                  },
+                }}
+              >
+                {(bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) ? 'Customize Avatar' : 'Create Avatar'}
               </Button>
 
               {bodyProfile && (
@@ -883,32 +1002,6 @@ const VirtualTryOnPageNew = () => {
                 </Box>
               </Box>
             </Alert>
-          )}
-          
-          {calculatingFit && (
-            <Box sx={{ mb: 4 }}>
-              <Alert 
-                severity="info" 
-                sx={{ 
-                  bgcolor: 'rgba(255,255,255,0.05)', 
-                  color: '#ffffff', 
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 2,
-                  fontSize: { xs: '0.8rem', sm: '0.875rem' }
-                }}
-              >
-                Calculating fit scores for your measurements...
-              </Alert>
-              <LinearProgress 
-                sx={{ 
-                  mt: 2, 
-                  bgcolor: 'rgba(255,255,255,0.1)', 
-                  '& .MuiLinearProgress-bar': { bgcolor: '#ffffff' },
-                  borderRadius: 1,
-                  height: 6
-                }} 
-              />
-            </Box>
           )}
           
           <Grid container spacing={{ xs: 1.5, sm: 2 }}>
