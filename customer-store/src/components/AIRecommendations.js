@@ -30,9 +30,10 @@ const AIRecommendations = ({ bodyProfile, selectedProduct }) => {
 
   useEffect(() => {
     if (bodyProfile && selectedProduct) {
+      // Fetch recommendations when measurements change
       fetchAIRecommendations();
     }
-  }, [bodyProfile, selectedProduct, bodyProfile?.chestCm, bodyProfile?.waistCm, bodyProfile?.hipCm, bodyProfile?.heightCm, bodyProfile?.skinTone, bodyProfile?.bodyShape]);
+  }, [bodyProfile?.id, selectedProduct?.id, bodyProfile?.chestCm, bodyProfile?.waistCm, bodyProfile?.hipCm, bodyProfile?.heightCm]);
 
   const fetchAIRecommendations = async () => {
     setLoading(true);

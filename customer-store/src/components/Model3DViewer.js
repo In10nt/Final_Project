@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Box, CircularProgress, Typography, IconButton, Tooltip } from '@mui/material';
 import { PlayArrow, Pause, ThreeSixty } from '@mui/icons-material';
 
-const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', productCategory = 'shirt', showColorPicker = true, autoRotate = true, onColorChange }, ref) => {
+const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, width = '100%', height = 600, productColor = 'White', productCategory = 'shirt', showColorPicker = true, showControls = true, autoRotate = true, onColorChange }, ref) => {
   const mountRef = useRef(null);
   const modelRef = useRef(null);
   const hairRef = useRef(null);
@@ -750,6 +750,7 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
           </Box>
 
           {/* Bottom controls container */}
+          {showControls && (
           <Box
             sx={{
               position: 'absolute',
@@ -827,11 +828,12 @@ const Model3DViewer = forwardRef(({ modelUrl, hairModelUrl, clothingModelUrl, wi
               </Tooltip>
             </Box>
           </Box>
+          )}
         </>
       )}
 
       {/* Instructions */}
-      {!loading && (
+      {!loading && showControls && (
         <Box
           sx={{
             position: 'absolute',

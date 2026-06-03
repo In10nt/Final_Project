@@ -13,6 +13,7 @@ import VirtualTryOnPage from './pages/VirtualTryOnPageNew';  // Using new image-
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import AvatarCustomizationPage from './pages/AvatarCustomizationPage';
+import BodyProfilePage from './pages/BodyProfilePage';
 import CartPage from './pages/CartPageNew';
 import CheckoutPage from './pages/CheckoutPage';
 import CustomerLoginPage from './pages/CustomerLoginPage';
@@ -138,6 +139,11 @@ function App() {
                     <Route path="/login" element={<CustomerLoginPage />} />
                     <Route path="/register" element={<CustomerRegisterPage />} />
                     <Route path="/about" element={<AboutPage />} />
+                    <Route path="/profile/body" element={
+                      <ProtectedRoute>
+                        <BodyProfilePage />
+                      </ProtectedRoute>
+                    } />
                     <Route path="/virtual-tryon" element={
                       <ProtectedRoute>
                         <VirtualTryOnPage />

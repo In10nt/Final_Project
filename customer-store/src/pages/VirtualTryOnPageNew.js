@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -8,29 +9,22 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Slider,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Alert,
   Chip,
   Divider,
-  CircularProgress,
   LinearProgress,
 } from '@mui/material';
-import { CheckCircle, Person, Straighten, PhotoCamera } from '@mui/icons-material';
+import { CheckCircle, Person, Straighten, Lock, ArrowForward } from '@mui/icons-material';
 import AIRecommendations from '../components/AIRecommendations';
 import FitBadge from '../components/FitBadge';
 import Model3DViewer from '../components/Model3DViewer';
-import PhotoMeasurementUpload from '../components/PhotoMeasurementUpload';
-import BodyMeasurementVisual from '../components/BodyMeasurementVisual';
 import { productsAPI } from '../services/apiService';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import axios from 'axios';
 
 const VirtualTryOnPageNew = () => {
   const { customer, bodyProfile: authBodyProfile, refreshBodyProfile } = useCustomerAuth();
+  const navigate = useNavigate();
   
   // Profile state
   const [bodyProfile, setBodyProfile] = useState(null);
@@ -39,10 +33,9 @@ const VirtualTryOnPageNew = () => {
     chest: 88,
     waist: 72,
     hips: 95,
+    shoulders: 42,
   });
   const [gender, setGender] = useState('female');
-  const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState('');
 
   // Products state
   const [products, setProducts] = useState([]);
@@ -51,20 +44,28 @@ const VirtualTryOnPageNew = () => {
   const [calculatingFit, setCalculatingFit] = useState(false);
   const [selectedColor, setSelectedColor] = useState(null);
   const modelViewerRef = useRef(null);
-  
-  // Photo upload state
-  const [showPhotoUpload, setShowPhotoUpload] = useState(false);
+
+  // Check workflow requirements
+  const hasProfile = authBodyProfile && authBodyProfile.id;
+  const hasAvatar = authBodyProfile && authBodyProfile.avatarModelUrl;
+  const canTryOn = hasProfile && hasAvatar;
 
   useEffect(() => {
     loadProducts();
-    loadProfile();
-    
-    // Force refresh body profile from backend to get latest avatar
-    if (customer && refreshBodyProfile) {
-      console.log('VirtualTryOnPageNew: Refreshing body profile to get avatar...');
-      refreshBodyProfile();
+  }, []);
+
+  useEffect(() => {
+    // Redirect to profile creation if no profile exists
+    if (customer && !authBodyProfile) {
+      navigate('/profile/body');
+      return;
     }
-  }, [authBodyProfile, customer]);
+    
+    // Load profile data if available
+    if (authBodyProfile) {
+      loadProfile();
+    }
+  }, [authBodyProfile, customer, navigate]);
 
   const loadProducts = async () => {
     try {
@@ -86,59 +87,14 @@ const VirtualTryOnPageNew = () => {
         chest: authBodyProfile.chestCm || 88,
         waist: authBodyProfile.waistCm || 72,
         hips: authBodyProfile.hipCm || 95,
+        shoulders: authBodyProfile.shoulderWidthCm || 42,
       });
       setGender((authBodyProfile.gender || 'FEMALE').toLowerCase());
+      
+      // Calculate fit scores when profile loads
+      calculateFitScores();
     } else {
       console.log('VirtualTryOnPageNew: No authBodyProfile available');
-    }
-  };
-
-  const handleSaveProfile = async () => {
-    if (!customer) {
-      setSaveError('Please login to save your profile');
-      return;
-    }
-
-    setSaving(true);
-    setSaveError('');
-
-    try {
-      const profileData = {
-        userId: customer.id,
-        heightCm: measurements.height,
-        chestCm: measurements.chest,
-        waistCm: measurements.waist,
-        hipCm: measurements.hips,
-        gender: gender.toUpperCase(),
-      };
-
-      let response;
-      if (authBodyProfile?.id) {
-        // Update existing profile
-        response = await axios.put(
-          `http://localhost:8082/api/body-profile/${authBodyProfile.id}`,
-          profileData
-        );
-      } else {
-        // Create new profile
-        response = await axios.post(
-          'http://localhost:8082/api/body-profile/create',
-          profileData
-        );
-      }
-
-      setBodyProfile(response.data);
-      if (refreshBodyProfile) {
-        await refreshBodyProfile();
-      }
-      
-      // Calculate fit scores for all products
-      await calculateFitScores();
-    } catch (error) {
-      console.error('Failed to save profile:', error);
-      setSaveError('Failed to save profile. Please try again.');
-    } finally {
-      setSaving(false);
     }
   };
 
@@ -193,6 +149,11 @@ const VirtualTryOnPageNew = () => {
   };
 
   const handleSelectProduct = (product) => {
+    // Enforce workflow: profile and avatar required before trying on clothes
+    if (!canTryOn) {
+      return;
+    }
+    
     setSelectedProduct(product);
     // Set default color to first available color
     if (product.color) {
@@ -226,20 +187,6 @@ const VirtualTryOnPageNew = () => {
     }
   };
 
-  const handlePhotoMeasurementsExtracted = (measurements) => {
-    // Update measurements from photo
-    setMeasurements({
-      height: measurements.height,
-      chest: measurements.chest,
-      waist: measurements.waist,
-      hips: measurements.hips,
-    });
-    setShowPhotoUpload(false);
-    
-    // Show success message
-    setSaveError('');
-  };
-
   return (
     <Box sx={{ 
       minHeight: '100vh',
@@ -248,253 +195,208 @@ const VirtualTryOnPageNew = () => {
     }}>
       <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         {/* Hero Section */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4, md: 6 } }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4, md: 5 } }}>
           <Typography 
             variant="h2" 
             gutterBottom 
             fontWeight="bold"
             sx={{ 
               color: '#ffffff',
-              mb: 2,
-              fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
-              textShadow: '0 2px 10px rgba(255,255,255,0.1)',
-              animation: 'slideInDown 0.8s ease-out',
-              '@keyframes slideInDown': {
-                '0%': {
-                  opacity: 0,
-                  transform: 'translateY(-30px)',
-                },
-                '100%': {
-                  opacity: 1,
-                  transform: 'translateY(0)',
-                },
-              },
+              mb: 1.5,
+              fontSize: { xs: '1.75rem', sm: '2.5rem', md: '2.75rem' },
+              letterSpacing: '-0.5px',
             }}
           >
-            AI-Powered Virtual Try-On
+            Virtual Try-On
           </Typography>
           <Typography 
             variant="h6" 
             sx={{ 
-              color: '#b0b0b0',
+              color: '#9ca3af',
               mb: 3,
-              fontWeight: 300,
-              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.25rem' }
+              fontWeight: 400,
+              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' }
             }}
           >
-            Find Your Perfect Fit with Machine Learning
+            Find Your Perfect Fit with Precision Measurement
           </Typography>
           <Box sx={{ 
             display: 'inline-flex', 
             flexDirection: { xs: 'column', sm: 'row' },
-            gap: { xs: 1.5, sm: 2, md: 3 },
+            gap: { xs: 1.5, sm: 2.5 },
             mt: 2,
-            px: { xs: 2, sm: 3, md: 4 },
-            py: { xs: 1, sm: 1.5 },
-            bgcolor: 'rgba(255,255,255,0.05)',
-            borderRadius: 3,
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(10px)',
+            px: { xs: 2, sm: 3 },
+            py: { xs: 1, sm: 1.2 },
+            bgcolor: 'rgba(147, 51, 234, 0.08)',
+            borderRadius: 2,
+            border: '1px solid rgba(147, 51, 234, 0.2)',
             width: { xs: '100%', sm: 'auto' },
             maxWidth: { xs: '300px', sm: 'none' }
           }}>
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 'bold', fontSize: { xs: '1rem', md: '1.25rem' } }}>84%</Typography>
-              <Typography variant="caption" sx={{ color: '#888', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>Accuracy</Typography>
+              <Typography variant="h6" sx={{ color: '#9333ea', fontWeight: '700', fontSize: { xs: '1rem', md: '1.15rem' } }}>84%</Typography>
+              <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>Accuracy</Typography>
             </Box>
-            <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.1)', display: { xs: 'none', sm: 'block' } }} />
+            <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(147, 51, 234, 0.2)', display: { xs: 'none', sm: 'block' } }} />
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 'bold', fontSize: { xs: '1rem', md: '1.25rem' } }}>500+</Typography>
-              <Typography variant="caption" sx={{ color: '#888', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>Training Samples</Typography>
+              <Typography variant="h6" sx={{ color: '#9333ea', fontWeight: '700', fontSize: { xs: '1rem', md: '1.15rem' } }}>500+</Typography>
+              <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>Data Points</Typography>
             </Box>
-            <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(255,255,255,0.1)', display: { xs: 'none', sm: 'block' } }} />
+            <Divider orientation="vertical" flexItem sx={{ bgcolor: 'rgba(147, 51, 234, 0.2)', display: { xs: 'none', sm: 'block' } }} />
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 'bold', fontSize: { xs: '1rem', md: '1.25rem' } }}>AI</Typography>
-              <Typography variant="caption" sx={{ color: '#888', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>Powered</Typography>
+              <Typography variant="h6" sx={{ color: '#9333ea', fontWeight: '700', fontSize: { xs: '1rem', md: '1.15rem' } }}>3D</Typography>
+              <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: { xs: '0.7rem', md: '0.75rem' } }}>Models</Typography>
             </Box>
           </Box>
         </Box>
 
-      <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
-        {/* Left: Profile Form */}
+      <Grid container spacing={{ xs: 2, sm: 2, md: 3 }} sx={{ maxWidth: '100%', margin: '0 auto' }}>
+        {/* Left: Profile Display (Read-only) */}
         <Grid item xs={12} lg={4}>
-          {showPhotoUpload ? (
-            <PhotoMeasurementUpload
-              onMeasurementsExtracted={handlePhotoMeasurementsExtracted}
-              onClose={() => setShowPhotoUpload(false)}
-            />
-          ) : (
           <Card sx={{ 
             background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
             border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 4,
+            borderRadius: 3,
             boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-            backdropFilter: 'blur(10px)',
             position: { xs: 'relative', lg: 'sticky' },
             top: { xs: 0, lg: 20 },
-            mb: { xs: 2, lg: 0 }
+            mb: { xs: 2, lg: 0 },
+            maxWidth: '100%'
           }}>
-            <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <Box sx={{ 
-                  bgcolor: '#ffffff', 
-                  borderRadius: 2, 
-                  p: { xs: 1, sm: 1.5 },
-                  mr: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <Person sx={{ color: '#000000', fontSize: { xs: 24, sm: 28 } }} />
-                </Box>
-                <Box>
-                  <Typography variant="h5" fontWeight="bold" color="#ffffff" sx={{ fontSize: { xs: '1.1rem', sm: '1.5rem' } }}>
-                    Your Profile
-                  </Typography>
-                  <Typography variant="caption" color="#888" sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>
-                    Get personalized recommendations
-                  </Typography>
-                </Box>
+            <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
+              <Box sx={{ mb: 2.5 }}>
+                <Typography variant="h5" fontWeight="600" color="#ffffff" sx={{ fontSize: { xs: '1rem', sm: '1.2rem' }, mb: 0.5 }}>
+                  Your Profile
+                </Typography>
+                <Typography variant="body2" color="#9ca3af" sx={{ fontSize: { xs: '0.75rem', sm: '0.8rem' } }}>
+                  Personalized size recommendations
+                </Typography>
               </Box>
 
               {bodyProfile && (
-                <Alert severity="success" sx={{ mb: 2 }} icon={<CheckCircle />}>
-                  Profile saved! AI recommendations active.
+                <Alert 
+                  severity="success" 
+                  icon={<CheckCircle />}
+                  sx={{ 
+                    mb: 2,
+                    bgcolor: 'rgba(34, 197, 94, 0.1)',
+                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                    '& .MuiAlert-icon': { color: '#22c55e' }
+                  }}
+                >
+                  Profile Active
                 </Alert>
               )}
 
-              {saveError && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {saveError}
-                </Alert>
+              {/* Avatar Display Section */}
+              {(bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) && (
+                <Box sx={{ mb: 2.5 }}>
+                  <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1.5, fontSize: '0.8rem', fontWeight: '600' }}>
+                    Your Avatar
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: 300,
+                      bgcolor: '#0a0a0a',
+                      borderRadius: 2,
+                      border: '1px solid #333',
+                      overflow: 'hidden',
+                      position: 'relative',
+                    }}
+                  >
+                    <Model3DViewer
+                      modelUrl={bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl}
+                      width="100%"
+                      height={300}
+                      productCategory="avatar"
+                      showColorPicker={false}
+                      showControls={false}
+                      autoRotate={true}
+                    />
+                  </Box>
+                  <Typography variant="caption" color="#666" sx={{ display: 'block', textAlign: 'center', mt: 1, fontSize: '0.7rem' }}>
+                    Your personalized 3D avatar
+                  </Typography>
+                </Box>
               )}
 
-              {!customer && (
-                <Alert severity="info" sx={{ mb: 2 }}>
-                  Please login to save your profile permanently
-                </Alert>
-              )}
+              {/* Measurements Display (Read-only) */}
+              <Box sx={{ mb: 2.5 }}>
+                <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1.5, fontSize: '0.8rem', fontWeight: '600' }}>
+                  Body Measurements
+                </Typography>
+                
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  gap: 1.5,
+                  bgcolor: '#0a0a0a',
+                  borderRadius: 2,
+                  p: 2,
+                  border: '1px solid #333'
+                }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2" color="#9ca3af">Gender:</Typography>
+                    <Typography variant="body2" color="#ffffff" fontWeight="600">{gender.toUpperCase()}</Typography>
+                  </Box>
+                  <Divider sx={{ bgcolor: 'rgba(255,255,255,0.1)' }} />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2" color="#9ca3af">Height:</Typography>
+                    <Typography variant="body2" color="#9333ea" fontWeight="700">{measurements.height} cm</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2" color="#9ca3af">Shoulders:</Typography>
+                    <Typography variant="body2" color="#9333ea" fontWeight="700">{measurements.shoulders} cm</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2" color="#9ca3af">Bust/Chest:</Typography>
+                    <Typography variant="body2" color="#9333ea" fontWeight="700">{measurements.chest} cm</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2" color="#9ca3af">Waist:</Typography>
+                    <Typography variant="body2" color="#9333ea" fontWeight="700">{measurements.waist} cm</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="body2" color="#9ca3af">Hips:</Typography>
+                    <Typography variant="body2" color="#9333ea" fontWeight="700">{measurements.hips} cm</Typography>
+                  </Box>
+                </Box>
+              </Box>
 
-              {/* AI Photo Upload Button */}
+              {/* Edit Profile Button */}
               <Button
                 fullWidth
                 variant="outlined"
-                size="large"
-                startIcon={<PhotoCamera />}
-                onClick={() => setShowPhotoUpload(true)}
+                size="medium"
+                startIcon={<Person />}
+                onClick={() => navigate('/profile/body')}
                 sx={{
-                  mb: 3,
-                  py: 1.5,
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  color: '#ffffff',
-                  borderColor: '#ffffff',
-                  borderWidth: 2,
+                  py: 1.2,
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: '#9333ea',
+                  borderColor: '#9333ea',
+                  borderWidth: 1.5,
+                  textTransform: 'none',
+                  borderRadius: 2,
                   '&:hover': {
-                    borderColor: '#ffffff',
-                    borderWidth: 2,
-                    bgcolor: 'rgba(255,255,255,0.1)',
+                    borderColor: '#7c3aed',
+                    borderWidth: 1.5,
+                    bgcolor: 'rgba(147, 51, 234, 0.08)',
                   },
                 }}
               >
-                📸 Upload Photo for AI Measurement
-              </Button>
-
-              <Divider sx={{ mb: 3, bgcolor: 'rgba(255,255,255,0.1)' }}>
-                <Chip 
-                  label="OR ENTER MANUALLY" 
-                  size="small" 
-                  sx={{ 
-                    bgcolor: 'rgba(255,255,255,0.05)', 
-                    color: '#888',
-                    fontSize: '0.7rem'
-                  }} 
-                />
-              </Divider>
-
-              {/* Gender Selection */}
-              <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel sx={{ color: '#888', '&.Mui-focused': { color: '#ffffff' } }}>Gender</InputLabel>
-                <Select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  label="Gender"
-                  sx={{
-                    color: '#ffffff',
-                    '.MuiOutlinedInput-notchedOutline': { borderColor: '#333' },
-                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#666' },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#ffffff' },
-                    '.MuiSvgIcon-root': { color: '#ffffff' }
-                  }}
-                >
-                  <MenuItem value="female">Female</MenuItem>
-                  <MenuItem value="male">Male</MenuItem>
-                </Select>
-              </FormControl>
-
-              {/* Visual Body Measurement Component */}
-              <Box sx={{ mb: 3, mx: -3 }}>
-                {/* Debug info - Show avatar status */}
-                {(bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) && (
-                  <Alert severity="success" sx={{ mb: 2, mx: 3 }}>
-                    ✅ Avatar Loaded: {bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl}
-                  </Alert>
-                )}
-                {!bodyProfile?.avatarModelUrl && !authBodyProfile?.avatarModelUrl && (
-                  <Alert severity="info" sx={{ mb: 2, mx: 3 }}>
-                    ℹ️ No avatar found. Visit <strong>Avatar Customization</strong> to create your 3D avatar.
-                  </Alert>
-                )}
-                
-                <BodyMeasurementVisual
-                  measurements={{
-                    ...measurements,
-                    shoulders: measurements.shoulders || 42,
-                  }}
-                  onMeasurementChange={(key, value) => {
-                    setMeasurements({ ...measurements, [key]: value });
-                  }}
-                  gender={gender}
-                  avatarUrl={bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl}
-                />
-              </Box>
-
-              <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                onClick={handleSaveProfile}
-                disabled={saving || !customer}
-                sx={{
-                  py: { xs: 1.2, sm: 1.5 },
-                  fontSize: { xs: '0.9rem', sm: '1.1rem' },
-                  fontWeight: 'bold',
-                  bgcolor: '#ffffff',
-                  color: '#000000',
-                  '&:hover': {
-                    bgcolor: '#e0e0e0',
-                  },
-                  '&:disabled': {
-                    bgcolor: '#333333',
-                    color: '#666666',
-                  }
-                }}
-              >
-                {saving ? (
-                  <CircularProgress size={24} sx={{ color: '#000000' }} />
-                ) : (
-                  'Save & Get AI Recommendations'
-                )}
+                Edit Profile
               </Button>
 
               {bodyProfile && (
-                <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block', textAlign: 'center' }}>
+                <Typography variant="caption" color="text.secondary" sx={{ mt: 1.5, display: 'block', textAlign: 'center', fontSize: '0.7rem' }}>
                   Profile ID: {bodyProfile.id?.toString().substring(0, 8)}...
                 </Typography>
               )}
             </CardContent>
           </Card>
-          )}
         </Grid>
 
         {/* Center: Product Display */}
@@ -700,7 +602,14 @@ const VirtualTryOnPageNew = () => {
         <Grid item xs={12} lg={4}>
           {bodyProfile && selectedProduct ? (
             <AIRecommendations
-              bodyProfile={bodyProfile}
+              bodyProfile={{
+                ...bodyProfile,
+                chestCm: measurements.chest,
+                waistCm: measurements.waist,
+                hipCm: measurements.hips,
+                heightCm: measurements.height,
+                shoulderWidthCm: measurements.shoulders,
+              }}
               selectedProduct={selectedProduct}
             />
           ) : (
@@ -856,6 +765,125 @@ const VirtualTryOnPageNew = () => {
               />
             )}
           </Box>
+
+          {/* Workflow Enforcement: Show steps required before trying on clothes */}
+          {(!hasProfile || !hasAvatar) && (
+            <Alert 
+              severity="warning"
+              sx={{ 
+                mb: 4,
+                bgcolor: 'rgba(255, 193, 7, 0.1)',
+                border: '1px solid rgba(255, 193, 7, 0.3)',
+                borderRadius: 3,
+                p: 3
+              }}
+            >
+              <Typography variant="h6" fontWeight="bold" color="#ffc107" sx={{ mb: 2 }}>
+                <Lock sx={{ mr: 1, verticalAlign: 'middle' }} />
+                Complete These Steps to Try On Clothes
+              </Typography>
+              
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {/* Step 1: Profile */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  {hasProfile ? (
+                    <CheckCircle sx={{ color: '#22c55e', fontSize: 32 }} />
+                  ) : (
+                    <Box sx={{ 
+                      width: 32, 
+                      height: 32, 
+                      borderRadius: '50%', 
+                      border: '2px solid #ffc107',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#ffc107',
+                      fontWeight: 'bold'
+                    }}>1</Box>
+                  )}
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body1" fontWeight="bold" color={hasProfile ? '#22c55e' : '#ffc107'}>
+                      {hasProfile ? '✓ Profile Created' : '1. Create Your Profile'}
+                    </Typography>
+                    <Typography variant="body2" color="#888">
+                      {hasProfile ? 'Your measurements are saved' : 'Enter your measurements or upload a photo above'}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* Step 2: Avatar */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  {hasAvatar ? (
+                    <CheckCircle sx={{ color: '#22c55e', fontSize: 32 }} />
+                  ) : (
+                    <Box sx={{ 
+                      width: 32, 
+                      height: 32, 
+                      borderRadius: '50%', 
+                      border: '2px solid #ffc107',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#ffc107',
+                      fontWeight: 'bold'
+                    }}>2</Box>
+                  )}
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body1" fontWeight="bold" color={hasAvatar ? '#22c55e' : '#ffc107'}>
+                      {hasAvatar ? '✓ Avatar Created' : '2. Create Your Avatar'}
+                    </Typography>
+                    <Typography variant="body2" color="#888">
+                      {hasAvatar ? 'Your 3D avatar is ready' : 'Customize your avatar appearance'}
+                    </Typography>
+                  </Box>
+                  {hasProfile && !hasAvatar && (
+                    <Button
+                      variant="contained"
+                      startIcon={<ArrowForward />}
+                      onClick={() => navigate('/avatar/customize')}
+                      sx={{
+                        bgcolor: '#ffc107',
+                        color: '#000',
+                        fontWeight: 'bold',
+                        '&:hover': {
+                          bgcolor: '#ffb300'
+                        }
+                      }}
+                    >
+                      Create Avatar
+                    </Button>
+                  )}
+                </Box>
+
+                {/* Step 3: Try On */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  {canTryOn ? (
+                    <CheckCircle sx={{ color: '#22c55e', fontSize: 32 }} />
+                  ) : (
+                    <Box sx={{ 
+                      width: 32, 
+                      height: 32, 
+                      borderRadius: '50%', 
+                      border: '2px solid #888',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#888',
+                      fontWeight: 'bold'
+                    }}>3</Box>
+                  )}
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body1" fontWeight="bold" color={canTryOn ? '#22c55e' : '#888'}>
+                      {canTryOn ? '✓ Ready to Try On!' : '3. Try On Clothes'}
+                    </Typography>
+                    <Typography variant="body2" color="#888">
+                      {canTryOn ? 'Select any product below' : 'Complete steps 1 & 2 first'}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Alert>
+          )}
           
           {calculatingFit && (
             <Box sx={{ mb: 4 }}>
@@ -898,19 +926,39 @@ const VirtualTryOnPageNew = () => {
               <Grid item xs={6} sm={6} md={4} lg={3} key={product.id}>
                 <Card
                   sx={{
-                    cursor: 'pointer',
+                    cursor: canTryOn ? 'pointer' : 'not-allowed',
                     transition: 'all 0.3s',
                     background: '#0a0a0a',
                     border: selectedProduct?.id === product.id ? '2px solid #ffffff' : '1px solid #333',
                     borderRadius: 2,
                     position: 'relative',
-                    '&:hover': {
+                    opacity: canTryOn ? 1 : 0.5,
+                    filter: canTryOn ? 'none' : 'grayscale(100%)',
+                    '&:hover': canTryOn ? {
                       transform: 'translateY(-8px)',
                       borderColor: '#ffffff',
-                    },
+                    } : {},
                   }}
-                  onClick={() => handleSelectProduct(product)}
+                  onClick={() => canTryOn && handleSelectProduct(product)}
                 >
+                  {/* Lock overlay when workflow not complete */}
+                  {!canTryOn && (
+                    <Box sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      bgcolor: 'rgba(0, 0, 0, 0.7)',
+                      zIndex: 20,
+                      borderRadius: 2
+                    }}>
+                      <Lock sx={{ fontSize: 48, color: '#ffc107' }} />
+                    </Box>
+                  )}
                   {/* Fit Badge Overlay */}
                   {fitData && (
                     <Box sx={{
