@@ -72,10 +72,12 @@ const VirtualTryOnPageNew = () => {
       });
       loadProfile();
     }
-    
-    // Force refresh body profile from backend when component mounts
-    if (customer && refreshBodyProfile) {
-      console.log('VirtualTryOnPageNew: Forcing body profile refresh from backend...');
+  }, [authBodyProfile, customer, navigate]);
+
+  // Separate effect for forcing profile refresh on mount
+  useEffect(() => {
+    if (customer && refreshBodyProfile && !authBodyProfile?.avatarModelUrl) {
+      console.log('VirtualTryOnPageNew: Avatar not found, forcing body profile refresh from backend...');
       refreshBodyProfile().then((updatedProfile) => {
         if (updatedProfile) {
           console.log('VirtualTryOnPageNew: Body profile refreshed:', {
@@ -83,10 +85,12 @@ const VirtualTryOnPageNew = () => {
             skinTone: updatedProfile.skinTone,
             hairColor: updatedProfile.hairColor
           });
+          // Force re-render by updating local state
+          setBodyProfile(updatedProfile);
         }
       });
     }
-  }, [authBodyProfile, customer, navigate, refreshBodyProfile]);
+  }, [customer, refreshBodyProfile]); // Only depend on customer and refreshBodyProfile
 
   const loadProducts = async () => {
     try {
@@ -308,14 +312,17 @@ const VirtualTryOnPageNew = () => {
 
               {/* Avatar Display Section */}
               {(() => {
-                const avatarUrl = bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl;
-                const skinTone = bodyProfile?.skinTone || authBodyProfile?.skinTone;
-                const hairColor = bodyProfile?.hairColor || authBodyProfile?.hairColor;
-                const eyeColor = bodyProfile?.eyeColor || authBodyProfile?.eyeColor;
+                // Use both local state and auth context, prioritizing the most recent
+                const currentProfile = bodyProfile || authBodyProfile;
+                const avatarUrl = currentProfile?.avatarModelUrl;
+                const skinTone = currentProfile?.skinTone;
+                const hairColor = currentProfile?.hairColor;
+                const eyeColor = currentProfile?.eyeColor;
                 
                 console.log('VirtualTryOnPageNew Avatar Display:', {
                   hasBodyProfile: !!bodyProfile,
                   hasAuthBodyProfile: !!authBodyProfile,
+                  currentProfile: !!currentProfile,
                   avatarUrl,
                   skinTone,
                   hairColor,
@@ -323,10 +330,53 @@ const VirtualTryOnPageNew = () => {
                 });
                 
                 if (!avatarUrl) {
-                  console.log('VirtualTryOnPageNew: No avatar URL, skipping avatar display');
-                  return null;
+                  console.log('VirtualTryOnPageNew: No avatar URL, showing create avatar prompt');
+                  return (
+                    <Box sx={{ mb: 2.5 }}>
+                      <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1.5, fontSize: '0.8rem', fontWeight: '600' }}>
+                        Your Avatar
+                      </Typography>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: 200,
+                          bgcolor: '#0a0a0a',
+                          borderRadius: 2,
+                          border: '2px dashed #333',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 60,
+                            height: 60,
+                            borderRadius: '50%',
+                            bgcolor: 'rgba(147, 51, 234, 0.1)',
+                            border: '2px solid rgba(147, 51, 234, 0.3)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '24px'
+                          }}
+                        >
+                          👤
+                        </Box>
+                        <Typography variant="body2" color="#9ca3af" textAlign="center">
+                          No avatar created yet
+                        </Typography>
+                        <Typography variant="caption" color="#666" textAlign="center">
+                          Create your avatar to see it here
+                        </Typography>
+                      </Box>
+                    </Box>
+                  );
                 }
                 
+                console.log('VirtualTryOnPageNew: Rendering avatar with URL:', avatarUrl);
                 return (
                   <Box sx={{ mb: 2.5 }}>
                     <Typography variant="subtitle2" color="#9ca3af" sx={{ mb: 1.5, fontSize: '0.8rem', fontWeight: '600' }}>
@@ -344,6 +394,7 @@ const VirtualTryOnPageNew = () => {
                       }}
                     >
                       <Model3DViewer
+                        key={avatarUrl} // Force re-render when URL changes
                         ref={modelViewerRef}
                         modelUrl={avatarUrl}
                         width="100%"
@@ -494,6 +545,7 @@ const VirtualTryOnPageNew = () => {
                 size="medium"
                 onClick={() => navigate('/avatar/customize')}
                 sx={{
+                  mb: 1,
                   py: 1.2,
                   fontSize: '0.875rem',
                   fontWeight: '600',
@@ -507,6 +559,38 @@ const VirtualTryOnPageNew = () => {
                 }}
               >
                 {(bodyProfile?.avatarModelUrl || authBodyProfile?.avatarModelUrl) ? 'Customize Avatar' : 'Create Avatar'}
+              </Button>
+
+              {/* Refresh Avatar Button */}
+              <Button
+                fullWidth
+                variant="outlined"
+                size="small"
+                onClick={async () => {
+                  console.log('Manual avatar refresh requested...');
+                  if (refreshBodyProfile) {
+                    const updatedProfile = await refreshBodyProfile();
+                    if (updatedProfile) {
+                      setBodyProfile(updatedProfile);
+                      console.log('Avatar refreshed:', updatedProfile.avatarModelUrl);
+                    }
+                  }
+                }}
+                sx={{
+                  py: 0.8,
+                  fontSize: '0.75rem',
+                  fontWeight: '500',
+                  color: '#9ca3af',
+                  borderColor: '#333',
+                  textTransform: 'none',
+                  borderRadius: 1,
+                  '&:hover': {
+                    borderColor: '#666',
+                    bgcolor: 'rgba(255,255,255,0.05)',
+                  },
+                }}
+              >
+                🔄 Refresh Avatar
               </Button>
 
               {bodyProfile && (
